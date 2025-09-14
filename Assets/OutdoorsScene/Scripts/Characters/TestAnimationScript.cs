@@ -3,9 +3,10 @@ using UnityEngine;
 public class TestAnimationScript : MonoBehaviour
 {
     Animator animator;
+    
     void Start()
     {
-        this.animator = GetComponent<Animator>();
+        animator = GetComponent<Animator>();
     }
 
     void Update()
