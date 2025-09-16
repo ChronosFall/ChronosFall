@@ -14,3 +14,4 @@ public class TestAnimationScript : MonoBehaviour
         animator.SetFloat("Speed", Input.GetAxis("Vertical"));
     }
 }
+
