@@ -6,36 +6,34 @@ public class Player_Health : MonoBehaviour
 {
 
     [Header("初期HP")]public int HP = 100;
-    [Header("HPバーのスライダー")]public Slider HPbarSlider;
-    [Header("HP数の表示")]public TextMeshProUGUI HPText;
+    [Header("HPバーのスライダー")]public Slider hPbarSlider;
+    [Header("HP数の表示")]public TextMeshProUGUI hPText;
 
     void Start()
     {
         //HPバーを取得
-        HPbarSlider = GameObject.Find("HPbar").GetComponent<Slider>();
+        hPbarSlider = GameObject.Find("HPbar").GetComponent<Slider>();
         //初期設定HPを最大に変更
-        HPbarSlider.maxValue = HP;
+        hPbarSlider.maxValue = HP;
     }
     void Update()
     {
         //UIのHPバーにHPを反映
-        HPbarSlider.value = HP;
+        hPbarSlider.value = HP;
         //テキストにHPを反映
-        HPText.text = "HP " + HP.ToString() + " / " + HPbarSlider.maxValue.ToString();
+        hPText.text = "HP " + HP + " / " + hPbarSlider.maxValue;
         //もしHPが0以下になったら
         if (HP <= 0)
         {
-            //試験的にラグドールを実装予定
-            //https://github.com/medakoro0321/ChronosFall/issues/14 [#14]
-            //プレイヤーを消す
+            /*
+             * todo:
+             * 
+             * 試験的にラグドールを実装予定
+             * https://github.com/medakoro0321/ChronosFall/issues/14 [#14]
+             */
             Destroy(gameObject);
-            //HP表記が0以下になってほしくないのでリセット
+            //リセット
             HP = 0;
-        }
-        if (transform.position.y < -10f)
-        {
-            //プレイヤーを消す
-            Destroy(gameObject);
         }
     }
 }

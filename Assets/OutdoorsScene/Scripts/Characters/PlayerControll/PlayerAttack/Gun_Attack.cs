@@ -1,14 +1,11 @@
 using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
-using System.Collections.Generic;
-using System;
-using NUnit.Framework;
+using GameAnimations;
 
 public class Gun_Attack : MonoBehaviour
 {
+    
     [Header("Animator")] public Animator animator;
-    [Header("GunType(Int)")] public int GunType = 0;
+    [Header("GunType(Int)")] public int gunType;
 
 
     void Start()
@@ -19,26 +16,26 @@ public class Gun_Attack : MonoBehaviour
     void Update()
     {
         // 銃の種類の切り替え(Debug)
-        animator.SetInteger("WeaponType", GunType);
+        animator.SetInteger(PlayerAttackAnimator.WeaponType, gunType);
 
         // Aimingアニメーション
         if (Input.GetMouseButtonDown(1))
         {
-            animator.SetBool("IsAiming", true);
+            animator.SetBool(PlayerAttackAnimator.IsAiming, true);
         }
         else
         {
-            animator.SetBool("IsAiming", false);
+            animator.SetBool(PlayerAttackAnimator.IsAiming, false);
         }
         // Reloadアニメーション
         if (Input.GetKeyDown(KeyCode.R))
         {
-            animator.SetTrigger("ReloadTrigger");
+            animator.SetTrigger(PlayerAttackAnimator.ReloadTrigger);
         }
         // Shootアニメーション
-        if (Input.GetMouseButtonDown(0) && animator.GetBool("IsAiming"))
+        if (Input.GetMouseButtonDown(0) && animator.GetBool(PlayerAttackAnimator.IsAiming))
         {
-            animator.SetTrigger("ShootTrigger");
+            animator.SetTrigger(PlayerAttackAnimator.ShootTrigger);
         }
     }
 }

@@ -1,6 +1,3 @@
-using System;
-using JetBrains.Annotations;
-using NUnit.Framework.Internal;
 using UnityEngine;
 
 public class CameraMove : MonoBehaviour

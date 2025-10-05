@@ -2,16 +2,16 @@ using UnityEngine;
 
 public class TestAnimationScript : MonoBehaviour
 {
-    Animator animator;
+    Animator _animator;
     
     void Start()
     {
-        animator = GetComponent<Animator>();
+        _animator = GetComponent<Animator>();
     }
 
     void Update()
     {
-        animator.SetFloat("Speed", Input.GetAxis("Vertical"));
+        _animator.SetFloat("Speed", Input.GetAxis("Vertical"));
     }
 }
 

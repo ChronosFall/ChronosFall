@@ -1,4 +1,3 @@
-using System.Linq.Expressions;
 using UnityEngine;
 
 
@@ -41,7 +40,7 @@ public class Interaction : MonoBehaviour
             }
         }
 
-        if (closestObject != null)
+        if (closestObject)
         {
             // InterfaceScriptを実装しているコンポーネントを探す
             IInterface interactable = closestObject.GetComponent<IInterface>();

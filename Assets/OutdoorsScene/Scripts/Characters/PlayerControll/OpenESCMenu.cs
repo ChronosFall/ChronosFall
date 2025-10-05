@@ -7,11 +7,11 @@ public class OpenESCMenu : MonoBehaviour
     public Volume escMenuVolume;
     public bool isMenuActive = false;
 
-    private DepthOfField depthOfField;
+    private DepthOfField _depthOfField;
 
     void Start()
     {
-        escMenuVolume.profile.TryGet(out depthOfField);
+        escMenuVolume.profile.TryGet(out _depthOfField);
     }
 
     void Update()
@@ -22,20 +22,20 @@ public class OpenESCMenu : MonoBehaviour
         }
     }
 
-    public void ChangeMenuState()
+    void ChangeMenuState()
     {
         if (isMenuActive)
         {
             Debug.Log("Closing ESC Menu");
             isMenuActive = false;
-            depthOfField.focusMode.value = DepthOfFieldMode.Off;
+            _depthOfField.focusMode.value = DepthOfFieldMode.Off;
         }
         else
         {
             // Logic to open the menu
             Debug.Log("Opening ESC Menu");
             isMenuActive = true;
-            depthOfField.focusMode.value = DepthOfFieldMode.Manual;
+            _depthOfField.focusMode.value = DepthOfFieldMode.Manual;
         }
     }
 }

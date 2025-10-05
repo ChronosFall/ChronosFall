@@ -1,24 +1,23 @@
-using System;
-using JetBrains.Annotations;
 using UnityEngine;
+using GameAnimations;
 
 public class Move : MonoBehaviour
 {
-    [Header("カメラ")] public GameObject CameraObject;
-    [Header("プレイヤーの通常移動速度")] public float SetMoveSpeed = 2f;
-    [Header("プレイヤーのダッシュ移動速度")] public float SetDashSpeed = 10f;
-    [Header("プレイヤーの移動速度を保存")] public float MoveCurrSpeed;
-    [Header("プレイヤーの座標軸移動速度")] public Vector3 MoveSpeedAxis;
+    [Header("カメラ")] public GameObject cameraObject;
+    [Header("プレイヤーの通常移動速度")] public float setMoveSpeed = 2f;
+    [Header("プレイヤーのダッシュ移動速度")] public float setDashSpeed = 10f;
+    [Header("プレイヤーの移動速度を保存")] public float moveCurrSpeed;
+    [Header("プレイヤーの座標軸移動速度")] public Vector3 moveSpeedAxis;
     [Header("プレイヤーのRigidBody")] public Rigidbody playerRb;
-    [Header("アニメーションに適用する移動速度")][SerializeField] public float TotalSpeedAxis;
+    [Header("アニメーションに適用する移動速度")]public float totalSpeedAxis;
 
     [Header("アニメーターコンポーネント")] public Animator animator;
 
-    [Header("DEBUG:ANIMATION_SPEED_AXIS")] public float Animation_Speed_AxisX;
-    public float Animation_Speed_AxisY;
-    public float CameraCurrRotate_Y;
-    [Header("DEBUG:INPUT_KEY_ANIMATION")] public float InputHorizontal;
-    public float InputVertical;
+    [Header("DEBUG:ANIMATION_SPEED_AXIS")] public float animationSpeedAxisX;
+    public float animationSpeedAxisY;
+    public float cameraCurrRotateY;
+    [Header("DEBUG:INPUT_KEY_ANIMATION")] public float inputHorizontal;
+    public float inputVertical;
 
     void Start()
     {
@@ -28,57 +27,57 @@ public class Move : MonoBehaviour
         //プレイヤーのRigidbodyを取得
         playerRb = GetComponent<Rigidbody>();
         //最初に代入
-        MoveCurrSpeed = SetMoveSpeed;
+        moveCurrSpeed = setMoveSpeed;
     }
     public void Update()
     {
 
         //カメラの向いてる向きを取得
-        CameraCurrRotate_Y = CameraObject.transform.eulerAngles.y;
+        cameraCurrRotateY = cameraObject.transform.eulerAngles.y;
         //モデルにカメラの向いてる向きをY座標軸のみ同期
-        transform.rotation = Quaternion.Euler(transform.eulerAngles.x, CameraCurrRotate_Y, transform.eulerAngles.z);
+        transform.rotation = Quaternion.Euler(transform.eulerAngles.x, cameraCurrRotateY, transform.eulerAngles.z);
 
         //カメラに対して前と右を取得
-        Vector3 cameraForward = Vector3.Scale(CameraObject.transform.forward, new Vector3(1, 0, 1)).normalized;
-        Vector3 cameraRight = Vector3.Scale(CameraObject.transform.right, new Vector3(1, 0, 1)).normalized;
+        Vector3 cameraForward = Vector3.Scale(cameraObject.transform.forward, new Vector3(1, 0, 1)).normalized;
+        Vector3 cameraRight = Vector3.Scale(cameraObject.transform.right, new Vector3(1, 0, 1)).normalized;
 
         //moveVelocityを0で初期化する
-        MoveSpeedAxis = Vector3.zero;
+        moveSpeedAxis = Vector3.zero;
 
         //移動入力
         if (Input.GetKey(KeyCode.W))
         {
             InputReset();
-            MoveSpeedAxis += MoveCurrSpeed * cameraForward;
-            InputVertical = 1f; // 前進入力
+            moveSpeedAxis += moveCurrSpeed * cameraForward;
+            inputVertical = 1f; // 前進入力
         }
         if (Input.GetKey(KeyCode.A))
         {
             InputReset();
-            MoveSpeedAxis -= MoveCurrSpeed * cameraRight;
-            InputHorizontal = -1f; // 左移動入力
+            moveSpeedAxis -= moveCurrSpeed * cameraRight;
+            inputHorizontal = -1f; // 左移動入力
         }
         if (Input.GetKey(KeyCode.S))
         {
             InputReset();
-            MoveSpeedAxis -= MoveCurrSpeed * cameraForward;
-            InputVertical = -1f; // 後退入力
+            moveSpeedAxis -= moveCurrSpeed * cameraForward;
+            inputVertical = -1f; // 後退入力
         }
         if (Input.GetKey(KeyCode.D))
         {
             InputReset();
-            MoveSpeedAxis += MoveCurrSpeed * cameraRight;
-            InputHorizontal = 1f; // 右移動入力
+            moveSpeedAxis += moveCurrSpeed * cameraRight;
+            inputHorizontal = 1f; // 右移動入力
         }
         //Left/Right Shiftキーでダッシュ
         if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
         {
-            MoveCurrSpeed = SetDashSpeed;
+            moveCurrSpeed = setDashSpeed;
             animator.speed = 2.0f; // アニメーション速度を倍速に変更
         }
         else
         {
-            MoveCurrSpeed = SetMoveSpeed;
+            moveCurrSpeed = setDashSpeed;
             animator.speed = 1.0f; // アニメーション速度を通常に戻す
         }
 
@@ -88,37 +87,37 @@ public class Move : MonoBehaviour
     /// <summary>
     /// 入力をリセットする
     /// </summary>
-    public void InputReset()
+    void InputReset()
     {
-        InputHorizontal = 0f;
-        InputVertical = 0f;
+        inputHorizontal = 0f;
+        inputVertical = 0f;
     }
     /// <summary>
     /// 移動方向に力を加える（重力対応）
     /// </summary>
-    public void ApplyForce()
+    void ApplyForce()
     {
         // 現在のY軸の速度を保存
-        float CurrY = playerRb.linearVelocity.y;
+        float currY = playerRb.linearVelocity.y;
 
         // X/Z軸の移動速度を適用
-        playerRb.linearVelocity = new Vector3(MoveSpeedAxis.x, CurrY, MoveSpeedAxis.z);
+        playerRb.linearVelocity = new Vector3(moveSpeedAxis.x, currY, moveSpeedAxis.z);
 
         // アニメーション用のパラメータ計算
-        if (animator != null && animator.runtimeAnimatorController != null)
+        if (animator && animator.runtimeAnimatorController)
         {
-            float moveAmount = MoveSpeedAxis.magnitude;
+            float moveAmount = moveSpeedAxis.magnitude;
 
             // 動きがある場合（閾値を小さくして感度を上げる）
             if (moveAmount > 0.01f)
             {
                 //アニメーション速度を計算
-                Animation_Speed_AxisX = InputHorizontal;
-                Animation_Speed_AxisY = InputVertical;
+                animationSpeedAxisX = inputHorizontal;
+                animationSpeedAxisY = inputVertical;
 
-                animator.SetBool("isWalking", true);
-                animator.SetFloat("Speed_AxisX", Animation_Speed_AxisX);
-                animator.SetFloat("Speed_AxisY", Animation_Speed_AxisY);
+                animator.SetBool(PlayerMoveAnimator.IsWalking, true);
+                animator.SetFloat(PlayerMoveAnimator.SpeedAxisX, animationSpeedAxisX);
+                animator.SetFloat(PlayerMoveAnimator.SpeedAxisY, animationSpeedAxisY);
             }
         }
     }
