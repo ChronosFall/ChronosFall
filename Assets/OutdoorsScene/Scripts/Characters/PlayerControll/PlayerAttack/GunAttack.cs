@@ -1,42 +1,44 @@
 using UnityEngine;
 using GameAnimations;
+using IConnectComponent;
 
 public class GunAttack : MonoBehaviour
 {
-    [Header("Animator")] public Animator animator;
-    [Header("GunType(Int)")] public int gunType;
+    [Header("Animator")]
+        private Animator _animator;
+    [Header("[DEBUG] Gun type")]
+        [SerializeField] private int gunType;
 
     void Start()
     {
-        //アニメーターを取得
-        animator = GetComponent<Animator>();
+        _animator = Components.GetComponent<Animator>(gameObject);
     }
     
     void Update()
     {
         // 銃の種類の切り替え(Debug)
-        animator.SetInteger(PlayerAttackAnimator.WeaponType, gunType);
+        _animator.SetInteger(PlayerAttackAnimator.WeaponType, gunType);
 
         // Aimingアニメーション
         if (Input.GetMouseButtonDown(1))
         {
-            animator.SetBool(PlayerAttackAnimator.IsAiming, true);
+            _animator.SetBool(PlayerAttackAnimator.IsAiming, true);
         }
         else
         {
-            animator.SetBool(PlayerAttackAnimator.IsAiming, false);
+            _animator.SetBool(PlayerAttackAnimator.IsAiming, false);
         }
         
         // Reloadアニメーション
         if (Input.GetKeyDown(KeyCode.R))
         {
-            animator.SetTrigger(PlayerAttackAnimator.ReloadTrigger);
+            _animator.SetTrigger(PlayerAttackAnimator.ReloadTrigger);
         }
         
         // Shootアニメーション
-        if (Input.GetMouseButtonDown(0) && animator.GetBool(PlayerAttackAnimator.IsAiming))
+        if (Input.GetMouseButtonDown(0) && _animator.GetBool(PlayerAttackAnimator.IsAiming))
         {
-            animator.SetTrigger(PlayerAttackAnimator.ShootTrigger);
+            _animator.SetTrigger(PlayerAttackAnimator.ShootTrigger);
         }
     }
 }

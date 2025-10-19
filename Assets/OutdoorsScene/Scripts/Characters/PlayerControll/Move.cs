@@ -1,125 +1,155 @@
 using UnityEngine;
 using GameAnimations;
+using IConnectComponent;
+using UnityEngine.Serialization;
 
 public class Move : MonoBehaviour
 {
-    [Header("カメラ")] public GameObject cameraObject;
-    [Header("プレイヤーの通常移動速度")] public float setMoveSpeed = 2f;
-    [Header("プレイヤーのダッシュ移動速度")] public float setDashSpeed = 10f;
-    [Header("プレイヤーの移動速度を保存")] public float moveCurrSpeed;
-    [Header("プレイヤーの座標軸移動速度")] public Vector3 moveSpeedAxis;
-    [Header("プレイヤーのRigidBody")] public Rigidbody playerRb;
-    [Header("アニメーションに適用する移動速度")]public float totalSpeedAxis;
+    [Header("参照")]
+    [SerializeField] private GameObject cameraObject;
 
-    [Header("アニメーターコンポーネント")] public Animator animator;
+    [Header("移動設定")]
+    [SerializeField] private float walkSpeed = 2f;
+    [SerializeField] private float dashSpeed = 10f;
 
-    [Header("DEBUG:ANIMATION_SPEED_AXIS")] public float animationSpeedAxisX;
-    public float animationSpeedAxisY;
-    public float cameraCurrRotateY;
-    [Header("DEBUG:INPUT_KEY_ANIMATION")] public float inputHorizontal;
-    public float inputVertical;
+    // コンポーネント
+    private Rigidbody _rb;
+    private Animator _animator;
 
-    void Start()
+    // 移動状態
+    private Vector2 _inputAxis; // -1~1の入力値
+    private float _currentSpeed;
+    private bool _isDashing;
+
+    // デバッグ用
+    [Header("DEBUG")]
+    [SerializeField] private Vector2 _debugInputAxis;
+    [SerializeField] private float _debugCameraRotation;
+
+    private void Start()
     {
-
-        // アニメーターコンポーネント取得
-        animator = GetComponent<Animator>();
-        //プレイヤーのRigidbodyを取得
-        playerRb = GetComponent<Rigidbody>();
-        //最初に代入
-        moveCurrSpeed = setMoveSpeed;
+        InitializeComponents();
+        _currentSpeed = walkSpeed;
     }
-    public void Update()
+
+    private void Update()
     {
+        ProcessInput();
+        UpdateMovement();
+        UpdateAnimation();
+    }
 
-        //カメラの向いてる向きを取得
-        cameraCurrRotateY = cameraObject.transform.eulerAngles.y;
-        //モデルにカメラの向いてる向きをY座標軸のみ同期
-        transform.rotation = Quaternion.Euler(transform.eulerAngles.x, cameraCurrRotateY, transform.eulerAngles.z);
+    /// <summary>
+    /// コンポーネントの初期化
+    /// </summary>
+    private void InitializeComponents()
+    {
+        _animator = Components.GetComponent<Animator>(gameObject);
+        _rb = Components.GetComponent<Rigidbody>(gameObject);
+        cameraObject = Camera.main?.gameObject; // Mainカメラを検索
+    }
 
-        //カメラに対して前と右を取得
-        Vector3 cameraForward = Vector3.Scale(cameraObject.transform.forward, new Vector3(1, 0, 1)).normalized;
-        Vector3 cameraRight = Vector3.Scale(cameraObject.transform.right, new Vector3(1, 0, 1)).normalized;
+    /// <summary>
+    /// 入力処理
+    /// </summary>
+    private void ProcessInput()
+    {
+        // 入力をリセット
+        _inputAxis = Vector2.zero;
 
-        //moveVelocityを0で初期化する
-        moveSpeedAxis = Vector3.zero;
+        // WASD入力を取得
+        if (Input.GetKey(KeyCode.W)) _inputAxis.y += 1f;
+        if (Input.GetKey(KeyCode.S)) _inputAxis.y -= 1f;
+        if (Input.GetKey(KeyCode.A)) _inputAxis.x -= 1f;
+        if (Input.GetKey(KeyCode.D)) _inputAxis.x += 1f;
+        // TODO : キーコンフィグ追加
 
-        //移動入力
-        if (Input.GetKey(KeyCode.W))
+        // 入力の正規化（斜め移動が速くならないように）
+        if (_inputAxis.magnitude > 1f)
         {
-            InputReset();
-            moveSpeedAxis += moveCurrSpeed * cameraForward;
-            inputVertical = 1f; // 前進入力
+            _inputAxis.Normalize();
         }
-        if (Input.GetKey(KeyCode.A))
+
+        // ダッシュ入力
+        _isDashing = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
+        _currentSpeed = _isDashing ? dashSpeed : walkSpeed;
+
+        // デバッグ用
+        _debugInputAxis = _inputAxis;
+    }
+
+    /// <summary>
+    /// 移動処理
+    /// </summary>
+    private void UpdateMovement()
+    {
+        if (!cameraObject || !_rb) return;
+
+        // カメラの向きを取得
+        float cameraRotationY = cameraObject.transform.eulerAngles.y;
+        _debugCameraRotation = cameraRotationY;
+
+        // プレイヤーをカメラの向きに同期
+        transform.rotation = Quaternion.Euler(0f, cameraRotationY, 0f);
+
+        // カメラ基準の方向ベクトルを計算
+        Vector3 cameraForward = GetCameraForward();
+        Vector3 cameraRight = GetCameraRight();
+
+        // 移動ベクトルを計算
+        Vector3 moveDirection = (cameraForward * _inputAxis.y + cameraRight * _inputAxis.x).normalized;
+        Vector3 moveVelocity = moveDirection * _currentSpeed;
+
+        // Rigidbodyに適用（Y軸の速度は保持）
+        _rb.linearVelocity = new Vector3(moveVelocity.x, _rb.linearVelocity.y, moveVelocity.z);
+    }
+
+    /// <summary>
+    /// アニメーション更新
+    /// </summary>
+    private void UpdateAnimation()
+    {
+        if (!_animator || !_animator.runtimeAnimatorController) return;
+
+        bool isMoving = _inputAxis.magnitude > 0.01f;
+
+        if (isMoving)
         {
-            InputReset();
-            moveSpeedAxis -= moveCurrSpeed * cameraRight;
-            inputHorizontal = -1f; // 左移動入力
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            InputReset();
-            moveSpeedAxis -= moveCurrSpeed * cameraForward;
-            inputVertical = -1f; // 後退入力
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            InputReset();
-            moveSpeedAxis += moveCurrSpeed * cameraRight;
-            inputHorizontal = 1f; // 右移動入力
-        }
-        //Left/Right Shiftキーでダッシュ
-        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
-        {
-            moveCurrSpeed = setDashSpeed;
-            animator.speed = 2.0f; // アニメーション速度を倍速に変更
+            // 移動アニメーション
+            _animator.SetBool(PlayerMoveAnimator.IsWalking, true);
+            _animator.SetFloat(PlayerMoveAnimator.SpeedAxisX, _inputAxis.x);
+            _animator.SetFloat(PlayerMoveAnimator.SpeedAxisY, _inputAxis.y);
+
+            // ダッシュ時はアニメーション速度を変更
+            _animator.speed = _isDashing ? 2.0f : 1.0f;
         }
         else
         {
-            moveCurrSpeed = setDashSpeed;
-            animator.speed = 1.0f; // アニメーション速度を通常に戻す
-        }
-
-        //移動メソッド
-        ApplyForce();
-    }
-    /// <summary>
-    /// 入力をリセットする
-    /// </summary>
-    void InputReset()
-    {
-        inputHorizontal = 0f;
-        inputVertical = 0f;
-    }
-    /// <summary>
-    /// 移動方向に力を加える（重力対応）
-    /// </summary>
-    void ApplyForce()
-    {
-        // 現在のY軸の速度を保存
-        float currY = playerRb.linearVelocity.y;
-
-        // X/Z軸の移動速度を適用
-        playerRb.linearVelocity = new Vector3(moveSpeedAxis.x, currY, moveSpeedAxis.z);
-
-        // アニメーション用のパラメータ計算
-        if (animator && animator.runtimeAnimatorController)
-        {
-            float moveAmount = moveSpeedAxis.magnitude;
-
-            // 動きがある場合（閾値を小さくして感度を上げる）
-            if (moveAmount > 0.01f)
-            {
-                //アニメーション速度を計算
-                animationSpeedAxisX = inputHorizontal;
-                animationSpeedAxisY = inputVertical;
-
-                animator.SetBool(PlayerMoveAnimator.IsWalking, true);
-                animator.SetFloat(PlayerMoveAnimator.SpeedAxisX, animationSpeedAxisX);
-                animator.SetFloat(PlayerMoveAnimator.SpeedAxisY, animationSpeedAxisY);
-            }
+            // 停止アニメーション
+            _animator.SetBool(PlayerMoveAnimator.IsWalking, false);
+            _animator.SetFloat(PlayerMoveAnimator.SpeedAxisX, 0f);
+            _animator.SetFloat(PlayerMoveAnimator.SpeedAxisY, 0f);
+            _animator.speed = 1.0f;
         }
     }
 
+    /// <summary>
+    /// カメラの前方向を取得（Y軸を無視）
+    /// </summary>
+    private Vector3 GetCameraForward()
+    {
+        Vector3 forward = cameraObject.transform.forward;
+        forward.y = 0f;
+        return forward.normalized;
+    }
+
+    /// <summary>
+    /// カメラの右方向を取得（Y軸を無視）
+    /// </summary>
+    private Vector3 GetCameraRight()
+    {
+        Vector3 right = cameraObject.transform.right;
+        right.y = 0f;
+        return right.normalized;
+    }
 }

@@ -1,46 +1,41 @@
+using IConnectComponent;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class CameraMove : MonoBehaviour
 {
-    [Header("カメラ")] public Camera Cam;
-    [Header("感度")] public float Sensitivity = 1.0f;
-    [Header("上下回転制限")] public float MaxLookAngleX = 55f;
-    [Header("プレイヤーモデル")] public GameObject PlayerModel;
-    [Header("ピボット用ゲームオブジェクト")] public GameObject CameraPivot;
+    [Header("カメラ")]
+        private float _sensitivity = 1.0f;
+        private float _maxLookAngleX = 55f;
+    [Header("カメラピボット")] 
+        private GameObject _cameraPivot;
 
-    private float CurrentX = 0f; // 現在の上下回転角度
-    private float CurrentY = 0f; // 現在の左右回転角度
+    private float _currentX = 0f; // 現在の上下回転角度
+    private float _currentY = 0f; // 現在の左右回転角度
 
-    void Start()
+    private void Start()
     {
-        Cam = GetComponent<Camera>();
-
-        // カーソルをロックする（FPS風の操作にする場合）
+        // カーソルをロックする
         Cursor.lockState = CursorLockMode.Locked;
     }
 
-    void Update()
+    private void Update()
     {
-        //debug
-        if (MaxLookAngleX <= 0f)
-        {
-            Debug.LogWarning("MaxLookAngleが0以下に設定されているため、デフォルト値を使用します。");
-            MaxLookAngleX = 80f; // デフォルト値を設定
-        }
+        if (_maxLookAngleX <= 0f) _maxLookAngleX = 80f; // デフォルト値を設定
 
         // マウスの移動量を取得
-        float rotateX = 0f - Input.GetAxis("Mouse Y") * Sensitivity;
-        float rotateY = Input.GetAxis("Mouse X") * Sensitivity;
+        float rotateX = 0f - Input.GetAxis("Mouse Y") * _sensitivity;
+        float rotateY = Input.GetAxis("Mouse X") * _sensitivity;
 
         // 累積回転角度を更新
-        CurrentX += rotateX;
-        CurrentY += rotateY;
+        _currentX += rotateX;
+        _currentY += rotateY;
 
         // 回転の制限を適用
-        CurrentX = Mathf.Clamp(CurrentX, -MaxLookAngleX, MaxLookAngleX);
+        _currentX = Mathf.Clamp(_currentX, -_maxLookAngleX, _maxLookAngleX);
 
         // オイラー角で直接設定することでZ軸の回転を防ぐ
-        CameraPivot.transform.rotation = Quaternion.Euler(CurrentX, CurrentY, 0f);
+        _cameraPivot.transform.rotation = Quaternion.Euler(_currentX, _currentY, 0f);
 
         // ESCキーでカーソルロックを解除
         if (Input.GetKeyDown(KeyCode.Escape))

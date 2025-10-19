@@ -9,12 +9,12 @@ public class OpenESCMenu : MonoBehaviour
 
     private DepthOfField _depthOfField;
 
-    void Start()
+    private void Start()
     {
         escMenuVolume.profile.TryGet(out _depthOfField);
     }
 
-    void Update()
+    private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -22,7 +22,10 @@ public class OpenESCMenu : MonoBehaviour
         }
     }
 
-    void ChangeMenuState()
+    /// <summary>
+    /// メニュー切り替え
+    /// </summary>
+    private void ChangeMenuState()
     {
         if (isMenuActive)
         {
@@ -32,7 +35,6 @@ public class OpenESCMenu : MonoBehaviour
         }
         else
         {
-            // Logic to open the menu
             Debug.Log("Opening ESC Menu");
             isMenuActive = true;
             _depthOfField.focusMode.value = DepthOfFieldMode.Manual;

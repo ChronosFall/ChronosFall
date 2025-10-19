@@ -1,39 +1,34 @@
+using IConnectComponent;
 using UnityEngine;
 using TMPro;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-public class Player_Health : MonoBehaviour
+public class PlayerHealth : MonoBehaviour
 {
+    [Header("PlayerHealth系")]
+    private int _hp = 100;
+    private Slider _hPbarSlider; // HPバースライダー
+    private TextMeshProUGUI _hPText; // HPGUI
 
-    [Header("初期HP")]public int HP = 100;
-    [Header("HPバーのスライダー")]public Slider hPbarSlider;
-    [Header("HP数の表示")]public TextMeshProUGUI hPText;
-
-    void Start()
+    private void Start()
     {
-        //HPバーを取得
-        hPbarSlider = GameObject.Find("HPbar").GetComponent<Slider>();
-        //初期設定HPを最大に変更
-        hPbarSlider.maxValue = HP;
+        _hPbarSlider = Components.GetComponent<Slider>("HPbar");
+        _hPText = Components.GetComponent<TextMeshProUGUI>("HPText");
+        // HPバーのMax数値を設定
+        _hPbarSlider.maxValue = _hp;
     }
-    void Update()
+    private void Update()
     {
-        //UIのHPバーにHPを反映
-        hPbarSlider.value = HP;
-        //テキストにHPを反映
-        hPText.text = "HP " + HP + " / " + hPbarSlider.maxValue;
-        //もしHPが0以下になったら
-        if (HP <= 0)
-        {
-            /*
-             * todo:
-             * 
-             * 試験的にラグドールを実装予定
-             * https://github.com/medakoro0321/ChronosFall/issues/14 [#14]
-             */
-            Destroy(gameObject);
-            //リセット
-            HP = 0;
-        }
+        // UIのHPバーにHPを反映
+        _hPbarSlider.value = _hp;
+        // [ HP <_hp> / <maxValue> ]
+        _hPText.text = "HP " + _hp + " / " + _hPbarSlider.maxValue;
+        
+        // HPが無くなったら
+        if (_hp > 0) return;
+        // TODO : ラグドールの導入
+        Destroy(gameObject);
+        _hp = 0;
     }
 }

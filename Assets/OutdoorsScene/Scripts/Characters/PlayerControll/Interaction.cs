@@ -1,9 +1,11 @@
+using IConnectComponent;
 using UnityEngine;
 
 
 public class Interaction : MonoBehaviour
 {
-    [Header("インタラクション反応距離[m]")] public float searchRadius = 1f;
+    [Header("インタラクション反応距離[m]")] 
+        private const float SearchRadius = 1f;
     void Update()
     {
         //インタラクション
@@ -11,12 +13,12 @@ public class Interaction : MonoBehaviour
     }
 
     /// <summary>
-    /// インタラクション（50cm以内の最も近いオブジェクトに干渉）
+    /// インタラクション
     /// </summary>
     private void PerformInteraction()
     {
         //searchRadiusの範囲内のコライダーを取得
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, searchRadius);
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, SearchRadius);
 
         //最も近いオブジェクトを探す
         Collider closestObject = null;
@@ -39,19 +41,10 @@ public class Interaction : MonoBehaviour
                 }
             }
         }
-
-        if (closestObject)
-        {
-            // InterfaceScriptを実装しているコンポーネントを探す
-            IInterface interactable = closestObject.GetComponent<IInterface>();
-            if (interactable != null)
-            {
-                interactable.Interact();
-            }
-            else
-            {
-                Debug.LogError($"{closestObject.gameObject.name} は IInteractable を実装していません！");
-            }
-        }
+        if (!closestObject) return;
+        // InterfaceScriptを実装しているコンポーネントを探す
+        IInterface interactable = closestObject.GetComponent<IInterface>();
+        if (interactable != null) interactable.Interact();
+        else Debug.LogError($"{closestObject.gameObject.name} は IInteractable を実装していません！");
     }
 }
