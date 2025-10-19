@@ -40,3 +40,9 @@ Thumbs.db
 VRM10/
 UniGLTF/
 TextMesh Pro/
+
+#git
+.gitignore
+
+#一時的モデル
+Ao/
