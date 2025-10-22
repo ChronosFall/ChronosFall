@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace IConnectComponent
+namespace ChronosFall.Scripts.Interfaces
 {
     public static class Components
     {

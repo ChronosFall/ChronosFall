@@ -1,7 +1,6 @@
 using UnityEngine;
 
-
-namespace GameAnimations
+namespace ChronosFall.Scripts.Interfaces
 {
     /// <summary>
     /// プレイヤーが移動する場合のアニメーション
@@ -11,7 +10,6 @@ namespace GameAnimations
         public static readonly int IsWalking = Animator.StringToHash("IsWalking");
         public static readonly int SpeedAxisX = Animator.StringToHash("Speed_AxisX");
         public static readonly int SpeedAxisY = Animator.StringToHash("Speed_AxisY");
-
     }
     /// <summary>
     /// プレイヤーが攻撃する場合のアニメーション

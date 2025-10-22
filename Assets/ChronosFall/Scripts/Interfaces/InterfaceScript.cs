@@ -1,6 +1,7 @@
-using UnityEngine;
-
-public interface IInterface
+namespace ChronosFall.Scripts.Interfaces
 {
-    void Interact();
+    public interface IInterface
+    {
+        void Interact();
+    }
 }

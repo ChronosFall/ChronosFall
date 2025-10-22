@@ -349,7 +349,7 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: -9036486021061587821}
-    m_Position: {x: 210, y: 230, z: 0}
+    m_Position: {x: 200, y: 230, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 4430689333605963315}
     m_Position: {x: 320, y: 110, z: 0}
@@ -540,7 +540,7 @@ AnimatorController:
     m_Behaviours: []
     m_BlendingMode: 0
     m_SyncedLayerIndex: -1
-    m_DefaultWeight: 1
+    m_DefaultWeight: 0
     m_IKPass: 0
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
@@ -842,7 +842,10 @@ AnimatorStateTransition:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: 
-  m_Conditions: []
+  m_Conditions:
+  - m_ConditionMode: 1
+    m_ConditionEvent: JumpTrigger
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 4338302825758557543}
   m_Solo: 0
