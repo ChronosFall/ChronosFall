@@ -23,7 +23,7 @@ namespace ChronosFall.Scripts.Interfaces
             T component = obj.GetComponent<T>();
 
             if (component != null) return component;
-            Debug.LogError($"[Components] GameObject '{gameObjectName}' にコンポーネントが見つかりません");
+            Debug.LogError($"[Components] GameObject '{gameObjectName}' に '{typeof(T).Name}' コンポーネントが見つかりません");
             return null;
 
         }
@@ -45,7 +45,7 @@ namespace ChronosFall.Scripts.Interfaces
             T component = gameObject.GetComponent<T>();
 
             if (component != null) return component;
-            Debug.LogError($"[Components] GameObject '{gameObject.name}' にコンポーネントが見つかりません");
+            Debug.LogError($"[Components] GameObject '{gameObject.name}' に '{typeof(T).Name}' コンポーネントが見つかりません");
             return null;
 
         }
