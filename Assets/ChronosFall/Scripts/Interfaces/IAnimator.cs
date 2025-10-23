@@ -5,11 +5,11 @@ namespace ChronosFall.Scripts.Interfaces
     /// <summary>
     /// プレイヤーが移動する場合のアニメーション
     /// </summary>
-    public static class PlayerMoveAnimator
+    public static class PlayerMovementAnimator
     {
         public static readonly int IsWalking = Animator.StringToHash("IsWalking");
-        public static readonly int SpeedAxisX = Animator.StringToHash("Speed_AxisX");
-        public static readonly int SpeedAxisY = Animator.StringToHash("Speed_AxisY");
+        public static readonly int SpeedAxisX = Animator.StringToHash("SpeedAxisX");
+        public static readonly int SpeedAxisY = Animator.StringToHash("SpeedAxisY");
     }
     /// <summary>
     /// プレイヤーが攻撃する場合のアニメーション

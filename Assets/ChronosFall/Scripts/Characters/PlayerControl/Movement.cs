@@ -6,7 +6,7 @@ namespace ChronosFall.Scripts.Characters.PlayerControl
 {
     public class Movement : MonoBehaviour
     {
-        [Header("DEBUG")] [SerializeField] private bool tempStopAnimator = false;
+        [Header("DEBUG")] [SerializeField] private bool tempStopAnimator;
         
         [Header("参照")] private GameObject _cameraObject;
 
@@ -21,10 +21,6 @@ namespace ChronosFall.Scripts.Characters.PlayerControl
         private Vector2 _inputAxis; // -1~1の入力値
         private float _currentSpeed;
         private bool _isDashing;
-
-        // デバッグ用
-        [Header("DEBUG")] [SerializeField] private Vector2 _debugInputAxis;
-        [SerializeField] private float _debugCameraRotation;
 
         private void Start()
         {
@@ -73,9 +69,6 @@ namespace ChronosFall.Scripts.Characters.PlayerControl
             // ダッシュ入力
             _isDashing = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
             _currentSpeed = _isDashing ? dashSpeed : walkSpeed;
-
-            // デバッグ用
-            _debugInputAxis = _inputAxis;
         }
 
         /// <summary>
@@ -87,7 +80,6 @@ namespace ChronosFall.Scripts.Characters.PlayerControl
 
             // カメラの向きを取得
             float cameraRotationY = _cameraObject.transform.eulerAngles.y;
-            _debugCameraRotation = cameraRotationY;
 
             // プレイヤーをカメラの向きに同期
             transform.rotation = Quaternion.Euler(0f, cameraRotationY, 0f);
@@ -116,9 +108,9 @@ namespace ChronosFall.Scripts.Characters.PlayerControl
             if (isMoving)
             {
                 // 移動アニメーション
-                _animator.SetBool(PlayerMoveAnimator.IsWalking, true);
-                _animator.SetFloat(PlayerMoveAnimator.SpeedAxisX, _inputAxis.x);
-                _animator.SetFloat(PlayerMoveAnimator.SpeedAxisY, _inputAxis.y);
+                _animator.SetBool(PlayerMovementAnimator.IsWalking, true);
+                _animator.SetFloat(PlayerMovementAnimator.SpeedAxisX, _inputAxis.x);
+                _animator.SetFloat(PlayerMovementAnimator.SpeedAxisY, _inputAxis.y);
 
                 // ダッシュ時はアニメーション速度を変更
                 _animator.speed = _isDashing ? 2.0f : 1.0f;
@@ -126,9 +118,9 @@ namespace ChronosFall.Scripts.Characters.PlayerControl
             else
             {
                 // 停止アニメーション
-                _animator.SetBool(PlayerMoveAnimator.IsWalking, false);
-                _animator.SetFloat(PlayerMoveAnimator.SpeedAxisX, 0f);
-                _animator.SetFloat(PlayerMoveAnimator.SpeedAxisY, 0f);
+                _animator.SetBool(PlayerMovementAnimator.IsWalking, false);
+                _animator.SetFloat(PlayerMovementAnimator.SpeedAxisX, 0f);
+                _animator.SetFloat(PlayerMovementAnimator.SpeedAxisY, 0f);
                 _animator.speed = 1.0f;
             }
         }
