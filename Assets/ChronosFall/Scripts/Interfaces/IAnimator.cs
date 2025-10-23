@@ -21,4 +21,12 @@ namespace ChronosFall.Scripts.Interfaces
         public static readonly int ReloadTrigger = Animator.StringToHash("ReloadTrigger");
         public static readonly int ShootTrigger = Animator.StringToHash("ShootTrigger");
     }
+
+    /// <summary>
+    /// プレイヤーのその他アニメーション
+    /// </summary>
+    public static class PlayerOtherAnimator
+    {
+        public static readonly int IsDead = Animator.StringToHash("isDead");
+    }
 }

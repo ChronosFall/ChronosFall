@@ -10,11 +10,13 @@ namespace ChronosFall.Scripts.Characters.PlayerControl
         [Header("PlayerHealth系")] private int _hp = 100;
         private Slider _hPbarSlider; // HPバースライダー
         private TextMeshProUGUI _hPText; // HPGUI
+        private Animator _animator;
 
         private void Start()
         {
             _hPbarSlider = Components.GetComponent<Slider>("HPbar");
             _hPText = Components.GetComponent<TextMeshProUGUI>("HPText");
+            _animator = Components.GetComponent<Animator>(gameObject);
             // HPバーのMax数値を設定
             _hPbarSlider.maxValue = _hp;
         }
@@ -25,12 +27,16 @@ namespace ChronosFall.Scripts.Characters.PlayerControl
             _hPbarSlider.value = _hp;
             // [ HP <_hp> / <maxValue> ]
             _hPText.text = "HP " + _hp + " / " + _hPbarSlider.maxValue;
-
-            // HPが無くなったら
             if (_hp > 0) return;
-            // TODO : ラグドールの導入
-            Destroy(gameObject);
+            Dead();
+        }
+        /// <summary>
+        /// 死亡処理
+        /// </summary>
+        private void Dead()
+        {
             _hp = 0;
+            _animator.SetTrigger(PlayerOtherAnimator.IsDead);
         }
     }
 }
