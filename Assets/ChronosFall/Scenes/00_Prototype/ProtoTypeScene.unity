@@ -407,9 +407,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1294296503845374888, guid: a2031941da0943f4bad7d0e0f6a074ee, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1633487026946728297, guid: a2031941da0943f4bad7d0e0f6a074ee, type: 3}
       propertyPath: m_Name
       value: Ao
+      objectReference: {fileID: 0}
+    - target: {fileID: 9000281919692414820, guid: a2031941da0943f4bad7d0e0f6a074ee, type: 3}
+      propertyPath: m_Avatar
+      value: 
+      objectReference: {fileID: -7015762578403652589, guid: 85e3cc755db2ee845a8a582e561af1e2, type: 3}
+    - target: {fileID: 9000281919692414820, guid: a2031941da0943f4bad7d0e0f6a074ee, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9000281919692414820, guid: a2031941da0943f4bad7d0e0f6a074ee, type: 3}
+      propertyPath: m_CullingMode
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

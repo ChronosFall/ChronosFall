@@ -40,7 +40,7 @@ namespace ChronosFall.Scripts.Characters.PlayerControl.Camera
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 Cursor.lockState = CursorLockMode.None;
-            }
+            } 
         }
     }
 }

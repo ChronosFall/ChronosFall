@@ -45,6 +45,4 @@ TextMesh Pro/
 .gitignore
 
 #一時的モデル
-Ao/
-Assets/ChronosFall/Prefabs/Characters/Ao.prefab
-Assets/ChronosFall/Prefabs/Characters/Ao.prefab.meta
+Assets/ChronosFall/Characters/

@@ -8,7 +8,7 @@ namespace ChronosFall.Scripts.Characters.PlayerControl
     {
         [Header("インタラクション反応距離[m]")] private const float SearchRadius = 1f;
 
-        void Update()
+        private void Update()
         {
             //インタラクション
             if (Input.GetKeyDown(KeyCode.F)) PerformInteraction();
