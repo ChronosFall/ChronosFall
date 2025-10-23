@@ -7,6 +7,7 @@ namespace ChronosFall.Scripts.Characters.PlayerControl.Camera
         [Header("カメラ")] private float _sensitivity = 1.0f;
         private float _maxLookAngleX = 55f;
         [Header("カメラピボット")] [SerializeField] private GameObject _cameraPivot;
+        private bool _isLockCursor; // クリックのロック
 
         private float _currentX = 0f; // 現在の上下回転角度
         private float _currentY = 0f; // 現在の左右回転角度
@@ -15,6 +16,7 @@ namespace ChronosFall.Scripts.Characters.PlayerControl.Camera
         {
             // カーソルをロックする
             Cursor.lockState = CursorLockMode.Locked;
+            _isLockCursor = true;
             _cameraPivot =  GameObject.Find("PlayerCameraPivot");
         }
 
@@ -37,10 +39,14 @@ namespace ChronosFall.Scripts.Characters.PlayerControl.Camera
             _cameraPivot.transform.rotation = Quaternion.Euler(_currentX, _currentY, 0f);
 
             // ESCキーでカーソルロックを解除
-            if (Input.GetKeyDown(KeyCode.Escape))
+            if (Input.GetKeyDown(KeyCode.Escape) && !_isLockCursor)
             {
                 Cursor.lockState = CursorLockMode.None;
-            } 
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+            }
         }
     }
 }
