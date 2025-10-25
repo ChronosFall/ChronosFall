@@ -111,7 +111,6 @@ namespace ChronosFall.Scripts.Characters.PlayerControl
                 _animator.SetBool(PlayerMovementAnimator.IsWalking, true);
                 _animator.SetFloat(PlayerMovementAnimator.SpeedAxisX, _inputAxis.x);
                 _animator.SetFloat(PlayerMovementAnimator.SpeedAxisY, _inputAxis.y);
-
                 // ダッシュ時はアニメーション速度を変更
                 _animator.speed = _isDashing ? 2.0f : 1.0f;
             }
