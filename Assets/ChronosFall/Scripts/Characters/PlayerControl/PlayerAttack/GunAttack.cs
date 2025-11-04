@@ -14,7 +14,6 @@ namespace ChronosFall.Scripts.Characters.PlayerControl.PlayerAttack
         {
             _animator = Components.GetComponent<Animator>(gameObject);
         }
-
         private void Update()
         {
             // 銃の種類の切り替え(Debug)

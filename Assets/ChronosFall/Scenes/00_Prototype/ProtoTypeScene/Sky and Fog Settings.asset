@@ -72,13 +72,13 @@ MonoBehaviour:
     m_Value: 55261.973
   aerosolDensity:
     m_OverrideState: 0
-    m_Value: 0.01192826
+    m_Value: 0.535
   aerosolTint:
     m_OverrideState: 0
-    m_Value: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+    m_Value: {r: 0, g: 0, b: 0, a: 1}
   aerosolMaximumAltitude:
     m_OverrideState: 0
-    m_Value: 8289.296
+    m_Value: 8414.41
   aerosolAnisotropy:
     m_OverrideState: 0
     m_Value: 0.8
@@ -179,7 +179,7 @@ MonoBehaviour:
     m_Value: {x: 0, y: -6378.1, z: 0}
   windOrientation:
     m_OverrideState: 1
-    m_Value: 32.81
+    m_Value: 0
   windSpeed:
     m_OverrideState: 1
     m_Value: 1.28
@@ -215,7 +215,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 953beb541740ddc499d005ee80c9ff29, type: 3}
   m_Name: Fog
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   quality:
     m_OverrideState: 0
     m_Value: 1
