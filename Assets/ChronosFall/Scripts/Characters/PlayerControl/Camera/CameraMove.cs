@@ -1,4 +1,5 @@
 using UnityEngine;
+using ChronosFall.Scripts.Configs;
 
 namespace ChronosFall.Scripts.Characters.PlayerControl.Camera
 {
@@ -8,12 +9,15 @@ namespace ChronosFall.Scripts.Characters.PlayerControl.Camera
         [Header("カメラ")]
         public float sensitivityX = 1.0f;
         public float sensitivityY = 1.0f;
-        private float _maxLookAngleX = 55f;
-        [Header("カメラピボット")] [SerializeField] private GameObject _cameraPivot;
+        private const float MaxLookAngleX = 55f;
+        [Header("カメラピボット")] 
+        private GameObject _cameraPivot;
+        
         private bool _isLockCursor; // クリックのロック
-
         private float _currentX; // 現在の上下回転角度
         private float _currentY; // 現在の左右回転角度
+        private float _rotateX;
+        private float _rotateY;
 
         private void Start()
         {
@@ -26,18 +30,25 @@ namespace ChronosFall.Scripts.Characters.PlayerControl.Camera
 
         private void Update()
         {
-            if (_maxLookAngleX <= 0f) _maxLookAngleX = 80f; // デフォルト値を設定
-
-            // マウスの移動量を取得
-            float rotateX = 0f - Input.GetAxis("Mouse Y") * sensitivityX;
-            float rotateY = Input.GetAxis("Mouse X") * sensitivityY;
+            // マウス移動を逆転
+            if (CCamera.CameraRotateInvert)
+            {
+                _rotateX = Input.GetAxis("Mouse X") * sensitivityX;
+                _rotateY = Input.GetAxis("Mouse Y") * sensitivityY;
+            }
+            else
+            {
+                // マウスの移動量を取得
+                _rotateX = 0f - Input.GetAxis("Mouse Y") * sensitivityX;
+                _rotateY = Input.GetAxis("Mouse X") * sensitivityY;
+            }
 
             // 累積回転角度を更新
-            _currentX += rotateX;
-            _currentY += rotateY;
+            _currentX += _rotateX;
+            _currentY += _rotateY;
 
             // 回転の制限を適用
-            _currentX = Mathf.Clamp(_currentX, -_maxLookAngleX, _maxLookAngleX);
+            _currentX = Mathf.Clamp(_currentX, -MaxLookAngleX, MaxLookAngleX);
 
             // オイラー角で直接設定することでZ軸の回転を防ぐ
             _cameraPivot.transform.rotation = Quaternion.Euler(_currentX, _currentY, 0f);
