@@ -12,13 +12,14 @@ namespace ChronosFall.Scripts.Enemies
         private bool _isAttacking; // 攻撃中かどうかのフラグ   
         private Vector3 _currSpeedAxis ; //敵の座標軸移動速度
         private int _damage; // ダメージ
+        private const string GameObjectName = "temp#1";
         
         
         private void Start()
         {
             _rb = GetComponent<Rigidbody>();
             // HP = Random.Range(50, 200);
-            _target = GameObject.FindGameObjectsWithTag("Player")[0].transform;
+            _target = GameObject.Find(GameObjectName).transform; // TODO: 修正
         }
 
         private void Update()
@@ -64,9 +65,9 @@ namespace ChronosFall.Scripts.Enemies
             yield return new WaitForSeconds(waitTime);
             // 途中でプレイヤーが消えた場合は中断
             if (_target) yield break;
-
-            var mainCharacter = GameObject.FindGameObjectsWithTag("Player")[0]; // TODO : 軽量化
-            var attackDistance = Vector3.Distance(transform.position, mainCharacter.transform.position);
+            
+            // プレイヤーとの距離を計測
+            var attackDistance = Vector3.Distance(transform.position, _target.transform.position);
 
             // ダメージ [ 50 - 距離 * 10 ] 
             // TODO : さすがにカスシステムなので後で修正
