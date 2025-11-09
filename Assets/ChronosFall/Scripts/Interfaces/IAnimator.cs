@@ -27,6 +27,6 @@ namespace ChronosFall.Scripts.Interfaces
     /// </summary>
     public static class PlayerOtherAnimator
     {
-        public static readonly int IsDead = Animator.StringToHash("isDead");
+        public static readonly int IsDead = Animator.StringToHash("IsDead");
     }
 }
