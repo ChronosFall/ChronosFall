@@ -1,13 +1,12 @@
 using ChronosFall.Scripts.Interfaces;
-using ChronosFall.Scripts.Systems.Base;
+using ChronosFall.Scripts.Systems.Datas;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
 
 namespace ChronosFall.Scripts.Characters.PlayerControl.PlayerAttack
 {
     public class PlayerAttack : MonoBehaviour
     {
-        public float attackDamage = 20f;
+        public int attackDamage = 20;
         public ElementType attackType = ElementType.Fire;
         private const float AttackRange = 3f;
 

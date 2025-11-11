@@ -1,55 +1,53 @@
-using UnityEngine;
 using ChronosFall.Scripts.Interfaces;
-
+using ChronosFall.Scripts.Systems.Datas;
+using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace ChronosFall.Scripts.Systems.Base
 {
-    public enum ElementType
-    {
-        None, Fire, Ice, Wind, Thunder
-    }
-    
     public class EnemyBase : MonoBehaviour, IEnemyDamageable
     {
-        [Header("基本ステータス")] 
-        public float maxHealth = 100f; // デフォルト最大HP
-        private float _currentHealth;
-        [Header("属性/弱点設定")]
-        public ElementType myPoint =  ElementType.None;
-        public ElementType myElement =  ElementType.None;
-        [Header("状態")]
-        public bool isDead = false;
-        public bool isBoss = false;
+        public EnemyData edata;
+        private int _currentHealth;
 
-        protected void EnemySetting()
+        private void Start()
         {
-            _currentHealth = maxHealth;
+            if (!edata)
+            {
+                Debug.LogError($"{name} に EnemyData が設定されていません。");
+                return;
+            }
+            
+            // init
+            _currentHealth = edata.maxHealth;
+            Debug.Log($"DEBUG : {edata.enemyName} がスポーンしました (HP: {_currentHealth}, 属性: {edata.enemyElement}, 弱点:{edata.enemyWeakpoint})");
         }
 
         /// <summary>
-        /// ダメージ処理
+        /// ダメージが敵側に当たる
         /// </summary>
-        /// <param name="damage">ダメージ量</param>
-        /// <param name="attackType">攻撃タイプ</param>
-        public void EnemyTakeDamage(float damage, ElementType attackType)
+        /// <param name="damage">初期ダメージ数値</param>
+        /// <param name="playerAttackElement">プレイヤーの属性</param>
+        public void EnemyTakeDamage(int damage, ElementType playerAttackElement)
         {
-            if (isDead) return;
-            
-            // 弱点属性ならダメージx2
-            if (attackType == myPoint) damage *= 2;
-            
+            // 弱点補正
+            if (playerAttackElement == edata.enemyWeakpoint)
+            {
+                damage = Mathf.RoundToInt(damage * 1.5f);
+            }
+
             _currentHealth -= damage;
 
-            if (_currentHealth <= 0) EnemyDie();
+            if (_currentHealth <= 0)
+            {
+                
+            }
         }
+
         
-        /// <summary>
-        /// 死亡機構
-        /// </summary>
-        private void EnemyDie()
+        private void Die()
         {
-            isDead = true;
-            Debug.Log($"{gameObject.name} was dead.");
+            Debug.Log($"{edata.enemyName} を殺した [ ID : {edata.enemyID}");
         }
     }
 }
