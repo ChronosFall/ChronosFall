@@ -1,9 +1,9 @@
 using ChronosFall.Scripts.Interfaces;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
-namespace ChronosFall.Scripts.Characters.PlayerControl
+namespace ChronosFall.Scripts.Temp
 {
     public class PlayerHealth : MonoBehaviour
     {
