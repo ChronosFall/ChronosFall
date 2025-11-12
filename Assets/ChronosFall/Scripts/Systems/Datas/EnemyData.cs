@@ -8,7 +8,8 @@ namespace ChronosFall.Scripts.Systems.Datas
     {
         [Header("基本情報")]
         public string enemyName = "Unnamed";
-        public int enemyID = Random.Range(0, int.MaxValue); // TODO : そのうちしっかりしたID機構を作成
+        public string enemyID = "001-001-001"; // TODO : そのうちしっかりしたID機構を作成
+        public int enemySpawnPhase = 1; // ここも
         public int maxHealth = 100;
         public float moveSpeed = 3f;
 
