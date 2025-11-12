@@ -16,8 +16,8 @@ MonoBehaviour:
   enemyID: 0
   enemySpawnPhase: 0
   maxHealth: 0
-  moveSpeed: 0
-  enemyElement: 0
-  enemyWeakpoint: 0
+  moveSpeed: 3
+  enemyElement: 1
+  enemyWeakpoint: 2
   isBoss: 0
   enemyEffectID: 
