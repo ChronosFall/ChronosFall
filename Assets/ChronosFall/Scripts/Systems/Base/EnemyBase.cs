@@ -14,6 +14,25 @@ namespace ChronosFall.Scripts.Systems.Base
         private void Awake()
         {
             _edata = Instantiate(baseEdata);
+            EnemyInit();
+        }
+
+        /// <summary>
+        /// BASEを読み込み初期化
+        /// </summary>
+        private void EnemyInit()
+        {
+            _edata.enemyID = Random.Range(1,int.MaxValue);
+            if (_edata.isBoss)
+            {
+                _edata.maxHealth = Random.Range(2000, 5000);
+            }
+            else
+            {
+                _edata.maxHealth = Random.Range(100, 1000);
+            }
+            _edata.enemySpawnPhase = 1;
+            _currentHealth = _edata.maxHealth;
         }
         
         private void Start()
@@ -23,9 +42,6 @@ namespace ChronosFall.Scripts.Systems.Base
                 Debug.LogError($"{name} に EnemyData が設定されていません。");
                 return;
             }
-            
-            // init
-            _currentHealth = _edata.maxHealth;
             Debug.Log($"DEBUG : {_edata.enemyName} がスポーンしました (HP: {_currentHealth}, 属性: {_edata.enemyElement}, 弱点:{_edata.enemyWeakpoint})");
         }
 
@@ -43,6 +59,7 @@ namespace ChronosFall.Scripts.Systems.Base
             }
 
             _currentHealth -= damage;
+            Debug.Log($"Enemy has damaged : {damage} damage / now health: {_currentHealth}");
 
             if (_currentHealth <= 0)
             {
@@ -54,6 +71,7 @@ namespace ChronosFall.Scripts.Systems.Base
         private void Die()
         {
             Debug.Log($"{_edata.enemyName} を殺した [ ID : {_edata.enemyID}");
+            Destroy(gameObject);
         }
     }
 }
