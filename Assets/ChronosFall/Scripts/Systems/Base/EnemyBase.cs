@@ -1,9 +1,12 @@
+using ChronosFall.Scripts.Enemies;
 using ChronosFall.Scripts.Interfaces;
 using ChronosFall.Scripts.Systems.Datas;
 using UnityEngine;
 
 namespace ChronosFall.Scripts.Systems.Base
 {
+    // 敵に必要なスクリプトを自動アタッチ
+    [RequireComponent(typeof(EnemyMovement))]
     public class EnemyBase : MonoBehaviour, IEnemyDamageable
     {
         public EnemyData baseEdata;
