@@ -737,6 +737,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackDamage: 20
   attackType: 1
+--- !u!114 &1449437210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1449437202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99721ff4b6ac446caa551a67642f8950, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  basePdata: {fileID: 11400000, guid: 894536eff83a15d42b4b7205ccf0d9ab, type: 2}
 --- !u!1 &1629703558
 GameObject:
   m_ObjectHideFlags: 0
@@ -1777,6 +1790,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 765a273f0fd0141478eb219404877980, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1449437208}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 765a273f0fd0141478eb219404877980, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1449437210}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 765a273f0fd0141478eb219404877980, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1449437206}

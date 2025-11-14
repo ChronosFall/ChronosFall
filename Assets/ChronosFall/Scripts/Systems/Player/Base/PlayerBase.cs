@@ -1,9 +1,10 @@
 using ChronosFall.Scripts.Characters.PlayerControl;
 using ChronosFall.Scripts.Characters.PlayerControl.PlayerAttack;
-using ChronosFall.Scripts.Systems.Datas;
+using ChronosFall.Scripts.Systems.Enemies.Data;
+using ChronosFall.Scripts.Systems.Player.Data;
 using UnityEngine;
 
-namespace ChronosFall.Scripts.Systems.Base.Player
+namespace ChronosFall.Scripts.Systems.Player.Base
 {
     //自動アタッチ
     [RequireComponent(typeof(PlayerAttack))]

@@ -1,7 +1,7 @@
-using System.Collections.Generic;
+using ChronosFall.Scripts.Systems.Enemies.Data;
 using UnityEngine;
 
-namespace ChronosFall.Scripts.Systems.Datas
+namespace ChronosFall.Scripts.Systems.Player.Data
 {
     [CreateAssetMenu(fileName = "New Player Data", menuName = "ChronosFall/Player Data")]
     public class PlayerData : ScriptableObject
@@ -12,7 +12,7 @@ namespace ChronosFall.Scripts.Systems.Datas
 
         
         [Header("属性")]
-        public ElementType PlayerAttackElement = ElementType.Fire; // 属性
+        public ElementType playerAttackElement = ElementType.Fire; // 属性
         
         /*
          public ElementType enemyWeakpoint = ElementType.None; // 敵の弱点
@@ -22,14 +22,4 @@ namespace ChronosFall.Scripts.Systems.Datas
         public List<int> enemyEffectID = new List<int>();
     */
     }
-    /*
-    public enum ElementType
-    {
-        None,
-        Fire,
-        Ice,
-        Thunder,
-        Wind,
-    }
-    */
 }

@@ -1,4 +1,4 @@
-using ChronosFall.Scripts.Systems.Datas;
+using ChronosFall.Scripts.Systems.Enemies.Data;
 
 namespace ChronosFall.Scripts.Interfaces
 {

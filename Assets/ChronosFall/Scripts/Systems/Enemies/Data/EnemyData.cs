@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ChronosFall.Scripts.Systems.Datas
+namespace ChronosFall.Scripts.Systems.Enemies.Data
 {
     [CreateAssetMenu(fileName = "New Enemy Data", menuName = "ChronosFall/Enemy Data")]
     public class EnemyData : ScriptableObject

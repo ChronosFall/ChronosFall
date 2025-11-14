@@ -1,9 +1,9 @@
 using ChronosFall.Scripts.Enemies;
 using ChronosFall.Scripts.Interfaces;
-using ChronosFall.Scripts.Systems.Datas;
+using ChronosFall.Scripts.Systems.Enemies.Data;
 using UnityEngine;
 
-namespace ChronosFall.Scripts.Systems.Base
+namespace ChronosFall.Scripts.Systems.Enemies.Base
 {
     // 敵に必要なスクリプトを自動アタッチ
     [RequireComponent(typeof(EnemyMovement))]
