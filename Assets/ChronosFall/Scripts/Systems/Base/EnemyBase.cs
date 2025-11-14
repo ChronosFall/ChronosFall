@@ -1,7 +1,6 @@
 using ChronosFall.Scripts.Interfaces;
 using ChronosFall.Scripts.Systems.Datas;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace ChronosFall.Scripts.Systems.Base
 {
