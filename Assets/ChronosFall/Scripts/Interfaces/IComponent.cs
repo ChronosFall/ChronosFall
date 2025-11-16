@@ -5,7 +5,7 @@ namespace ChronosFall.Scripts.Interfaces
     public static class Components
     {
         /// <summary>
-        /// 指定されたGameObject名からコンポーネントを取得
+        /// 指定されたGameObject名からスクリプトコンポーネントを取得
         /// </summary>
         /// <typeparam name="T">取得したいコンポーネントの型</typeparam>
         /// <param name="gameObjectName">GameObjectの名前</param>

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace ChronosFall.Scripts.Systems.Enemies.Data
 {
@@ -12,11 +13,13 @@ namespace ChronosFall.Scripts.Systems.Enemies.Data
         public int enemySpawnPhase = 1; // ここも
         public int maxHealth = 100;
         public float moveSpeed = 3f;
+        public int level = 10;
 
         [Header("属性")]
         public ElementType enemyElement = ElementType.None; // 敵の属性
-        public ElementType enemyWeakpoint = ElementType.None; // 敵の弱点
-
+        public List<ElementType> enemyWeakpoint = new List<ElementType> { ElementType.None }; // 敵の弱点
+        public List<ElementType> enemyResistancePoint = new List<ElementType> { ElementType.None }; // 敵の耐性
+        
         [Header("設定")]
         public bool isBoss = false;
         public List<int> enemyEffectID = new List<int>();

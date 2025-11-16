@@ -12,13 +12,15 @@ namespace ChronosFall.Scripts.Systems.Enemies.Base
         public EnemyData baseEdata;
         private EnemyData _edata;
         private int _currentHealth;
+        private EnemiesCalcu _enemiesCalcu;
 
         private void Awake()
         {
+            _enemiesCalcu = ScriptableObject.CreateInstance<EnemiesCalcu>();
             _edata = Instantiate(baseEdata);
             EnemyInit();
         }
-
+        
         /// <summary>
         /// BASEを読み込み初期化
         /// </summary>
@@ -54,14 +56,11 @@ namespace ChronosFall.Scripts.Systems.Enemies.Base
         /// <param name="playerAttackElement">プレイヤーの属性</param>
         public void EnemyTakeDamage(int damage, ElementType playerAttackElement)
         {
-            // 弱点補正
-            if (playerAttackElement == _edata.enemyWeakpoint)
-            {
-                damage = Mathf.RoundToInt(damage * 1.5f);
-            }
+            int finalDamage = _enemiesCalcu.EnemiesTakeDamageCalcu(damage,playerAttackElement,_edata);
 
-            _currentHealth -= damage;
-            Debug.Log($"Enemy has damaged : {damage} damage / now health: {_currentHealth}");
+            _currentHealth -= finalDamage;
+            
+            Debug.Log($"Enemy has damaged : {finalDamage} damage / now health: {_currentHealth}");
 
             if (_currentHealth <= 0)
             {

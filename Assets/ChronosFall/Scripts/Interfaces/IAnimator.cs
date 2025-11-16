@@ -29,4 +29,13 @@ namespace ChronosFall.Scripts.Interfaces
     {
         public static readonly int IsDead = Animator.StringToHash("IsDead");
     }
+
+    /// <summary>
+    /// 敵のアニメーション
+    /// </summary>
+    public static class DefaultEnemyAnimator
+    {
+        public static readonly int IsWalking = Animator.StringToHash("IsWalking");
+        public static readonly int IsAttacking =  Animator.StringToHash("IsAttacking");
+    }
 }

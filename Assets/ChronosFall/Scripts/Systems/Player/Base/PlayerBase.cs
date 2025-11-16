@@ -6,12 +6,13 @@ using UnityEngine;
 
 namespace ChronosFall.Scripts.Systems.Player.Base
 {
-    //自動アタッチ
+    // 自動アタッチ
     [RequireComponent(typeof(PlayerAttack))]
     [RequireComponent(typeof(Movement))]
     public class PlayerBase : MonoBehaviour
     {
         public PlayerData basePdata;
+        public PlayerData BasePdata => basePdata;
         private PlayerData _pdata;
         private int _currentHealth;
 
@@ -33,19 +34,11 @@ namespace ChronosFall.Scripts.Systems.Player.Base
         /// プレイヤーにダメージ
         /// </summary>
         /// <param name="damage">初期ダメージ数値</param>
-        /// <param name="playerAttackElement">プレイヤーの属性</param>
-        public void PlayerTakeDamage(int damage, ElementType playerAttackElement)
+        /// <param name="playerElement">プレイヤーの属性</param>
+        public void PlayerTakeDamage(int damage, ElementType playerElement)
         {
-            // TODO : ここどうするん
-            // 弱点補正
-            /*
-             if (playerAttackElement == _pdata.enemyWeakpoint)
-            {
-                damage = Mathf.RoundToInt(damage * 1.5f);
-            }
-            */
-
-            _currentHealth -= damage;
+            int finalDamage = PlayerCalcu.PlayerTakeDamageCalcu(damage, playerElement);
+            _currentHealth -= finalDamage;
             Debug.Log($"${_pdata.playerName} has damaged : {damage} damage / now health: {_currentHealth}");
 
             if (_currentHealth <= 0)
@@ -59,7 +52,7 @@ namespace ChronosFall.Scripts.Systems.Player.Base
         {
             Debug.Log($"{_pdata.playerName} was dead.");
             Destroy(gameObject);
-            //TODO : ラグドールとキャラ自動切換えを導入
+            //TODO : ラグドールとキャラ自動切換を導入
         }
     }
 }
