@@ -17,7 +17,9 @@ MonoBehaviour:
   enemySpawnPhase: 0
   maxHealth: 0
   moveSpeed: 3
+  level: 10
   enemyElement: 1
-  enemyWeakpoint: 2
+  enemyWeakpoint: 0200000003000000
+  enemyResistancePoint: 0100000004000000
   isBoss: 0
   enemyEffectID: 
