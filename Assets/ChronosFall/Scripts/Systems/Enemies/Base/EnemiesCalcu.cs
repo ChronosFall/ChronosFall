@@ -44,18 +44,6 @@ namespace ChronosFall.Scripts.Systems.Enemies.Base
             _basePlayerData = playerData.BasePdata; // フィールドから取得
             _playerData = Instantiate(_basePlayerData);
             
-            /*
-             * FinalDamage = ((Atk * SkillMult) * LvFactor * (100 / (100 + (Def * (1 - Pierce%)) * dCoef)) * ElemMult * BreakMult * DMGMod * CritFactor) * (1 ± RandomOffset)
-             * Atk = 
-             * SkillMult = （例 1.2）
-             * LvFactor = 
-             * Def = 
-             * CritRoll = 1 or 
-             * DMGMod = 被ダメ増減（バフ/デバフ）
-             * Pierce% = 防御貫通（%）
-             * RandomOffset = ランダム振れ幅（例 ±5%）
-             */
-            
             // Atk 攻撃者の攻撃力（武器込み）
             _atk = damage;
             
@@ -91,9 +79,10 @@ namespace ChronosFall.Scripts.Systems.Enemies.Base
             const int randomOffsetValue = 5;
             _randomOffset = UnityEngine.Random.Range(-randomOffsetValue, randomOffsetValue);
             
+            // FinalDamage = ((Atk * SkillMult) * LvFactor * (100 / (100 + (Def * (1 - Pierce%)) * dCoef)) * ElemMult * BreakMult * DMGMod * CritFactor) * (1 ± RandomOffset)）
             _finalDamage = ((_atk * _skillMult) * _lvFactor * (100 / (100 + (_def * (1 - _pierce)) * _dCoef)) * _elemMult * _breakMult * _dmgMod * _critMult) * (1 + _randomOffset); 
             
-            Debug.LogAssertion($"FINAL DAMAGE : {_finalDamage}");
+            Debug.LogWarning($"FINAL DAMAGE : {_finalDamage}");
             // 四捨五入
             return (int)Math.Round(_finalDamage, 0);
         } 
