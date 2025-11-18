@@ -12,6 +12,23 @@ namespace ChronosFall.Scripts.Systems.Enemies.Base
         private PlayerData _basePlayerData;
         private PlayerData _playerData;
         
+        // 変数
+        private int _atk;
+        private float _skillMult;
+        private int _enemyLv;
+        private int _playerLv;
+        private float _lvFactor;
+        private int _def;
+        private float _dCoef;
+        private float _elemMult;
+        private float _breakMult;
+        private float _critRoll;
+        private float _critMult;
+        private float _dmgMod;
+        private float _pierce;
+        private float _randomOffset;
+        
+        
         /// <summary>
         /// 敵へのダメージ計算システム
         /// </summary>
@@ -21,42 +38,62 @@ namespace ChronosFall.Scripts.Systems.Enemies.Base
         /// <returns>最終ダメージ [int]</returns>
         public int EnemiesTakeDamageCalcu(int damage, ElementType elementType,EnemyData eData)
         {
-            // TODO 全体的に作りが雑なので修正
+            // init
+            // TODO : ここのゲームオブジェクト取得システムを変更
             PlayerBase playerData = GameObject.Find("temp#1").GetComponent<PlayerBase>();
             _basePlayerData = playerData.BasePdata; // フィールドから取得
-
             _playerData = Instantiate(_basePlayerData);
-
+            
             /*
-             * memo
-             * 最終ダメージ = ( 攻撃力 * スキル倍率 * 弱点補正 * ( 1 - 耐性補正 )) * クリティカル補正 * 被ダメージ倍率[バフ/デバフ] * [多分:ブレイク補正]
-             *
-             * 弱点倍率:
-             *  弱点 : x1.5
-             *  無し : x1.0
-             *  耐性 : x0.7
-             *  無効 : x0.0
-             *
-             * クリティカル倍率 :
-             *  クリティカル%成功
-             *   x1.5
-             *
-             * 防御力補正:
-             * 
-             * 
+             * FinalDamage = ((Atk * SkillMult) * LvFactor * (100 / (100 + (Def * (1 - Pierce%)) * dCoef)) * ElemMult * BreakMult * DMGMod * CritFactor) * (1 ± RandomOffset)
+             * Atk = 
+             * SkillMult = （例 1.2）
+             * LvFactor = 
+             * Def = 
+             * CritRoll = 1 or 
+             * DMGMod = 被ダメ増減（バフ/デバフ）
+             * Pierce% = 防御貫通（%）
+             * RandomOffset = ランダム振れ幅（例 ±5%）
              */
             
-            // 攻撃力 x スキル倍率
-            _finalDamage = damage * _playerData.skillRate; // 最終ダメージ
-
-            // x 弱点倍率
-            if (eData.enemyWeakpoint.Contains(elementType)) _finalDamage += 1.5f; // 弱点 x1.5
-            else if (eData.enemyResistancePoint.Contains(elementType)) _finalDamage *= 0.7f; // 耐性 x0.7
-
-            // x クリティカル(成功でx1.5)
-            if (UnityEngine.Random.Range(0.0f, 1.0f) <= _playerData.critChance) _finalDamage *= 1.5f;
-            Debug.LogAssertion($"FINAL DAMAGE : {_finalDamage}");
+            // Atk 攻撃者の攻撃力（武器込み）
+            _atk = damage;
             
+            // SkillMult スキル倍率
+            _skillMult = _playerData.skillRate;
+            
+            // LvFactor Lv1差につき3%変動
+            _playerLv = _playerData.level;
+            _enemyLv = eData.level;
+            _lvFactor = (float)(1 + 0.3 * (_playerLv - _enemyLv));
+            
+            // Def 防御値（被ダメ側）
+            _def = eData.def;
+            
+            // ElemMult 属性係数 (弱点1.5 / 無効0 / 耐性0.7)
+            if (eData.enemyWeakpoint.Contains(elementType)) _elemMult = 1.5f;
+            else if (eData.enemyResistancePoint.Contains(elementType)) _elemMult = 0.7f;
+            
+            // TODO : BreakMultとCritRollについて更に詳しく考える
+            // BreakMult ブレイク補正
+            if (UnityEngine.Random.Range(0.0f, 1.0f) <= _playerData.breakChance) _breakMult = _playerData.breakMult;
+            
+            // CritRoll CritMultiplier (会心発生で乗算)
+            _critRoll = 1;
+            
+            // DMGMod 被ダメ増減 (バフ/デバフ)
+            _dmgMod = 1;
+            
+            // Pierce 防御貫通 (%)
+            _pierce = _playerData.pierce;
+            
+            // RandomOffset ランダム振れ幅
+            const int randomOffsetValue = 5;
+            _randomOffset = UnityEngine.Random.Range(-randomOffsetValue, randomOffsetValue);
+            
+            _finalDamage = ((_atk * _skillMult) * _lvFactor * (100 / (100 + (_def * (1 - _pierce)) * _dCoef)) * _elemMult * _breakMult * _dmgMod * _critMult) * (1 + _randomOffset); 
+            
+            Debug.LogAssertion($"FINAL DAMAGE : {_finalDamage}");
             // 四捨五入
             return (int)Math.Round(_finalDamage, 0);
         } 

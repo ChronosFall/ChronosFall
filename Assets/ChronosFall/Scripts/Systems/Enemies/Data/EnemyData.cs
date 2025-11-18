@@ -7,6 +7,7 @@ namespace ChronosFall.Scripts.Systems.Enemies.Data
     [CreateAssetMenu(fileName = "New Enemy Data", menuName = "ChronosFall/Enemy Data")]
     public class EnemyData : ScriptableObject
     {
+        // TODO : 整理
         [Header("基本情報")]
         public string enemyName = "Unnamed";
         public int enemyID = 0; // TODO : そのうちしっかりしたID機構を作成
@@ -14,6 +15,7 @@ namespace ChronosFall.Scripts.Systems.Enemies.Data
         public int maxHealth = 100;
         public float moveSpeed = 3f;
         public int level = 10;
+        public int def = 200;
 
         [Header("属性")]
         public ElementType enemyElement = ElementType.None; // 敵の属性
