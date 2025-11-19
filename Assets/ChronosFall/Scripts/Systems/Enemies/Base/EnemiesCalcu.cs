@@ -24,7 +24,7 @@ namespace ChronosFall.Scripts.Systems.Enemies.Base
             // LvFactor Lv1差につき3%変動
             int playerLv = pData.level;
             int enemyLv = eData.level;
-            float lvFactor = (float)(1 + 0.3 * (playerLv - enemyLv));
+            float lvFactor = (float)(1 + 0.03 * (playerLv - enemyLv));
             Debug.Log(lvFactor);
             
             // Def 防御値（被ダメ側）
