@@ -3,6 +3,7 @@ using ChronosFall.Scripts.Characters.PlayerControl.PlayerAttack;
 using ChronosFall.Scripts.Systems.Enemies.Data;
 using ChronosFall.Scripts.Systems.Player.Data;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace ChronosFall.Scripts.Systems.Player.Base
 {

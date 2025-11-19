@@ -1,6 +1,7 @@
 using System;
 using ChronosFall.Scripts.Systems.Enemies.Data;
 using ChronosFall.Scripts.Systems.Player.Data;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace ChronosFall.Scripts.Systems.Enemies.Base
@@ -17,6 +18,11 @@ namespace ChronosFall.Scripts.Systems.Enemies.Base
         /// <returns>最終ダメージ [int]</returns>
         public static int EnemiesTakeDamageCalcu(int atk, ElementType elementType, EnemyData eData, PlayerData pData)
         {
+            if (!pData)
+            {
+                Debug.LogAssertion("WARNING : not set to an instance of PlayerData!");
+                return -1;
+            }
             // SkillMult スキル倍率
             float skillMult = pData.skillRate;
             Debug.Log(skillMult);
