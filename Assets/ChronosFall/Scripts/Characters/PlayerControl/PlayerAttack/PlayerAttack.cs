@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using ChronosFall.Scripts.Interfaces;
 using ChronosFall.Scripts.Systems.Enemies.Data;
+using ChronosFall.Scripts.Systems.Player.Data;
 using UnityEngine;
 
 namespace ChronosFall.Scripts.Characters.PlayerControl.PlayerAttack
@@ -42,7 +43,7 @@ namespace ChronosFall.Scripts.Characters.PlayerControl.PlayerAttack
                         {
                             // 2連続の攻撃判定が入らないように
                             if (_attackedEnemies.Contains(hit.collider.gameObject)) continue;
-                            target.EnemyTakeDamage(attackDamage, attackType);
+                            target.EnemyTakeDamage(attackDamage, attackType,GetComponent<PlayerData>());
                             Debug.Log($"Enemy has been attacked by player! TARGET : ${target}");
                             _attackedEnemies.Add(hit.collider.gameObject);
                         }

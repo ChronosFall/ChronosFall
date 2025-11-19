@@ -1,6 +1,8 @@
 using ChronosFall.Scripts.Enemies;
 using ChronosFall.Scripts.Interfaces;
 using ChronosFall.Scripts.Systems.Enemies.Data;
+using ChronosFall.Scripts.Systems.Player.Base;
+using ChronosFall.Scripts.Systems.Player.Data;
 using UnityEngine;
 
 namespace ChronosFall.Scripts.Systems.Enemies.Base
@@ -12,11 +14,9 @@ namespace ChronosFall.Scripts.Systems.Enemies.Base
         public EnemyData baseEdata;
         private EnemyData _edata;
         private int _currentHealth;
-        private EnemiesCalcu _enemiesCalcu;
 
         private void Awake()
         {
-            _enemiesCalcu = ScriptableObject.CreateInstance<EnemiesCalcu>();
             _edata = Instantiate(baseEdata);
             EnemyInit();
         }
@@ -54,9 +54,10 @@ namespace ChronosFall.Scripts.Systems.Enemies.Base
         /// </summary>
         /// <param name="damage">初期ダメージ数値</param>
         /// <param name="playerAttackElement">プレイヤーの属性</param>
-        public void EnemyTakeDamage(int damage, ElementType playerAttackElement)
+        /// <param name="pData">プレイヤーが持ってるデータ</param>
+        public void EnemyTakeDamage(int damage, ElementType playerAttackElement,PlayerData pData)
         {
-            int finalDamage = _enemiesCalcu.EnemiesTakeDamageCalcu(damage,playerAttackElement,_edata);
+            int finalDamage = EnemiesCalcu.EnemiesTakeDamageCalcu(damage,playerAttackElement,_edata,pData);
 
             _currentHealth -= finalDamage;
             

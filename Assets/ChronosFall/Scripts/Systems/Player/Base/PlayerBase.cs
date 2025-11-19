@@ -12,7 +12,6 @@ namespace ChronosFall.Scripts.Systems.Player.Base
     public class PlayerBase : MonoBehaviour
     {
         public PlayerData basePdata;
-        public PlayerData BasePdata => basePdata;
         private PlayerData _pdata;
         private int _currentHealth;
 

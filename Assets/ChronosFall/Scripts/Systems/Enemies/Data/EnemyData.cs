@@ -16,6 +16,7 @@ namespace ChronosFall.Scripts.Systems.Enemies.Data
         public float moveSpeed = 3f;
         public int level = 10;
         public int def = 200;
+        public bool isBroken = false;
 
         [Header("属性")]
         public ElementType enemyElement = ElementType.None; // 敵の属性
