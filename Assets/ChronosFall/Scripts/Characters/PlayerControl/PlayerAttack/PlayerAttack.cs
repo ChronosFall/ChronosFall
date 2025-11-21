@@ -9,7 +9,7 @@ namespace ChronosFall.Scripts.Characters.PlayerControl.PlayerAttack
 {
     public class PlayerAttack : MonoBehaviour
     {
-        public int attackDamage = 20; // ダメージ TODO : そのうち動的に変更
+        public int attackDamage = 1000; // ダメージ TODO : そのうち動的に変更
         public ElementType attackType = ElementType.Fire; // プレイヤーの属性 TODO : ここもそのうち動的に変更
         private const float AttackRange = 5f; // 攻撃距離
         private const float AttackAngel = 40f; // 攻撃範囲

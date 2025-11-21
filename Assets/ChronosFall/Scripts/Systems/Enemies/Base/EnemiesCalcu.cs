@@ -25,28 +25,23 @@ namespace ChronosFall.Scripts.Systems.Enemies.Base
             }
             // SkillMult スキル倍率
             float skillMult = pData.skillRate;
-            Debug.Log(skillMult);
             
             // LvFactor Lv1差につき3%変動
             int playerLv = pData.level;
             int enemyLv = eData.level;
             float lvFactor = (float)(1 + 0.03 * (playerLv - enemyLv));
-            Debug.Log(lvFactor);
             
             // Def 防御値（被ダメ側）
             int def = eData.def;
-            Debug.Log(def);
             
             // ElemMult 属性係数 (弱点1.5 / 無効0 / 耐性0.7)
             float elemMult = 1f;
             if (eData.enemyWeakpoint.Contains(elementType)) elemMult = 1.5f;
             else if (eData.enemyResistancePoint.Contains(elementType)) elemMult = 0.7f;
-            Debug.Log(elemMult);
             
             // BreakMult ブレイク補正
             float breakMult = 1f;
             if (eData.isBroken) breakMult = 1.3f;
-            Debug.Log(breakMult);
             
             // CritRoll CritMultiplier (会心発生で乗算)
             float critMult = 1f;
@@ -64,8 +59,8 @@ namespace ChronosFall.Scripts.Systems.Enemies.Base
             // RandomOffset ランダム振れ幅
             float randomOffsetValue = 5 * 0.01f;
             float randomOffset = UnityEngine.Random.Range(-randomOffsetValue, randomOffsetValue);
-            Debug.Log(randomOffset);
-            
+
+            Debug.Log($"atk {atk} skill ${skillMult} LvFactor ${lvFactor} def ${def} pierce ${pierce} dCoef ${dCoef} ElemMult ${elemMult} breakMult ${breakMult} critMult ${critMult} randomoffset ${randomOffset} ");
             // FinalDamage =    ((Atk * SkillMult) * LvFactor * (100 / (100 + (Def * (1 - Pierce)) * dCoef)) * ElemMult * BreakMult * DMGMod * CritFactor) * (1 ± RandomOffset))
             float finalDamage = ((atk * skillMult) * lvFactor * (100 / (100 + (def * (1 - pierce)) * dCoef)) * elemMult * breakMult * dmgMod * critMult) * (1 + randomOffset); 
             

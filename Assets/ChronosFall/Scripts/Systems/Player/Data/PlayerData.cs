@@ -18,9 +18,11 @@ namespace ChronosFall.Scripts.Systems.Player.Data
         public int level = 30;
         public float skillRate = 1.2f;
         public float resistanceRate = 1.3f;
+        public float breakChance = 0.5f;
+        public float breakMult = 1.3f;
+        public float pierce = 0.0f;
         public float critChance = 0.5f;
         public float critMult = 1.3f;
-        public float pierce = 0.0f;
 
     }
 }
