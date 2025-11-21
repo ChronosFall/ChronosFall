@@ -16,8 +16,9 @@ namespace ChronosFall.Scripts.Systems.Enemies.Base
         /// <param name="eData">敵が持っているデータ [EnemyData]</param>
         /// <param name="pData">プレイヤーが持ってるデータ [PlayerData]</param>
         /// <returns>最終ダメージ [int]</returns>
-        public static int EnemiesTakeDamageCalcu(int atk, ElementType elementType, EnemyData eData, PlayerData pData)
+        public static int EnemiesTakeDamageCalcu(int atk, ElementType elementType, EnemyData eData)
         {
+            /*
             if (!pData)
             {
                 Debug.LogAssertion("WARNING : not set to an instance of PlayerData!");
@@ -69,6 +70,8 @@ namespace ChronosFall.Scripts.Systems.Enemies.Base
             Debug.LogWarning($"FINAL DAMAGE : {finalDamage}");
             // 四捨五入
             return (int)Math.Round(finalDamage, 0);
+            */
+            return -10;
         } 
     }
 }

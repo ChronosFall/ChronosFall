@@ -5,6 +5,6 @@ namespace ChronosFall.Scripts.Interfaces
 {
     public interface IEnemyDamageable
     {
-        void EnemyTakeDamage(int damage, ElementType attackType,PlayerData playerData);
+        void EnemyTakeDamage(int damage, ElementType attackType);
     }
 }

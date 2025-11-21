@@ -46,7 +46,7 @@ namespace ChronosFall.Scripts.Characters.PlayerControl.PlayerAttack
                         {
                             // 2連続の攻撃判定が入らないように
                             if (_attackedEnemies.Contains(hit.collider.gameObject)) continue;
-                            target.EnemyTakeDamage(attackDamage, attackType, _playerBase.basePdata);
+                            target.EnemyTakeDamage(attackDamage, attackType);
                             Debug.Log($"Enemy has been attacked by player! TARGET : ${target}");
                             _attackedEnemies.Add(hit.collider.gameObject);
                         }
