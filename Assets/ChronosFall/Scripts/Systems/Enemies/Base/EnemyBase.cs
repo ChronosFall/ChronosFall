@@ -57,7 +57,7 @@ namespace ChronosFall.Scripts.Systems.Enemies.Base
         /// <param name="pData">プレイヤーが持ってるデータ</param>
         public void EnemyTakeDamage(int damage, ElementType playerAttackElement)
         {
-            int finalDamage = EnemiesCalcu.EnemiesTakeDamageCalcu(damage,playerAttackElement);
+            int finalDamage = EnemiesCalcu.EnemiesTakeDamageCalcu(damage,playerAttackElement,_edata);
 
             _currentHealth -= finalDamage;
             
