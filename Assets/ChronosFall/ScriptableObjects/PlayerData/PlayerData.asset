@@ -12,6 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 709f077e542c48f09794c7eae2cf503e, type: 3}
   m_Name: PlayerData
   m_EditorClassIdentifier: 
-  playerName: Luca
-  maxHealth: 1000
-  PlayerAttackElement: 1
+  characters: []

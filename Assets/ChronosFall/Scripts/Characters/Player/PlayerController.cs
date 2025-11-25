@@ -1,0 +1,242 @@
+using System.Collections.Generic;
+using ChronosFall.Scripts.Interfaces;
+using UnityEngine;
+
+namespace ChronosFall.Scripts.Characters.Player
+{
+    public class PlayerController : MonoBehaviour
+    {
+        // ベースデータ
+        //private playerBase _playerBase;
+        
+        // 移動系統
+        private Rigidbody _rb;
+        private Animator _animator;
+        private Vector2 _inputAxis; // -1~1の入力値
+        private float _currentSpeed;
+        private bool _isDashing;
+        private GameObject _cameraObject;
+        [SerializeField] private float walkSpeed = 2f;
+        [SerializeField] private float dashSpeed = 10f;
+        [SerializeField] private bool tempStopAnimator = true;
+        
+        // 攻撃系統
+        private const float AttackRange = 5f; // 攻撃距離
+        private const float AttackAngel = 40f; // 攻撃範囲
+        private const float MinStep = 5f; // 最小ステップ角度
+        private List<GameObject> _attackedEnemies; // 攻撃した敵List
+        
+        // インタラクト系統
+        private const float SearchRadius = 1f; // インタラクトの半径
+
+        // 初期化
+        private void Start()
+        {
+            MovementInit();
+            AttackInit();
+        }
+
+        private void MovementInit()
+        {
+            _animator = Components.GetComponent<Animator>(gameObject);
+            _rb = Components.GetComponent<Rigidbody>(gameObject);
+            _cameraObject = Camera.main?.gameObject;
+            _currentSpeed = walkSpeed;
+        }
+        private void AttackInit()
+        {
+            _attackedEnemies = new List<GameObject>();
+            _attackedEnemies.Clear();
+        }
+        
+        // メイン処理
+        private void Update()
+        {
+            PlayerMovement();
+            PlayerAttack();
+            PlayerInteract();
+        }
+
+        private void PlayerMovement()
+        {
+            ProcessInput();
+            UpdateMovement();
+            UpdateAnimation();
+        }
+        
+        
+        /// <summary>
+        /// 入力処理
+        /// </summary>
+        private void ProcessInput()
+        {
+            // 入力をリセット
+            _inputAxis = Vector2.zero;
+
+            // WASD入力を取得
+            if (Input.GetKey(KeyCode.W)) _inputAxis.y += 1f;
+            if (Input.GetKey(KeyCode.S)) _inputAxis.y -= 1f;
+            if (Input.GetKey(KeyCode.A)) _inputAxis.x -= 1f;
+            if (Input.GetKey(KeyCode.D)) _inputAxis.x += 1f;
+            // TODO : キーコンフィグ追加
+
+            // 入力の正規化（斜め移動が速くならないように）
+            if (_inputAxis.magnitude > 1f)
+            {
+                _inputAxis.Normalize();
+            }
+
+            // ダッシュ入力
+            _isDashing = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
+            _currentSpeed = _isDashing ? dashSpeed : walkSpeed;
+        }
+
+        /// <summary>
+        /// 移動処理
+        /// </summary>
+        private void UpdateMovement()
+        {
+            if (!_cameraObject || !_rb) return;
+
+            // カメラの向きを取得
+            float cameraRotationY = _cameraObject.transform.eulerAngles.y;
+
+            // プレイヤーをカメラの向きに同期
+            transform.rotation = Quaternion.Euler(0f, cameraRotationY, 0f);
+
+            // カメラ基準の方向ベクトルを計算
+            Vector3 cameraForward = GetCameraForward();
+            Vector3 cameraRight = GetCameraRight();
+
+            // 移動ベクトルを計算
+            Vector3 moveDirection = (cameraForward * _inputAxis.y + cameraRight * _inputAxis.x).normalized;
+            Vector3 moveVelocity = moveDirection * _currentSpeed;
+
+            // Rigidbodyに適用（Y軸の速度は保持）
+            _rb.linearVelocity = new Vector3(moveVelocity.x, _rb.linearVelocity.y, moveVelocity.z);
+        }
+
+        /// <summary>
+        /// アニメーション更新
+        /// </summary>
+        private void UpdateAnimation()
+        {
+            if (!_animator || !_animator.runtimeAnimatorController || tempStopAnimator) return;
+
+            bool isMoving = _inputAxis.magnitude > 0.01f;
+
+            if (isMoving)
+            {
+                // 移動アニメーション
+                _animator.SetBool(PlayerMovementAnimator.IsWalking, true);
+                _animator.SetFloat(PlayerMovementAnimator.SpeedAxisX, _inputAxis.x);
+                _animator.SetFloat(PlayerMovementAnimator.SpeedAxisY, _inputAxis.y);
+                // ダッシュ時はアニメーション速度を変更
+                _animator.speed = _isDashing ? 2.0f : 1.0f;
+            }
+            else
+            {
+                // 停止アニメーション
+                _animator.SetBool(PlayerMovementAnimator.IsWalking, false);
+                _animator.SetFloat(PlayerMovementAnimator.SpeedAxisX, 0f);
+                _animator.SetFloat(PlayerMovementAnimator.SpeedAxisY, 0f);
+                _animator.speed = 1.0f;
+            }
+        }
+
+        /// <summary>
+        /// カメラの前方向を取得（Y軸を無視）
+        /// </summary>
+        private Vector3 GetCameraForward()
+        {
+            Vector3 forward = _cameraObject.transform.forward;
+            forward.y = 0f;
+            return forward.normalized;
+        }
+
+        /// <summary>
+        /// カメラの右方向を取得（Y軸を無視）
+        /// </summary>
+        private Vector3 GetCameraRight()
+        {
+            Vector3 right = _cameraObject.transform.right;
+            right.y = 0f;
+            return right.normalized;
+        }
+
+        /// <summary>
+        /// プレイヤーが攻撃
+        /// </summary>
+        private void PlayerAttack()
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                // 攻撃範囲を最小ステップ角度刻みで割ったときに必要なRay数を計算する
+                int rayCount = Mathf.Max(2, Mathf.CeilToInt(AttackAngel / MinStep) + 1);
+
+                // そのRay数で均等な角度に配置するため、1本ごとの角度間隔を求める
+                float each = AttackAngel / (rayCount - 1);
+                
+                for (int i = 0; i < rayCount; i++)
+                {
+                    // 初期を-20°に設定しそこからeachごと足していく
+                    float angle = -AttackAngel / 2f + each * i;
+                    Vector3 dir = Quaternion.Euler(0, angle, 0) * transform.forward;
+                    
+                    if (Physics.Raycast(transform.position + Vector3.up, dir, out RaycastHit hit, AttackRange))
+                    {
+                        if (hit.collider.TryGetComponent(out IEnemyDamageable target))
+                        {
+                            // 2連続の攻撃判定が入らないように
+                            if (_attackedEnemies.Contains(hit.collider.gameObject)) continue;
+                            //target.EnemyTakeDamage(attackDamage, attackType);
+                            Debug.Log($"Enemy has been attacked by player! TARGET : ${target}");
+                            _attackedEnemies.Add(hit.collider.gameObject);
+                        }
+                    }
+                }
+                _attackedEnemies.Clear();
+            }
+        }
+
+        /// <summary>
+        /// プレイヤーのインタラクト
+        /// </summary>
+        private void PlayerInteract()
+        {
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                
+                //searchRadiusの範囲内のコライダーを取得
+                Collider[] hitColliders = Physics.OverlapSphere(transform.position, SearchRadius);
+
+                //最も近いオブジェクトを探す
+                Collider closestObject = null;
+                //最も近い距離を初期化(ようわからん)
+                float closestDistance = Mathf.Infinity;
+
+                //forEachでコライダーを検索していく
+                foreach (var hitCollider in hitColliders)
+                {
+                    //タグ:Interactableがついているかどうか
+                    if (hitCollider.CompareTag("Interactable"))
+                    {
+                        //距離計算
+                        float distance = Vector3.Distance(transform.position, hitCollider.transform.position);
+                        if (distance < closestDistance)
+                        {
+                            closestDistance = distance;
+                            //最も近いコライダーを保存
+                            closestObject = hitCollider;
+                        }
+                    }
+                }
+                if (!closestObject) return;
+                // InterfaceScriptを実装しているコンポーネントを探す
+                IInterface interactable = closestObject.GetComponent<IInterface>();
+                if (interactable != null) interactable.Interact();
+                else Debug.LogError($"{closestObject.gameObject.name} は IInteractable を実装していません！");
+            }
+        }
+    }
+}

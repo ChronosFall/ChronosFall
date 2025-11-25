@@ -1,10 +1,9 @@
-using ChronosFall.Scripts.Systems.Enemies.Data;
-using ChronosFall.Scripts.Systems.Player.Data;
+using ChronosFall.Scripts.Systems;
 
 namespace ChronosFall.Scripts.Interfaces
 {
     public interface IEnemyDamageable
     {
-        void EnemyTakeDamage(int damage, ElementType attackType);
+        void EnemyTakeDamage(int damage, Entity.ElementType attackType);
     }
 }
