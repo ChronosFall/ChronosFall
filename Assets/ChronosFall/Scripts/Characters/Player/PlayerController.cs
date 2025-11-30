@@ -1,13 +1,16 @@
 using System.Collections.Generic;
 using ChronosFall.Scripts.Interfaces;
+using ChronosFall.Scripts.Systems;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace ChronosFall.Scripts.Characters.Player
 {
-    public class PlayerController : MonoBehaviour
+    public class PlayerController : MonoBehaviour, IDamageablePlayer
     {
         // ベースデータ
-        //private playerBase _playerBase;
+        [SerializeField] private CharacterManager characterManager;
+        private CharacterRuntimeData _characterRuntimeData;
         
         // 移動系統
         private Rigidbody _rb;
@@ -32,8 +35,20 @@ namespace ChronosFall.Scripts.Characters.Player
         // 初期化
         private void Start()
         {
+            DatabaseInit();
             MovementInit();
             AttackInit();
+        }
+
+        private void DatabaseInit()
+        {
+            characterManager = CharacterManager.Instance;
+            _characterRuntimeData = characterManager.GetActiveCharacter();
+    
+            if (_characterRuntimeData == null)
+            {
+                Debug.LogError("キャラクターデータの取得に失敗！GameManagerが初期化されていない可能性があります");
+            }
         }
 
         private void MovementInit()
@@ -171,26 +186,35 @@ namespace ChronosFall.Scripts.Characters.Player
         {
             if (Input.GetMouseButtonDown(0))
             {
-                // 攻撃範囲を最小ステップ角度刻みで割ったときに必要なRay数を計算する
                 int rayCount = Mathf.Max(2, Mathf.CeilToInt(AttackAngel / MinStep) + 1);
-
-                // そのRay数で均等な角度に配置するため、1本ごとの角度間隔を求める
                 float each = AttackAngel / (rayCount - 1);
                 
                 for (int i = 0; i < rayCount; i++)
                 {
-                    // 初期を-20°に設定しそこからeachごと足していく
                     float angle = -AttackAngel / 2f + each * i;
                     Vector3 dir = Quaternion.Euler(0, angle, 0) * transform.forward;
                     
                     if (Physics.Raycast(transform.position + Vector3.up, dir, out RaycastHit hit, AttackRange))
                     {
-                        if (hit.collider.TryGetComponent(out IEnemyDamageable target))
+                        
+                        if (hit.collider.TryGetComponent(out IEnemyDamageable enemy))
                         {
                             // 2連続の攻撃判定が入らないように
                             if (_attackedEnemies.Contains(hit.collider.gameObject)) continue;
-                            //target.EnemyTakeDamage(attackDamage, attackType);
-                            Debug.Log($"Enemy has been attacked by player! TARGET : ${target}");
+
+                            // ダメージを取得
+                            var attackerData = _characterRuntimeData;
+                            var defenderData = enemy.GetEnemyData();
+                
+                            int damage = DamageCalculator.CalculatePlayerToEnemy(
+                                attackerData, 
+                                defenderData
+                            );
+                            
+                            // プレイヤーの情報を渡す
+                            enemy.TakeDamage(damage, _characterRuntimeData.Element);
+                            
+                            Debug.Log($"Enemy has been attacked by player! Damage: {damage}");
                             _attackedEnemies.Add(hit.collider.gameObject);
                         }
                     }
@@ -198,7 +222,6 @@ namespace ChronosFall.Scripts.Characters.Player
                 _attackedEnemies.Clear();
             }
         }
-
         /// <summary>
         /// プレイヤーのインタラクト
         /// </summary>
@@ -237,6 +260,29 @@ namespace ChronosFall.Scripts.Characters.Player
                 if (interactable != null) interactable.Interact();
                 else Debug.LogError($"{closestObject.gameObject.name} は IInteractable を実装していません！");
             }
+        }
+        
+        // IPlayerDamageable 実装
+        public void TakeDamage(int damage, List<ElementType> elementType)
+        {
+            _characterRuntimeData.CurrentHealth -= damage;
+
+            characterManager.UpdateCharacterHealth(
+                _characterRuntimeData.CharacterId, 
+                _characterRuntimeData.CurrentHealth
+            );
+
+            Debug.Log($"Player took {damage} damage from {elementType}! HP: {_characterRuntimeData.CurrentHealth}");
+
+            if (_characterRuntimeData.CurrentHealth <= 0)
+            {
+                characterManager.OnCharacterDeath();
+            }
+        }
+
+        public CharacterRuntimeData GetCharacterRuntimeData()
+        {
+            return _characterRuntimeData;
         }
     }
 }
