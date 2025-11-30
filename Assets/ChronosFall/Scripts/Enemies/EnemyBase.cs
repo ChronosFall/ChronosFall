@@ -1,14 +1,22 @@
 using ChronosFall.Scripts.Interfaces;
 using ChronosFall.Scripts.Systems;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace ChronosFall.Scripts.Enemies
 {
+    [RequireComponent(typeof(EnemyMovement))]
+    [RequireComponent(typeof(EnemyAttack))]
     public class EnemyBase : MonoBehaviour, IEnemyDamageable
     {
         private EnemyRuntimeData _enemyData;
-    
-        public void Initialize(int enemyId)
+        [SerializeField] public int selectedEnemyId = 2001;
+
+        private void Awake()
+        {
+            Initialize(selectedEnemyId);
+        }
+        private void Initialize(int enemyId)
         {
             _enemyData = EnemyManager.Instance.CreateEnemyData(enemyId);
         }

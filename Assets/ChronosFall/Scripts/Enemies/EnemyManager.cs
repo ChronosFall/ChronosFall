@@ -61,12 +61,23 @@ namespace ChronosFall.Scripts.Enemies
                 Level = 10,
                 BaseAtk = 50,
                 BaseDef = 30,
-                MaxHealth = 300,
+                MaxHealth = 10000,
                 Weakness = new List<ElementType> { ElementType.Fire, ElementType.Water },
                 Resistance = new List<ElementType> { ElementType.Electric }
             };
+            var Test = new EnemyRuntimeData
+            {
+                EnemyId = 2002,
+                BaseAtk = 3000,
+                BaseDef = 500,
+                MaxHealth = 10000,
+                EnemyName = "Test",
+                Weakness = new List<ElementType> { ElementType.None },
+                Resistance = new List<ElementType> { ElementType.Fire, ElementType.Water, ElementType.Electric },
+            };
             
             _enemyMasterData.Add(slime.EnemyId, slime);
+            _enemyMasterData.Add(Test.EnemyId, Test);
         }
 
         /// <summary>

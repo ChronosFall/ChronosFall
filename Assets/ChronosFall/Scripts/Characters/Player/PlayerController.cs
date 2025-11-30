@@ -205,6 +205,7 @@ namespace ChronosFall.Scripts.Characters.Player
                             // ダメージを取得
                             var attackerData = _characterRuntimeData;
                             var defenderData = enemy.GetEnemyData();
+                            Debug.Log(defenderData);
                 
                             int damage = DamageCalculator.CalculatePlayerToEnemy(
                                 attackerData, 
