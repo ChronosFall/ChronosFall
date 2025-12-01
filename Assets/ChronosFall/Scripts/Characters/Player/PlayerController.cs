@@ -186,12 +186,16 @@ namespace ChronosFall.Scripts.Characters.Player
         {
             if (Input.GetMouseButtonDown(0))
             {
+                // Rayの本数を計算 : 最低2本、扇の角度 / 最小ステップ数 + 1 本のRayCastが呼ばれる
                 int rayCount = Mathf.Max(2, Mathf.CeilToInt(AttackAngel / MinStep) + 1);
+                // 各Raycastの角度間隔を計算 
                 float each = AttackAngel / (rayCount - 1);
                 
                 for (int i = 0; i < rayCount; i++)
                 {
+                    // 各Rayの角度を計算
                     float angle = -AttackAngel / 2f + each * i;
+                    // 計算した角度でRayの方向ベクトルを作成
                     Vector3 dir = Quaternion.Euler(0, angle, 0) * transform.forward;
                     
                     if (Physics.Raycast(transform.position + Vector3.up, dir, out RaycastHit hit, AttackRange))
