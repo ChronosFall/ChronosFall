@@ -132,7 +132,6 @@ GameObject:
   - component: {fileID: 843156871}
   - component: {fileID: 843156870}
   - component: {fileID: 843156875}
-  - component: {fileID: 843156874}
   m_Layer: 0
   m_Name: EnemyTemp (1)
   m_TagString: Untagged
@@ -218,18 +217,6 @@ Transform:
   - {fileID: 2022404681}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &843156874
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 843156868}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 55ad9815c2dd46b8a6705ac3c86dd724, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &843156875
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -675,7 +662,6 @@ GameObject:
   - component: {fileID: 1688711665}
   - component: {fileID: 1688711664}
   - component: {fileID: 1688711668}
-  - component: {fileID: 1688711667}
   m_Layer: 0
   m_Name: EnemyTemp
   m_TagString: Untagged
@@ -759,18 +745,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 16468cf9769d42a41af881c2e046d3d9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1688711667
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1688711662}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 55ad9815c2dd46b8a6705ac3c86dd724, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1688711668
