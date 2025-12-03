@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using ChronosFall.Scripts.Configs;
 using ChronosFall.Scripts.Interfaces;
 using ChronosFall.Scripts.Systems;
 using UnityEngine;
@@ -22,6 +24,7 @@ namespace ChronosFall.Scripts.Characters.Player
         [SerializeField] private float walkSpeed = 2f;
         [SerializeField] private float dashSpeed = 10f;
         [SerializeField] private bool tempStopAnimator = true;
+        public static CharacterInputKey Walk = new CharacterInputKey();
         
         // 攻撃系統
         private const float AttackRange = 5f; // 攻撃距離
@@ -35,13 +38,6 @@ namespace ChronosFall.Scripts.Characters.Player
         // 初期化
         private void Start()
         {
-            DatabaseInit();
-            MovementInit();
-            AttackInit();
-        }
-
-        private void DatabaseInit()
-        {
             characterManager = CharacterManager.Instance;
             _characterRuntimeData = characterManager.GetActiveCharacter();
     
@@ -49,17 +45,11 @@ namespace ChronosFall.Scripts.Characters.Player
             {
                 Debug.LogError("キャラクターデータの取得に失敗！GameManagerが初期化されていない可能性があります");
             }
-        }
-
-        private void MovementInit()
-        {
+            // アニメーション等
             _animator = Components.GetComponent<Animator>(gameObject);
             _rb = Components.GetComponent<Rigidbody>(gameObject);
             _cameraObject = Camera.main?.gameObject;
             _currentSpeed = walkSpeed;
-        }
-        private void AttackInit()
-        {
             _attackedEnemies = new List<GameObject>();
             _attackedEnemies.Clear();
         }
@@ -67,6 +57,7 @@ namespace ChronosFall.Scripts.Characters.Player
         // メイン処理
         private void Update()
         {
+            ProcessInput();
             PlayerMovement();
             PlayerAttack();
             PlayerInteract();
@@ -74,11 +65,9 @@ namespace ChronosFall.Scripts.Characters.Player
 
         private void PlayerMovement()
         {
-            ProcessInput();
             UpdateMovement();
             UpdateAnimation();
         }
-        
         
         /// <summary>
         /// 入力処理
@@ -89,10 +78,10 @@ namespace ChronosFall.Scripts.Characters.Player
             _inputAxis = Vector2.zero;
 
             // WASD入力を取得
-            if (Input.GetKey(KeyCode.W)) _inputAxis.y += 1f;
-            if (Input.GetKey(KeyCode.S)) _inputAxis.y -= 1f;
-            if (Input.GetKey(KeyCode.A)) _inputAxis.x -= 1f;
-            if (Input.GetKey(KeyCode.D)) _inputAxis.x += 1f;
+            if (Input.GetKey(Walk.walkFront)) _inputAxis.y += 1f;
+            if (Input.GetKey(Walk.walkRight)) _inputAxis.y -= 1f;
+            if (Input.GetKey(Walk.walkLeft)) _inputAxis.x -= 1f;
+            if (Input.GetKey(Walk.walkBehind)) _inputAxis.x += 1f;
             // TODO : キーコンフィグ追加
 
             // 入力の正規化（斜め移動が速くならないように）
@@ -102,7 +91,7 @@ namespace ChronosFall.Scripts.Characters.Player
             }
 
             // ダッシュ入力
-            _isDashing = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
+            _isDashing = Input.GetKey(Walk.walkDash);
             _currentSpeed = _isDashing ? dashSpeed : walkSpeed;
         }
 
