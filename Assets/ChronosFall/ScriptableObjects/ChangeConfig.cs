@@ -7,7 +7,7 @@ namespace ChronosFall.ScriptableObjects
     {
         public static CharacterInputKey Walk = new CharacterInputKey();
         
-        public KeyCode changeWalkFront = KeyCode.W;
+        public KeyCode changeWalkForward = KeyCode.W;
         public KeyCode changeWalkBack = KeyCode.S;
         public KeyCode changeWalkRight = KeyCode.D;
         public KeyCode changeWalkLeft = KeyCode.A;
@@ -16,7 +16,7 @@ namespace ChronosFall.ScriptableObjects
 
         private void Update()
         {
-            CharacterInputKey.WalkFront = changeWalkFront;
+            CharacterInputKey.WalkForward = changeWalkForward;
             CharacterInputKey.WalkBack = changeWalkBack;
             CharacterInputKey.WalkRight = changeWalkRight;
             CharacterInputKey.WalkLeft = changeWalkLeft;

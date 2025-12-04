@@ -7,7 +7,7 @@ namespace ChronosFall.Scripts.Configs
     [System.Serializable]
     public class CharacterInputKey
     {
-        public static KeyCode WalkFront {get; set;}
+        public static KeyCode WalkForward {get; set;}
         public static KeyCode WalkBack {get; set;}
         public static KeyCode WalkRight {get; set;}
         public static KeyCode WalkLeft {get; set;}

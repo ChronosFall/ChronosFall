@@ -1017,6 +1017,24 @@ MonoBehaviour:
   walkSpeed: 2
   dashSpeed: 10
   tempStopAnimator: 1
+--- !u!114 &919132147842794081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132147842794075}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5239010e9cf4ce5abd4b355db9b806e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  changeWalkForward: 119
+  changeWalkBack: 115
+  changeWalkRight: 100
+  changeWalkLeft: 97
+  changeMoveDash: 304
+  changeInteract: 102
 --- !u!1001 &3320519272987551161
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1076,6 +1094,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2488678017466490868, guid: 5a583da023af6a64c93f99649775bc08, type: 3}
       insertIndex: 1
       addedObject: {fileID: 919132147842794076}
+    - targetCorrespondingSourceObject: {fileID: 2488678017466490868, guid: 5a583da023af6a64c93f99649775bc08, type: 3}
+      insertIndex: 2
+      addedObject: {fileID: 919132147842794081}
   m_SourcePrefab: {fileID: 100100000, guid: 5a583da023af6a64c93f99649775bc08, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

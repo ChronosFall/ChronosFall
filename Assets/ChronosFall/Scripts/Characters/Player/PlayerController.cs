@@ -78,7 +78,7 @@ namespace ChronosFall.Scripts.Characters.Player
             _inputAxis = Vector2.zero;
 
             // WASD入力を取得
-            if (Input.GetKey(CharacterInputKey.WalkFront)) _inputAxis.y += 1f;
+            if (Input.GetKey(CharacterInputKey.WalkForward)) _inputAxis.y += 1f;
             if (Input.GetKey(CharacterInputKey.WalkRight)) _inputAxis.y -= 1f;
             if (Input.GetKey(CharacterInputKey.WalkLeft)) _inputAxis.x -= 1f;
             if (Input.GetKey(CharacterInputKey.WalkBack)) _inputAxis.x += 1f;
