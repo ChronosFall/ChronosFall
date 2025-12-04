@@ -1,4 +1,4 @@
-  // .github/workflows/code_review_from_chatgpt.yml ファイル生成
+ # .github/workflows/code_review_from_chatgpt.yml ファイル生成
   name: Code Review
   
   permissions:
