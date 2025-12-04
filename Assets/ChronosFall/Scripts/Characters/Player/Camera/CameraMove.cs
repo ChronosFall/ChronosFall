@@ -1,7 +1,7 @@
-using UnityEngine;
 using ChronosFall.Scripts.Configs;
+using UnityEngine;
 
-namespace ChronosFall.Scripts.Characters.PlayerControl.Camera
+namespace ChronosFall.Scripts.Characters.Player.Camera
 {
     public class CameraMove : MonoBehaviour
     {

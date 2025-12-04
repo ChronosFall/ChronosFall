@@ -48,7 +48,7 @@ namespace ChronosFall.Scripts.Characters.Player
             // アニメーション等
             _animator = Components.GetComponent<Animator>(gameObject);
             _rb = Components.GetComponent<Rigidbody>(gameObject);
-            _cameraObject = Camera.main?.gameObject;
+            _cameraObject = UnityEngine.Camera.main.gameObject;
             _currentSpeed = walkSpeed;
             _attackedEnemies = new List<GameObject>();
             _attackedEnemies.Clear();
