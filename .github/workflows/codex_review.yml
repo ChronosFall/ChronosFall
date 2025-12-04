@@ -1,29 +1,57 @@
-# .github/workflows/codex_review.yml
-name: AI Code Review (Codex Style)
+name: AI Code Review (Triggered by Comment)
 
 on:
-  pull_request:
-    types: [opened, reopened, synchronize] # PRの作成または更新時にトリガー
+  # プルリクエスト (PR) へのコメント作成イベントでのみトリガー
+  issue_comment:
+    types: [created]
 
 jobs:
   codex_review:
+    # コメントがPRに対して行われた場合のみジョブを実行
+    if: ${{ github.event.issue.pull_request }}
     runs-on: ubuntu-latest
 
     steps:
+      # 1. コメント内容のチェックとPR番号の抽出
+      - name: Check for review command
+        id: check_command
+        # コメントの内容を取得し、特定のコマンドが含まれているかチェック
+        # コマンドの形式: "@codex review" または "@chatgpt review"
+        run: |
+          COMMENT_BODY="${{ github.event.comment.body }}"
+          
+          # コメントが特定コマンドで始まっているかをチェック (大文字小文字を区別しない)
+          if [[ "$COMMENT_BODY" =~ ^(@codex\ review|@chatgpt\ review) ]]
+          then
+            echo "::set-output name=is_review_command::true"
+            # issue.numberはPR番号と同じです
+            echo "::set-output name=pr_number::${{ github.event.issue.number }}"
+          else
+            echo "::set-output name=is_review_command::false"
+          fi
+        shell: bash
+      
+      # 2. レビューコマンドが検出された場合のみ、以下のステップを実行
       - name: Checkout Code
+        # run: | の出力変数 `is_review_command` が 'true' の場合のみ実行
+        if: steps.check_command.outputs.is_review_command == 'true'
         uses: actions/checkout@v4
-
+        # fetch-depth: 0 を使用して、PR全体をチェックアウトできるようにする (推奨)
+        with:
+          fetch-depth: 0
+      
+      # 3. AIコードレビューの実行
       - name: Run AI Code Review
-        # これはCodexアクションの例ですが、他の最新のAIレビューアクションを使うこともできます。
+        if: steps.check_command.outputs.is_review_command == 'true'
         uses: openai/codex-action@v1
         with:
           # 必須: SecretsからAPIキーを渡す
           openai_api_key: ${{ secrets.OPENAI_API_KEY }}
           
-          # 必須: 現在のPR番号をアクションに伝える
-          pull_request_number: ${{ github.event.pull_request.number }}
+          # 必須: ステップ 1 で抽出したPR番号を渡す
+          pull_request_number: ${{ steps.check_command.outputs.pr_number }}
           
-          # 推奨: 使用するモデルを指定 (GPT-4oが最新かつ高性能です)
+          # 推奨: 使用するモデルを指定
           model: 'gpt-4o'
           
           # 【重要】レビューの質を上げるためのカスタム指示 (C# Unity向け)
@@ -31,5 +59,4 @@ jobs:
             You are an expert C# Unity developer and code reviewer. 
             Focus your review on Unity performance best practices, 
             such as avoiding unnecessary memory allocations in Update loops, 
-            proper use of object pooling, and efficient component access 
-            (e.g., caching GetComponent results).
+            proper use of object pooling, and efficient component access.
