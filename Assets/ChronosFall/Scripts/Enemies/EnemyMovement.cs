@@ -15,7 +15,6 @@ namespace ChronosFall.Scripts.Enemies
         private void Start()
         {
             _rb = GetComponent<Rigidbody>();
-            // HP = Random.Range(50, 200);
             _target = GameObject.FindGameObjectWithTag("Player").transform;
         }
 

@@ -1,57 +1,53 @@
 using System;
-using ChronosFall.Scripts.Systems.Enemies.Data;
-using ChronosFall.Scripts.Systems.Player.Data;
-using Unity.VisualScripting;
+using ChronosFall.Scripts.Enemies;
 using UnityEngine;
+using ChronosFall.Scripts.Interfaces;
 
-namespace ChronosFall.Scripts.Systems.Enemies.Base
+namespace ChronosFall.Scripts.Systems
 {
-    public static class EnemiesCalcu
+    public static class DamageCalculator
     {
         /// <summary>
-        /// 敵へのダメージ計算システム
+        /// Player -> Enemy
         /// </summary>
-        /// <param name="atk">攻撃者の攻撃力 (武器込み) [int]</param>
-        /// <param name="elementType">プレイヤーの属性 [ElementType]</param>
-        /// <param name="eData">敵が持っているデータ [EnemyData]</param>
-        /// <param name="pData">プレイヤーが持ってるデータ [PlayerData]</param>
-        /// <returns>最終ダメージ [int]</returns>
-        public static int EnemiesTakeDamageCalcu(int atk, ElementType elementType, EnemyData eData, PlayerData pData)
+        /// <param name="attacker">プレイヤー</param>
+        /// <param name="defender">ダメージを受ける敵</param>
+        /// <returns>最終ダメージ量</returns>
+        public static int CalculatePlayerToEnemy(CharacterRuntimeData attacker, EnemyRuntimeData defender)
         {
-            if (!pData)
-            {
-                Debug.LogAssertion("WARNING : not set to an instance of PlayerData!");
-                return -1;
-            }
+            // atk 素攻撃力
+            float atk = attacker.BaseAtk;
+            
             // SkillMult スキル倍率
-            float skillMult = pData.skillRate;
+            float skillMult = attacker.SkillLevel;
             
             // LvFactor Lv1差につき3%変動
-            int playerLv = pData.level;
-            int enemyLv = eData.level;
+            int playerLv = attacker.Level;
+            int enemyLv = defender.Level;
             float lvFactor = (float)(1 + 0.03 * (playerLv - enemyLv));
             
             // Def 防御値（被ダメ側）
-            int def = eData.def;
+            int def = defender.BaseDef;
             
             // ElemMult 属性係数 (弱点1.5 / 無効0 / 耐性0.7)
             float elemMult = 1f;
-            if (eData.enemyWeakpoint.Contains(elementType)) elemMult = 1.5f;
-            else if (eData.enemyResistancePoint.Contains(elementType)) elemMult = 0.7f;
+                if (defender.Weakness.Contains(attacker.Element)) elemMult = 1.5f;
+                else if (defender.Resistance.Contains(attacker.Element)) elemMult = 0.7f;
             
             // BreakMult ブレイク補正
             float breakMult = 1f;
-            if (eData.isBroken) breakMult = 1.3f;
+            if (defender.isBroken) breakMult = 1.3f;
             
             // CritRoll CritMultiplier (会心発生で乗算)
             float critMult = 1f;
-            if (UnityEngine.Random.Range(0.0f,1.0f) <= pData.critChance) critMult = pData.critMult;
+            if (UnityEngine.Random.Range(0.0f,1.0f) <= attacker.CritRate) critMult = attacker.CritMult;
 
             // DMGMod 被ダメ増減 (バフ/デバフ)
             float dmgMod = 1;
             
-            // Pierce 防御貫通 (%)
-            float pierce = pData.pierce;
+            // Pierce 防御貫通 (%) 
+            //float pierce = attacker.pierce; TODO : そのうち実装
+            float pierce = 0;
             
             // dCoef
             float dCoef = 1f;
@@ -69,6 +65,12 @@ namespace ChronosFall.Scripts.Systems.Enemies.Base
             Debug.LogWarning($"FINAL DAMAGE : {finalDamage}");
             // 四捨五入
             return (int)Math.Round(finalDamage, 0);
-        } 
+        }
+
+        public static int CalculateEnemyToPlayer(EnemyRuntimeData attacker, CharacterRuntimeData defender)
+        {
+            float finalDamage = attacker.BaseAtk * 1.1f;
+            return (int)finalDamage;
+        }
     }
 }

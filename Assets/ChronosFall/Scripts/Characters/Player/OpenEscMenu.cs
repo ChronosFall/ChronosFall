@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.HighDefinition;
 
-namespace ChronosFall.Scripts.Characters.PlayerControl
+namespace ChronosFall.Scripts.Characters.Player
 {
     public class OpenEscMenu : MonoBehaviour
     {

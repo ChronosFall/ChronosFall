@@ -1,7 +1,7 @@
 using ChronosFall.Scripts.Interfaces;
 using UnityEngine;
 
-namespace ChronosFall.Scripts.Characters.PlayerControl.PlayerAttack
+namespace ChronosFall.Scripts.Characters.Player.PlayerAttack
 {
     public class GunAttack : MonoBehaviour
     {
