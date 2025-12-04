@@ -78,11 +78,10 @@ namespace ChronosFall.Scripts.Characters.Player
             _inputAxis = Vector2.zero;
 
             // WASD入力を取得
-            if (Input.GetKey(Walk.walkFront)) _inputAxis.y += 1f;
-            if (Input.GetKey(Walk.walkRight)) _inputAxis.y -= 1f;
-            if (Input.GetKey(Walk.walkLeft)) _inputAxis.x -= 1f;
-            if (Input.GetKey(Walk.walkBehind)) _inputAxis.x += 1f;
-            // TODO : キーコンフィグ追加
+            if (Input.GetKey(CharacterInputKey.WalkFront)) _inputAxis.y += 1f;
+            if (Input.GetKey(CharacterInputKey.WalkRight)) _inputAxis.y -= 1f;
+            if (Input.GetKey(CharacterInputKey.WalkLeft)) _inputAxis.x -= 1f;
+            if (Input.GetKey(CharacterInputKey.WalkBack)) _inputAxis.x += 1f;
 
             // 入力の正規化（斜め移動が速くならないように）
             if (_inputAxis.magnitude > 1f)
@@ -91,7 +90,7 @@ namespace ChronosFall.Scripts.Characters.Player
             }
 
             // ダッシュ入力
-            _isDashing = Input.GetKey(Walk.walkDash);
+            _isDashing = Input.GetKey(CharacterInputKey.MoveDash);
             _currentSpeed = _isDashing ? dashSpeed : walkSpeed;
         }
 

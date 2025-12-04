@@ -3,15 +3,16 @@ using System.IO;
 
 namespace ChronosFall.Scripts.Configs
 {
+    
     [System.Serializable]
     public class CharacterInputKey
     {
-        public KeyCode walkFront = KeyCode.W;
-        public KeyCode walkBehind = KeyCode.S;
-        public KeyCode walkRight = KeyCode.D;
-        public KeyCode walkLeft = KeyCode.A;
-        public KeyCode walkDash = KeyCode.LeftShift;
-        public KeyCode interact = KeyCode.F;
+        public static KeyCode WalkFront {get; set;}
+        public static KeyCode WalkBack {get; set;}
+        public static KeyCode WalkRight {get; set;}
+        public static KeyCode WalkLeft {get; set;}
+        public static KeyCode MoveDash {get; set;}
+        public static KeyCode Interact {get; set;}
     }
     
     public static class CCharacterInputKey
