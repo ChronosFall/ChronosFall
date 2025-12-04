@@ -1,0 +1,35 @@
+# .github/workflows/codex_review.yml
+name: AI Code Review (Codex Style)
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize] # PRの作成または更新時にトリガー
+
+jobs:
+  codex_review:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Run AI Code Review
+        # これはCodexアクションの例ですが、他の最新のAIレビューアクションを使うこともできます。
+        uses: openai/codex-action@v1
+        with:
+          # 必須: SecretsからAPIキーを渡す
+          openai_api_key: ${{ secrets.OPENAI_API_KEY }}
+          
+          # 必須: 現在のPR番号をアクションに伝える
+          pull_request_number: ${{ github.event.pull_request.number }}
+          
+          # 推奨: 使用するモデルを指定 (GPT-4oが最新かつ高性能です)
+          model: 'gpt-4o'
+          
+          # 【重要】レビューの質を上げるためのカスタム指示 (C# Unity向け)
+          review_prompt: |
+            You are an expert C# Unity developer and code reviewer. 
+            Focus your review on Unity performance best practices, 
+            such as avoiding unnecessary memory allocations in Update loops, 
+            proper use of object pooling, and efficient component access 
+            (e.g., caching GetComponent results).
