@@ -45,24 +45,21 @@ namespace ChronosFall.Scripts.Systems
             // DMGMod 被ダメ増減 (バフ/デバフ)
             float dmgMod = 1;
             
-            // Pierce 防御貫通 (%) 
-            //float pierce = attacker.pierce; TODO : そのうち実装
-            float pierce = 0;
-            
             // dCoef
             float dCoef = 1f;
+            // TODO : なんだっけこれ
             
             // RandomOffset ランダム振れ幅
             float randomOffsetValue = 5 * 0.01f;
             float randomOffset = UnityEngine.Random.Range(-randomOffsetValue, randomOffsetValue);
 
-            Debug.Log($"atk {atk} skill ${skillMult} LvFactor ${lvFactor} def ${def} pierce ${pierce} dCoef ${dCoef} ElemMult ${elemMult} breakMult ${breakMult} critMult ${critMult} randomoffset ${randomOffset} ");
-            // FinalDamage =    ((Atk * SkillMult) * LvFactor * (100 / (100 + (Def * (1 - Pierce)) * dCoef)) * ElemMult * BreakMult * DMGMod * CritFactor) * (1 ± RandomOffset))
-            float finalDamage = ((atk * skillMult) * lvFactor * (100 / (100 + (def * (1 - pierce)) * dCoef)) * elemMult * breakMult * dmgMod * critMult) * (1 + randomOffset); 
+            Debug.Log($"atk {atk} skill {skillMult} LvFactor {lvFactor} def {def} dCoef {dCoef} ElemMult {elemMult} breakMult {breakMult} critMult {critMult} randomoffset {randomOffset} ");
+            // FinalDamage =    ((Atk * SkillMult) * LvFactor * (100 / (100 + Def * dCoef)) * ElemMult * BreakMult * DMGMod * CritFactor) * (1 ± RandomOffset))
+            float finalDamage = ((atk * skillMult) * lvFactor * (100 / (100 + def * dCoef)) * elemMult * breakMult * dmgMod * critMult) * (1 + randomOffset); 
             
             if (finalDamage <= 0) finalDamage = 0;
             
-            Debug.LogWarning($"FINAL DAMAGE : {finalDamage}");
+            Debug.LogWarning("FINAL DAMAGE : {finalDamage}");
             // 四捨五入
             return (int)Math.Round(finalDamage, 0);
         }
