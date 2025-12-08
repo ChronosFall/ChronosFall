@@ -38,7 +38,7 @@ namespace ChronosFall.Scripts.Systems
             Debug.Log("=== Game Initializing ===");
             
             // CharacterManager初期化
-            CharacterManager.Instance.Init();
+            CharacterManager.Instance.Initialize();
             Debug.Log("CharacterManager initialized");
             
             // EnemyManager初期化
