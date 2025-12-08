@@ -1,0 +1,13 @@
+{
+  "CharacterId": 1001,
+  "CharacterName": "Hoge",
+  "Level": 58,
+  "BaseAtk": 245,
+  "BaseDef": 180,
+  "CurrentHealth": 1430,
+  "MaxHealth": 1430,
+  "CritRate": 0.15,
+  "CritMult": 1.5,
+  "SkillLevel": 5,
+  "Element": 1
+}

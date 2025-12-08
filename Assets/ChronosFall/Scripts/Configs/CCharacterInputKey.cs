@@ -13,11 +13,14 @@ namespace ChronosFall.Scripts.Configs
         public static KeyCode WalkLeft {get; set;}
         public static KeyCode MoveDash {get; set;}
         public static KeyCode Interact {get; set;}
+        public static KeyCode NextCharacter {get; set;}
+        public static KeyCode PreviousCharacter {get; set;}
+        
     }
     
     public static class CCharacterInputKey
     {
-        public static CharacterInputKey Walk = new CharacterInputKey();
+        public static CharacterInputKey Walk = new();
         
         // JSON保存
         public static void SaveKeyConfig()

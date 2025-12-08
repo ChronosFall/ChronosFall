@@ -1,10 +1,8 @@
-using System;
 using System.Collections.Generic;
 using ChronosFall.Scripts.Configs;
 using ChronosFall.Scripts.Interfaces;
 using ChronosFall.Scripts.Systems;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace ChronosFall.Scripts.Characters.Player
 {
@@ -24,7 +22,6 @@ namespace ChronosFall.Scripts.Characters.Player
         [SerializeField] private float walkSpeed = 2f;
         [SerializeField] private float dashSpeed = 10f;
         [SerializeField] private bool tempStopAnimator = true;
-        public static CharacterInputKey Walk = new CharacterInputKey();
         
         // 攻撃系統
         private const float AttackRange = 5f; // 攻撃距離
@@ -92,6 +89,9 @@ namespace ChronosFall.Scripts.Characters.Player
             // ダッシュ入力
             _isDashing = Input.GetKey(CharacterInputKey.MoveDash);
             _currentSpeed = _isDashing ? dashSpeed : walkSpeed;
+
+            if (Input.GetKeyDown(CharacterInputKey.NextCharacter)) characterManager.SwitchNextPlayerCharacter();
+            if (Input.GetKeyDown(CharacterInputKey.PreviousCharacter)) characterManager.SwitchPreviousPlayerCharacter();
         }
 
         /// <summary>

@@ -17,9 +17,9 @@ namespace ChronosFall.Scripts.Interfaces
     }
     public enum ElementType
     {
-        None,
-        Fire,
-        Water,
-        Electric
+        None = 0,
+        Fire = 1,
+        Water = 2,
+        Electric = 3
     }
 }

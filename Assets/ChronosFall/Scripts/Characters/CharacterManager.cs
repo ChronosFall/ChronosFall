@@ -5,10 +5,13 @@ using UnityEngine;
 
 namespace ChronosFall.Scripts.Characters
 {
+    
     public class CharacterManager : MonoBehaviour
     {
         // シングルトン
         private static CharacterManager _instance;
+        private CharacterRuntimeData _characterRuntimeData;
+        
         public static CharacterManager Instance
         {
             get
@@ -43,11 +46,9 @@ namespace ChronosFall.Scripts.Characters
             }
             _instance = this;
             DontDestroyOnLoad(gameObject); // シーン遷移しても破棄されない
-            
-            Init();
         }
 
-        public void Init()
+        public void Initialize()
         {
             // 初期化
             OwnerCharacter = new Dictionary<int, CharacterRuntimeData>();
@@ -63,24 +64,33 @@ namespace ChronosFall.Scripts.Characters
         /// </summary>
         private void LoadFromJson()
         {
-            // TODO: 実装
-            // 仮データ (テスト用)
-            var testCharacter = new CharacterRuntimeData
+            var characterDatas = Resources.LoadAll<TextAsset>("Databases/Characters");
+
+            foreach (var characterData in characterDatas)
             {
-                CharacterId = 1001,
-                Level = 58,
-                BaseAtk = 245,
-                BaseDef = 180,
-                CurrentHealth = 5000,
-                MaxHealth = 5000,
-                CritRate = 0.15f,
-                CritMult = 1.5f,
-                SkillLevel = 5,
-                Element = ElementType.Fire
-            };
-            
-            OwnerCharacter.Add(testCharacter.CharacterId, testCharacter);
-            currentPartyIds.Add(testCharacter.CharacterId);
+                Debug.Log($"読み込み中: {characterData.name}");
+    
+                // JSONをデシリアライズ
+                CharacterRuntimeData data = JsonUtility.FromJson<CharacterRuntimeData>(characterData.text);
+                
+                if (data == null)
+                {
+                    Debug.LogError($"{characterData.name}: JSONパースに失敗");
+                    continue;
+                }
+    
+                if (OwnerCharacter.ContainsKey(data.CharacterId))
+                {
+                    Debug.LogWarning($"ID重複検知 :  {data.CharacterId} ({characterData.name})");
+                    continue;
+                }
+    
+                OwnerCharacter.Add(data.CharacterId, data);
+                currentPartyIds.Add(data.CharacterId);
+    
+                Debug.Log($"読み込み完了 :  {data.CharacterName} (ID: {data.CharacterId}, Lv.{data.Level})");
+            }
+            Debug.Log($"=== 読み込み完了: {OwnerCharacter.Count}体 ===");
         }
 
         /// <summary>
