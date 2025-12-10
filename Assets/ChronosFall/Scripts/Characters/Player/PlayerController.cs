@@ -76,9 +76,9 @@ namespace ChronosFall.Scripts.Characters.Player
 
             // WASD入力を取得
             if (Input.GetKey(CharacterInputKey.WalkForward)) _inputAxis.y += 1f;
-            if (Input.GetKey(CharacterInputKey.WalkRight)) _inputAxis.y -= 1f;
+            if (Input.GetKey(CharacterInputKey.WalkBack)) _inputAxis.y -= 1f;
             if (Input.GetKey(CharacterInputKey.WalkLeft)) _inputAxis.x -= 1f;
-            if (Input.GetKey(CharacterInputKey.WalkBack)) _inputAxis.x += 1f;
+            if (Input.GetKey(CharacterInputKey.WalkRight)) _inputAxis.x += 1f;
 
             // 入力の正規化（斜め移動が速くならないように）
             if (_inputAxis.magnitude > 1f)
@@ -266,10 +266,24 @@ namespace ChronosFall.Scripts.Characters.Player
             );
 
             Debug.Log($"Player took {damage} damage from {elementType}! HP: {_characterRuntimeData.CurrentHealth}");
-
+            
             if (_characterRuntimeData.CurrentHealth <= 0)
             {
-                characterManager.OnCharacterDeath();
+                characterManager.OnCharacterDeath(_characterRuntimeData.CharacterId);
+                _characterRuntimeData = characterManager.GetActiveCharacter();
+                
+                if (_characterRuntimeData != null && characterManager._aliveCharacterIds.Count > 0)
+                {
+                    Debug.Log($"次のキャラに交代: {_characterRuntimeData.CharacterName}");
+            
+                    // TODO: キャラモデルの切り替え
+                    // SwitchCharacterModel(_characterRuntimeData.CharacterId);
+                }
+                else
+                {
+                    Debug.LogError("全滅しました！");
+                    // TODO: ゲームオーバー処理
+                }
             }
         }
 
