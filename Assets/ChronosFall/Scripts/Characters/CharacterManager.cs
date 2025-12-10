@@ -55,10 +55,10 @@ namespace ChronosFall.Scripts.Characters
             currentPartyIds = new List<int>();
             _activeCharacterIndex = 0;
             
-            // TODO: JSONから全データ読み込み
             LoadFromJson();
         }
 
+        // TODO : Json形式ではなくする
         /// <summary>
         /// Jsonからデータを読み込み
         /// </summary>
