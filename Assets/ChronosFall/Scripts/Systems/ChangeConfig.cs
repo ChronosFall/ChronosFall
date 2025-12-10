@@ -17,6 +17,17 @@ namespace ChronosFall.Scripts.Systems
         
         private void Update()
         {
+            // TODO : そのうちUpdate()を削除してコンフィグを変えた際のみに実行するようにする
+            SetConfig();
+            
+            if (isReset)
+            {
+                AllResetConfig();
+            }
+        }
+
+        public void SetConfig()
+        {
             CharacterInputKey.WalkForward = walkForward;
             CharacterInputKey.WalkBack = walkBack;
             CharacterInputKey.WalkRight = walkRight;
@@ -25,19 +36,19 @@ namespace ChronosFall.Scripts.Systems
             CharacterInputKey.Interact = interact;
             CharacterInputKey.NextCharacter = nextCharacter;
             CharacterInputKey.PreviousCharacter = previousCharacter;
-            
-            if (isReset)
-            {
-                walkForward = KeyCode.W;
-                walkBack = KeyCode.S;
-                walkRight = KeyCode.D;
-                walkLeft = KeyCode.A;
-                moveDash = KeyCode.LeftShift;
-                interact = KeyCode.F;
-                nextCharacter = KeyCode.Space;
-                previousCharacter = KeyCode.LeftControl;
-                isReset = false;
-            }
+        }
+
+        public void AllResetConfig()
+        {
+            walkForward = KeyCode.W;
+            walkBack = KeyCode.S;
+            walkRight = KeyCode.D;
+            walkLeft = KeyCode.A;
+            moveDash = KeyCode.LeftShift;
+            interact = KeyCode.F;
+            nextCharacter = KeyCode.Space;
+            previousCharacter = KeyCode.LeftControl;
+            isReset = false;
         }
     }
 }
