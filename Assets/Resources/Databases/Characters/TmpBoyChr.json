@@ -1,0 +1,13 @@
+{
+  "CharacterId": 1002,
+  "CharacterName": "Huga",
+  "Level": 84,
+  "BaseAtk": 750,
+  "BaseDef": 500,
+  "CurrentHealth": 7178,
+  "MaxHealth": 7178,
+  "CritRate": 0.43,
+  "CritMult": 1.75,
+  "SkillLevel": 6,
+  "Element": 2
+}
