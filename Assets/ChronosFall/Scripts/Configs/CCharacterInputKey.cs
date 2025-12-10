@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.IO;
 
 namespace ChronosFall.Scripts.Configs
 {
@@ -20,24 +19,18 @@ namespace ChronosFall.Scripts.Configs
     
     public static class CCharacterInputKey
     {
-        public static CharacterInputKey Walk = new();
-        
         // JSON保存
         public static void SaveKeyConfig()
         {
-            string json = JsonUtility.ToJson(Walk, true);
-            File.WriteAllText(Application.persistentDataPath + "/keyconfig.json", json);
+            if (new CharacterController() != null) { 
+                JsonUtility.FromJsonOverwrite(JsonUtility.ToJson(new CharacterInputKey()),Resources.Load("Databases/KeyConfig"));
+            }
         }
         
         // JSON読み込み
         public static void LoadKeyConfig()
         {
-            string path = Application.persistentDataPath + "/keyconfig.json";
-            if (File.Exists(path))
-            {
-                string json = File.ReadAllText(path);
-                Walk = JsonUtility.FromJson<CharacterInputKey>(json);
-            }
+            JsonUtility.ToJson(new CharacterInputKey(), Resources.Load("Databases/KeyConfig"));
         }
     }
 }
