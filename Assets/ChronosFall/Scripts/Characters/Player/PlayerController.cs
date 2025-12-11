@@ -6,6 +6,9 @@ using UnityEngine;
 
 namespace ChronosFall.Scripts.Characters.Player
 {
+    [RequireComponent(typeof(ChangeConfig))]
+    [RequireComponent(typeof(Rigidbody))]
+    [RequireComponent(typeof(CapsuleCollider))]
     public class PlayerController : MonoBehaviour, IDamageablePlayer
     {
         // ベースデータ
@@ -20,7 +23,7 @@ namespace ChronosFall.Scripts.Characters.Player
         private bool _isDashing;
         private GameObject _cameraObject;
         [SerializeField] private float walkSpeed = 2f;
-        [SerializeField] private float dashSpeed = 10f;
+        [SerializeField] private float dashSpeed = 5.3f;
         [SerializeField] private bool tempStopAnimator = true;
         
         // 攻撃系統
@@ -43,8 +46,8 @@ namespace ChronosFall.Scripts.Characters.Player
                 Debug.LogError("キャラクターデータの取得に失敗！GameManagerが初期化されていない可能性があります");
             }
             // アニメーション等
-            _animator = Components.GetComponent<Animator>(gameObject);
-            _rb = Components.GetComponent<Rigidbody>(gameObject);
+            _animator = GetComponent<Animator>();
+            _rb = GetComponent<Rigidbody>();
             _cameraObject = UnityEngine.Camera.main.gameObject;
             _currentSpeed = walkSpeed;
             _attackedEnemies = new List<GameObject>();
@@ -80,7 +83,7 @@ namespace ChronosFall.Scripts.Characters.Player
             if (Input.GetKey(CharacterInputKey.WalkLeft)) _inputAxis.x -= 1f;
             if (Input.GetKey(CharacterInputKey.WalkRight)) _inputAxis.x += 1f;
 
-            // 入力の正規化（斜め移動が速くならないように）
+            // 入力の正規化 (斜め移動が速くならないように)
             if (_inputAxis.magnitude > 1f)
             {
                 _inputAxis.Normalize();
@@ -115,7 +118,7 @@ namespace ChronosFall.Scripts.Characters.Player
             Vector3 moveDirection = (cameraForward * _inputAxis.y + cameraRight * _inputAxis.x).normalized;
             Vector3 moveVelocity = moveDirection * _currentSpeed;
 
-            // Rigidbodyに適用（Y軸の速度は保持）
+            // Rigidbodyに適用 (Y軸の速度は保持)
             _rb.linearVelocity = new Vector3(moveVelocity.x, _rb.linearVelocity.y, moveVelocity.z);
         }
 
@@ -125,26 +128,9 @@ namespace ChronosFall.Scripts.Characters.Player
         private void UpdateAnimation()
         {
             if (!_animator || !_animator.runtimeAnimatorController || tempStopAnimator) return;
-
-            bool isMoving = _inputAxis.magnitude > 0.01f;
-
-            if (isMoving)
-            {
-                // 移動アニメーション
-                _animator.SetBool(PlayerMovementAnimator.IsWalking, true);
-                _animator.SetFloat(PlayerMovementAnimator.SpeedAxisX, _inputAxis.x);
-                _animator.SetFloat(PlayerMovementAnimator.SpeedAxisY, _inputAxis.y);
-                // ダッシュ時はアニメーション速度を変更
-                _animator.speed = _isDashing ? 2.0f : 1.0f;
-            }
-            else
-            {
-                // 停止アニメーション
-                _animator.SetBool(PlayerMovementAnimator.IsWalking, false);
-                _animator.SetFloat(PlayerMovementAnimator.SpeedAxisX, 0f);
-                _animator.SetFloat(PlayerMovementAnimator.SpeedAxisY, 0f);
-                _animator.speed = 1.0f;
-            }
+            
+            _animator.speed = 1.0f;
+            _animator.SetFloat(PlayerMovementAnimator.MoveSpeed,_rb.linearVelocity.magnitude);
         }
 
         /// <summary>
