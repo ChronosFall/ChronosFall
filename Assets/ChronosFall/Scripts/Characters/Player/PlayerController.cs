@@ -24,7 +24,7 @@ namespace ChronosFall.Scripts.Characters.Player
         private GameObject _cameraObject;
         [SerializeField] private float walkSpeed = 2f;
         [SerializeField] private float dashSpeed = 5.3f;
-        [SerializeField] private bool tempStopAnimator = true;
+        [SerializeField] private bool tempStopAnimator = false;
         
         // 攻撃系統
         private const float AttackRange = 5f; // 攻撃距離
@@ -58,14 +58,17 @@ namespace ChronosFall.Scripts.Characters.Player
         private void Update()
         {
             ProcessInput();
-            PlayerMovement();
             PlayerAttack();
             PlayerInteract();
         }
 
-        private void PlayerMovement()
+        private void FixedUpdate()
         {
             UpdateMovement();
+        }
+
+        private void LateUpdate()
+        {
             UpdateAnimation();
         }
         
