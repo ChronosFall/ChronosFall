@@ -164,6 +164,9 @@ GameObject:
   - component: {fileID: 843156871}
   - component: {fileID: 843156870}
   - component: {fileID: 843156875}
+  - component: {fileID: 843156876}
+  - component: {fileID: 843156878}
+  - component: {fileID: 843156877}
   m_Layer: 0
   m_Name: EnemyTemp (1)
   m_TagString: Untagged
@@ -262,6 +265,197 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectedEnemyId: 2002
+--- !u!114 &843156876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 843156868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84a5e5b4c78c6ed4da9acc05ce4c8e77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parseChildren: 0
+  persistActive: 1
+  persistPosition: 1
+  useLocalPosition: 0
+  persistRotation: 1
+  useLocalRotation: 0
+  persistScale: 0
+  persistVelocity: 0
+  persistAnimator: 0
+  persistAnimatorTransitions: 1
+  agentAnimator: {fileID: 0}
+  persistParticles: 0
+  persistParticlesList: []
+  searchParticleChildren: 0
+  hidePolicy: 1
+  cloneMaterial: {fileID: 0}
+  applyColorToClone: 0
+  cloneColor: {r: 0, g: 1, b: 0, a: 1}
+  applySimulationConfigOnChildren: 1
+  simulationCallbackPolicy: 2
+  agentRigidbody: {fileID: 0}
+  logDebug: 0
+  _onInitTimeAgentsList:
+    m_PersistentCalls:
+      m_Calls: []
+  _onTimeLineChange:
+    m_PersistentCalls:
+      m_Calls: []
+  _onSimulationStart:
+    m_PersistentCalls:
+      m_Calls: []
+  _onSimulationUpdate:
+    m_PersistentCalls:
+      m_Calls: []
+  _onSimulationFixedUpdate:
+    m_PersistentCalls:
+      m_Calls: []
+  _onSimulationLateUpdate:
+    m_PersistentCalls:
+      m_Calls: []
+  _onSimulationComplete:
+    m_PersistentCalls:
+      m_Calls: []
+  _onPersistTick:
+    m_PersistentCalls:
+      m_Calls: []
+  _onSetDataTick:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &843156877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 843156868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 774c7ea1b56e41e40ba9d9b94b1095d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stone: {fileID: 0}
+  autoAssignStone: 1
+  timeAgent: {fileID: 0}
+  autoUpdateOnSimulationComplete: 1
+  autoUpdateOnTimeLineChange: 1
+  logDebug: 0
+  visualizationEnabled: 1
+  lineRenderer: {fileID: 0}
+  simplifyTolerance: 0.1
+  dynamicSimplifyTolerance: 0.01
+  pointsOffset: {x: 0, y: 0, z: 0}
+--- !u!120 &843156878
+LineRenderer:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 843156868}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 0
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Positions:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 1}
+  m_Parameters:
+    serializedVersion: 3
+    widthMultiplier: 1
+    widthCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    colorGradient:
+      serializedVersion: 2
+      key0: {r: 1, g: 1, b: 1, a: 1}
+      key1: {r: 1, g: 1, b: 1, a: 1}
+      key2: {r: 0, g: 0, b: 0, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 65535
+      ctime2: 0
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_ColorSpace: -1
+      m_NumColorKeys: 2
+      m_NumAlphaKeys: 2
+    numCornerVertices: 0
+    numCapVertices: 0
+    alignment: 0
+    textureMode: 0
+    textureScale: {x: 1, y: 1}
+    shadowBias: 0.5
+    generateLightingData: 0
+  m_MaskInteraction: 0
+  m_UseWorldSpace: 1
+  m_Loop: 0
+  m_ApplyActiveColorSpace: 1
 --- !u!1 &978183305
 GameObject:
   m_ObjectHideFlags: 0
@@ -730,6 +924,67 @@ MonoBehaviour:
   walkSpeed: 2
   dashSpeed: 5.3
   tempStopAnimator: 0
+--- !u!114 &1206954207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1206954201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84a5e5b4c78c6ed4da9acc05ce4c8e77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parseChildren: 0
+  persistActive: 1
+  persistPosition: 1
+  useLocalPosition: 0
+  persistRotation: 1
+  useLocalRotation: 0
+  persistScale: 0
+  persistVelocity: 0
+  persistAnimator: 0
+  persistAnimatorTransitions: 1
+  agentAnimator: {fileID: 0}
+  persistParticles: 0
+  persistParticlesList: []
+  searchParticleChildren: 0
+  hidePolicy: 1
+  cloneMaterial: {fileID: 0}
+  applyColorToClone: 0
+  cloneColor: {r: 0, g: 1, b: 0, a: 1}
+  applySimulationConfigOnChildren: 1
+  simulationCallbackPolicy: 2
+  agentRigidbody: {fileID: 0}
+  logDebug: 0
+  _onInitTimeAgentsList:
+    m_PersistentCalls:
+      m_Calls: []
+  _onTimeLineChange:
+    m_PersistentCalls:
+      m_Calls: []
+  _onSimulationStart:
+    m_PersistentCalls:
+      m_Calls: []
+  _onSimulationUpdate:
+    m_PersistentCalls:
+      m_Calls: []
+  _onSimulationFixedUpdate:
+    m_PersistentCalls:
+      m_Calls: []
+  _onSimulationLateUpdate:
+    m_PersistentCalls:
+      m_Calls: []
+  _onSimulationComplete:
+    m_PersistentCalls:
+      m_Calls: []
+  _onPersistTick:
+    m_PersistentCalls:
+      m_Calls: []
+  _onSetDataTick:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1226191827
 GameObject:
   m_ObjectHideFlags: 0
@@ -816,6 +1071,72 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1226191827}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1340073504 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7777117986109245614, guid: 94a815082ea8d784a95439b8a8fb3cf6, type: 3}
+  m_PrefabInstance: {fileID: 677356934603356874}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1340073505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1340073504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84a5e5b4c78c6ed4da9acc05ce4c8e77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parseChildren: 0
+  persistActive: 1
+  persistPosition: 1
+  useLocalPosition: 0
+  persistRotation: 1
+  useLocalRotation: 0
+  persistScale: 0
+  persistVelocity: 0
+  persistAnimator: 0
+  persistAnimatorTransitions: 1
+  agentAnimator: {fileID: 0}
+  persistParticles: 0
+  persistParticlesList: []
+  searchParticleChildren: 0
+  hidePolicy: 1
+  cloneMaterial: {fileID: 0}
+  applyColorToClone: 0
+  cloneColor: {r: 0, g: 1, b: 0, a: 1}
+  applySimulationConfigOnChildren: 1
+  simulationCallbackPolicy: 2
+  agentRigidbody: {fileID: 0}
+  logDebug: 0
+  _onInitTimeAgentsList:
+    m_PersistentCalls:
+      m_Calls: []
+  _onTimeLineChange:
+    m_PersistentCalls:
+      m_Calls: []
+  _onSimulationStart:
+    m_PersistentCalls:
+      m_Calls: []
+  _onSimulationUpdate:
+    m_PersistentCalls:
+      m_Calls: []
+  _onSimulationFixedUpdate:
+    m_PersistentCalls:
+      m_Calls: []
+  _onSimulationLateUpdate:
+    m_PersistentCalls:
+      m_Calls: []
+  _onSimulationComplete:
+    m_PersistentCalls:
+      m_Calls: []
+  _onPersistTick:
+    m_PersistentCalls:
+      m_Calls: []
+  _onSetDataTick:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1378097490
 GameObject:
   m_ObjectHideFlags: 0
@@ -948,6 +1269,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 72932d225b2efdc41ad8c62276ff3494, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1206954203}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 72932d225b2efdc41ad8c62276ff3494, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1206954207}
   m_SourcePrefab: {fileID: 100100000, guid: 72932d225b2efdc41ad8c62276ff3494, type: 3}
 --- !u!1 &1629703558
 GameObject:
@@ -1011,6 +1335,9 @@ GameObject:
   - component: {fileID: 1688711665}
   - component: {fileID: 1688711664}
   - component: {fileID: 1688711668}
+  - component: {fileID: 1688711669}
+  - component: {fileID: 1688711671}
+  - component: {fileID: 1688711670}
   m_Layer: 0
   m_Name: EnemyTemp
   m_TagString: Untagged
@@ -1109,6 +1436,197 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectedEnemyId: 2001
+--- !u!114 &1688711669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1688711662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84a5e5b4c78c6ed4da9acc05ce4c8e77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parseChildren: 0
+  persistActive: 1
+  persistPosition: 1
+  useLocalPosition: 0
+  persistRotation: 1
+  useLocalRotation: 0
+  persistScale: 0
+  persistVelocity: 0
+  persistAnimator: 0
+  persistAnimatorTransitions: 1
+  agentAnimator: {fileID: 0}
+  persistParticles: 0
+  persistParticlesList: []
+  searchParticleChildren: 0
+  hidePolicy: 1
+  cloneMaterial: {fileID: 0}
+  applyColorToClone: 0
+  cloneColor: {r: 0, g: 1, b: 0, a: 1}
+  applySimulationConfigOnChildren: 1
+  simulationCallbackPolicy: 2
+  agentRigidbody: {fileID: 0}
+  logDebug: 0
+  _onInitTimeAgentsList:
+    m_PersistentCalls:
+      m_Calls: []
+  _onTimeLineChange:
+    m_PersistentCalls:
+      m_Calls: []
+  _onSimulationStart:
+    m_PersistentCalls:
+      m_Calls: []
+  _onSimulationUpdate:
+    m_PersistentCalls:
+      m_Calls: []
+  _onSimulationFixedUpdate:
+    m_PersistentCalls:
+      m_Calls: []
+  _onSimulationLateUpdate:
+    m_PersistentCalls:
+      m_Calls: []
+  _onSimulationComplete:
+    m_PersistentCalls:
+      m_Calls: []
+  _onPersistTick:
+    m_PersistentCalls:
+      m_Calls: []
+  _onSetDataTick:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &1688711670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1688711662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 774c7ea1b56e41e40ba9d9b94b1095d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stone: {fileID: 0}
+  autoAssignStone: 1
+  timeAgent: {fileID: 0}
+  autoUpdateOnSimulationComplete: 1
+  autoUpdateOnTimeLineChange: 1
+  logDebug: 0
+  visualizationEnabled: 1
+  lineRenderer: {fileID: 0}
+  simplifyTolerance: 0.1
+  dynamicSimplifyTolerance: 0.01
+  pointsOffset: {x: 0, y: 0, z: 0}
+--- !u!120 &1688711671
+LineRenderer:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1688711662}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 0
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Positions:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 1}
+  m_Parameters:
+    serializedVersion: 3
+    widthMultiplier: 1
+    widthCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    colorGradient:
+      serializedVersion: 2
+      key0: {r: 1, g: 1, b: 1, a: 1}
+      key1: {r: 1, g: 1, b: 1, a: 1}
+      key2: {r: 0, g: 0, b: 0, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 65535
+      ctime2: 0
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_ColorSpace: -1
+      m_NumColorKeys: 2
+      m_NumAlphaKeys: 2
+    numCornerVertices: 0
+    numCapVertices: 0
+    alignment: 0
+    textureMode: 0
+    textureScale: {x: 1, y: 1}
+    shadowBias: 0.5
+    generateLightingData: 0
+  m_MaskInteraction: 0
+  m_UseWorldSpace: 1
+  m_Loop: 0
+  m_ApplyActiveColorSpace: 1
 --- !u!1 &1839431444
 GameObject:
   m_ObjectHideFlags: 0
@@ -1168,6 +1686,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2013472396}
   - component: {fileID: 2013472395}
+  - component: {fileID: 2013472397}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1202,6 +1721,88 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2013472397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2013472394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee38d495c4c91634abe302c84b643ccd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  logDebug: 0
+  logPerfs: 0
+  keepSimulationScene: 0
+  simulateUpdate: 1
+  simulatePhysics: 1
+  simulateOnStart: 0
+  addTickCursor: 0
+  playbackTickCursor: 0
+  updatePlayTickCursorOnRecord: 1
+  resetAddTickCursorOnSimulationComplete: 1
+  timeLineAddTickBehaviour: 0
+  simulationDuration: 3
+  simulationHasDuration: 1
+  simulationTime: 0
+  simulationStartTick: 0
+  simulationTimeScale: 0
+  simulationSpeed: 1
+  simulationMaxMsByFrame: 5
+  simulationUseUpdateDeltaTime: 1
+  simulationUpdateStep: 0.005
+  simulationGroupFrameTicks: 0
+  recordDuration: 15
+  recordOnStart: 0
+  recordTime: 0
+  recordingTimeScale: 0
+  recordingStep: 0.005
+  simulationUseUnityFixedDeltaTime: 1
+  simulationPhysicsStep: 0.02
+  frameTimeStack: 0
+  timeAgentsListInitMode: 0
+  timeAgentsManualInitList:
+  - {fileID: 1206954207}
+  - {fileID: 1688711669}
+  - {fileID: 843156876}
+  - {fileID: 1340073505}
+  timeAgentsListInitTag: 
+  timeAgentsListInitLayer: 
+  playback: 0
+  playbackTimeScale: 0
+  playbackSpeed: 1
+  playbackUpdateAddTickCursor: 1
+  timeAgents: []
+  timeAgentsNoChildren: []
+  simulationTimeAgents: []
+  simulationScene:
+    m_Handle: 0
+  _onInitTimeAgentsList:
+    m_PersistentCalls:
+      m_Calls: []
+  _onSimulationSceneReady:
+    m_PersistentCalls:
+      m_Calls: []
+  _onTimeLineClear:
+    m_PersistentCalls:
+      m_Calls: []
+  _onTimeLineChange:
+    m_PersistentCalls:
+      m_Calls: []
+  _onSimulationStart:
+    m_PersistentCalls:
+      m_Calls: []
+  _onSimulationComplete:
+    m_PersistentCalls:
+      m_Calls: []
+  _onRecordStart:
+    m_PersistentCalls:
+      m_Calls: []
+  _onRecordStop:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &2022404680
 GameObject:
   m_ObjectHideFlags: 0
@@ -1824,7 +2425,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7777117986109245614, guid: 94a815082ea8d784a95439b8a8fb3cf6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1340073505}
   m_SourcePrefab: {fileID: 100100000, guid: 94a815082ea8d784a95439b8a8fb3cf6, type: 3}
 --- !u!1 &708253691795223035
 GameObject:

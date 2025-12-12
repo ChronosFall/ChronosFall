@@ -1,9 +1,11 @@
 using ChronosFall.Scripts.Characters;
 using ChronosFall.Scripts.Enemies;
+using RedGirafeGames.Agamotto.Scripts.Runtime;
 using UnityEngine;
 
 namespace ChronosFall.Scripts.Systems
 {
+    [RequireComponent(typeof(TimeStone))]
     public class GameManager : MonoBehaviour
     {
         private static GameManager _instance;
