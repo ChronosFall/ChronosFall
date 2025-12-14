@@ -13,16 +13,21 @@ namespace ChronosFall.Scripts.Systems
         public KeyCode interact = KeyCode.F;
         public KeyCode nextCharacter = KeyCode.Space;
         public KeyCode previousCharacter = KeyCode.LeftControl;
-        public bool isReset = false;
+        public bool isReset;
+        public bool isChanged;
         
         private void Update()
         {
-            // TODO : そのうちUpdate()を削除してコンフィグを変えた際のみに実行するようにする
-            SetConfig();
+            // TODO : コンフィグを変えた際のみに実行するようにする
             
             if (isReset)
             {
                 AllResetConfig();
+            }
+
+            if (isChanged)
+            {
+                SetConfig();
             }
         }
 
@@ -36,8 +41,7 @@ namespace ChronosFall.Scripts.Systems
             CharacterInputKey.Interact = interact;
             CharacterInputKey.NextCharacter = nextCharacter;
             CharacterInputKey.PreviousCharacter = previousCharacter;
-            
-            //CCharacterInputKey.SaveKeyConfig();
+            isChanged = false;
         }
 
         public void AllResetConfig()
@@ -51,6 +55,7 @@ namespace ChronosFall.Scripts.Systems
             nextCharacter = KeyCode.Space;
             previousCharacter = KeyCode.LeftControl;
             isReset = false;
+            isChanged = true;
         }
     }
 }
