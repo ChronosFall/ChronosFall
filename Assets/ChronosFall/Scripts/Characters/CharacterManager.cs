@@ -194,7 +194,7 @@ namespace ChronosFall.Scripts.Characters
             }
         }
         
-        public int GetActiveCharacterIndex()
+        public int GetActiveCharacterId()
         {
             return _activeCharacterId;
         }
