@@ -1,3 +1,4 @@
+using System.IO;
 using UnityEngine;
 
 namespace ChronosFall.Scripts.Configs
@@ -17,20 +18,29 @@ namespace ChronosFall.Scripts.Configs
         
     }
     
+    // TODO : QuickSave等で対応
+    /*
     public static class CCharacterInputKey
     {
+        private static CharacterInputKey walk = new();
+        
         // JSON保存
         public static void SaveKeyConfig()
         {
-            if (new CharacterController() != null) { 
-                JsonUtility.FromJsonOverwrite(JsonUtility.ToJson(new CharacterInputKey()),Resources.Load("Databases/KeyConfig"));
-            }
+            string json = JsonUtility.ToJson(walk, true);
+            File.WriteAllText("/keyconfig.json", json);
         }
         
         // JSON読み込み
         public static void LoadKeyConfig()
         {
-            JsonUtility.ToJson(new CharacterInputKey(), Resources.Load("Databases/KeyConfig"));
+            string path = "/keyconfig.json";
+            if (File.Exists(path))
+            {
+                string json = File.ReadAllText(path);
+                walk = JsonUtility.FromJson<CharacterInputKey>(json);
+            }
         }
     }
+    */
 }

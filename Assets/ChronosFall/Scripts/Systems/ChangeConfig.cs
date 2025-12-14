@@ -37,7 +37,7 @@ namespace ChronosFall.Scripts.Systems
             CharacterInputKey.NextCharacter = nextCharacter;
             CharacterInputKey.PreviousCharacter = previousCharacter;
             
-            CCharacterInputKey.SaveKeyConfig();
+            //CCharacterInputKey.SaveKeyConfig();
         }
 
         public void AllResetConfig()
