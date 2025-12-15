@@ -21,10 +21,10 @@ namespace ChronosFall.Scripts.Systems
             // SkillMult スキル倍率
             float skillMult = attacker.SkillLevel;
             
-            // LvFactor Lv1差につき3%変動
+            // LvFactor 1.2 ^ ( PLv - ELv )
             int playerLv = attacker.Level;
             int enemyLv = defender.Level;
-            float lvFactor = (float)(1 + 0.03 * (playerLv - enemyLv));
+            float lvFactor = (float)(Math.Pow(1.2,playerLv - enemyLv));
             
             // Def 防御値（被ダメ側）
             int def = defender.BaseDef;
@@ -54,8 +54,8 @@ namespace ChronosFall.Scripts.Systems
             float randomOffset = UnityEngine.Random.Range(-randomOffsetValue, randomOffsetValue);
 
             Debug.Log($"atk {atk} skill {skillMult} LvFactor {lvFactor} def {def} dCoef {dCoef} ElemMult {elemMult} breakMult {breakMult} critMult {critMult} randomoffset {randomOffset} ");
-            // FinalDamage =    ((Atk * SkillMult) * LvFactor * (100 / (100 + Def * dCoef)) * ElemMult * BreakMult * DMGMod * CritFactor) * (1 ± RandomOffset))
-            float finalDamage = ((atk * skillMult) * lvFactor * (100 / (100 + def * dCoef)) * elemMult * breakMult * dmgMod * critMult) * (1 + randomOffset); 
+            // FinalDamage =    Atk * SkillMult * LvFactor * (100 / (100 + Def * dCoef)) * ElemMult * BreakMult * DMGMod * CritFactor * (1 ± RandomOffset))
+            float finalDamage = atk * skillMult * lvFactor * (100 / (100 + def * dCoef)) * elemMult * breakMult * dmgMod * critMult * (1 + randomOffset); 
             
             if (finalDamage <= 0) finalDamage = 0;
             
