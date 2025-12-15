@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using ChronosFall.Scripts.Interfaces;
 using ChronosFall.Scripts.Systems;
 using UnityEngine;
 
@@ -34,7 +33,7 @@ namespace ChronosFall.Scripts.Characters
 
         public Dictionary<int, CharacterRuntimeData> OwnerCharacter;
         public List<int> currentPartyIds;
-        public List<int> _aliveCharacterIds;
+        public List<int> aliveCharacterIds;
         private int _activeCharacterId;
 
         private void Awake()
@@ -54,14 +53,14 @@ namespace ChronosFall.Scripts.Characters
             // 初期化
             OwnerCharacter = new Dictionary<int, CharacterRuntimeData>();
             currentPartyIds = new List<int>();
-            _aliveCharacterIds = new List<int>();
+            aliveCharacterIds = new List<int>();
             _activeCharacterId = 0;
             
             LoadFromJson();
             
-            if (_aliveCharacterIds.Count > 0)
+            if (aliveCharacterIds.Count > 0)
             {
-                _activeCharacterId = _aliveCharacterIds[0];
+                _activeCharacterId = aliveCharacterIds[0];
             }
         }
 
@@ -94,7 +93,7 @@ namespace ChronosFall.Scripts.Characters
     
                 OwnerCharacter.Add(data.CharacterId, data);
                 currentPartyIds.Add(data.CharacterId);
-                _aliveCharacterIds.Add(data.CharacterId);
+                aliveCharacterIds.Add(data.CharacterId);
     
                 Debug.Log($"読み込み完了 :  {data.CharacterName} (ID: {data.CharacterId}, Lv.{data.Level})");
             }
@@ -176,15 +175,15 @@ namespace ChronosFall.Scripts.Characters
             Debug.LogWarning($"キャラクター {characterId} が死亡しました！");
             
             // 生存リストから削除
-            _aliveCharacterIds.Remove(characterId);
+            aliveCharacterIds.Remove(characterId);
             
             // 死んだキャラが現在操作中だった場合のみ交代
             if (_activeCharacterId == characterId)
             {
-                if (_aliveCharacterIds.Count > 0)
+                if (aliveCharacterIds.Count > 0)
                 {
                     // 次の生存キャラに交代
-                    _activeCharacterId = _aliveCharacterIds[0];
+                    _activeCharacterId = aliveCharacterIds[0];
                     Debug.Log($"自動交代: {GetActiveCharacter()?.CharacterName ?? "不明"}");
                 }
                 else
@@ -205,14 +204,14 @@ namespace ChronosFall.Scripts.Characters
         /// <param name="index">インデックス番号</param>
         private void SwitchPlayerCharacter(int index)
         {
-            if (index < 0 || index >= _aliveCharacterIds.Count)
+            if (index < 0 || index >= aliveCharacterIds.Count)
             {
                 Debug.LogError($"交代先のインデックス {index} が無効です！");
                 return;
             }
             
             // 生存リストから取得
-            int targetCharacterId = _aliveCharacterIds[index];
+            int targetCharacterId = aliveCharacterIds[index];
             
             _activeCharacterId = targetCharacterId;
             Debug.Log($"キャラ交代: {GetActiveCharacter()?.CharacterName ?? "不明"}");
@@ -220,14 +219,14 @@ namespace ChronosFall.Scripts.Characters
 
         public void SwitchPreviousPlayerCharacter()
         {
-            if (_aliveCharacterIds.Count == 0) return;
+            if (aliveCharacterIds.Count == 0) return;
 
             // 現在のIDの位置を取得
-            int currentIndex = _aliveCharacterIds.IndexOf(_activeCharacterId);
+            int currentIndex = aliveCharacterIds.IndexOf(_activeCharacterId);
             if (currentIndex == -1) currentIndex = 0;
 
             int newIndex = currentIndex - 1;
-            if (newIndex < 0) newIndex = _aliveCharacterIds.Count - 1; // ループ
+            if (newIndex < 0) newIndex = aliveCharacterIds.Count - 1; // ループ
 
             SwitchPlayerCharacter(newIndex);
 
@@ -235,14 +234,14 @@ namespace ChronosFall.Scripts.Characters
 
         public void SwitchNextPlayerCharacter()
         {
-            if (_aliveCharacterIds.Count == 0) return;
+            if (aliveCharacterIds.Count == 0) return;
         
             // 現在のIDの位置を取得
-            int currentIndex = _aliveCharacterIds.IndexOf(_activeCharacterId);
+            int currentIndex = aliveCharacterIds.IndexOf(_activeCharacterId);
             if (currentIndex == -1) currentIndex = 0;
         
             int newIndex = currentIndex + 1;
-            if (newIndex >= _aliveCharacterIds.Count) newIndex = 0; // ループ
+            if (newIndex >= aliveCharacterIds.Count) newIndex = 0; // ループ
         
             SwitchPlayerCharacter(newIndex);
         }

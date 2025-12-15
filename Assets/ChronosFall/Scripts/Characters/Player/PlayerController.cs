@@ -261,7 +261,7 @@ namespace ChronosFall.Scripts.Characters.Player
                 characterManager.OnCharacterDeath(_characterRuntimeData.CharacterId);
                 _characterRuntimeData = characterManager.GetActiveCharacter();
                 
-                if (_characterRuntimeData != null && characterManager._aliveCharacterIds.Count > 0)
+                if (_characterRuntimeData != null && characterManager.aliveCharacterIds.Count > 0)
                 {
                     Debug.Log($"次のキャラに交代: {_characterRuntimeData.CharacterName}");
             
