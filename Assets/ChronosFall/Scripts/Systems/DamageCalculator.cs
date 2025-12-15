@@ -24,7 +24,7 @@ namespace ChronosFall.Scripts.Systems
             // LvFactor 1.2 ^ ( PLv - ELv )
             int playerLv = attacker.Level;
             int enemyLv = defender.Level;
-            float lvFactor = (float)(Math.Pow(1.2,playerLv - enemyLv));
+            float lvFactor = (float)(Math.Pow(1.12,playerLv - enemyLv));
             
             // Def 防御値（被ダメ側）
             int def = defender.BaseDef;
