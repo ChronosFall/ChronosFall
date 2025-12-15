@@ -1,19 +1,18 @@
 using ChronosFall.Scripts.Configs;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace ChronosFall.Scripts.Characters.Player.Camera
 {
     public class CameraMove : MonoBehaviour
     {
         // カメラから見て上下 : X軸回転（ピッチ） | 左右 : Y軸回転（ヨー）
-        [Header("カメラ")]
         public float sensitivityX = 1.0f;
-        public float sensitivityY = 1.0f;
+        public float sensitivityY = 1.0f; 
+        [SerializeField] private GameObject cameraPivot;
+        [SerializeField] public GameObject player;
+        
         private const float MaxLookAngleX = 55f;
-        [Header("カメラピボット")] 
-        private GameObject _cameraPivot;
-
-        private GameObject _player;
         private bool _isLockCursor; // クリックのロック
         private float _currentX; // 現在の上下回転角度
         private float _currentY; // 現在の左右回転角度
@@ -26,8 +25,8 @@ namespace ChronosFall.Scripts.Characters.Player.Camera
             Cursor.lockState = CursorLockMode.Locked;
             _isLockCursor = true;
             // カメラの中心を固定
-            _cameraPivot =  GameObject.FindGameObjectWithTag("MainCameraPivot");
-            _player = GameObject.FindGameObjectWithTag("Player");
+            cameraPivot =  GameObject.FindGameObjectWithTag("MainCameraPivot");
+            player = GameObject.FindGameObjectWithTag("Player");
         }
 
         private void Update()
@@ -53,8 +52,8 @@ namespace ChronosFall.Scripts.Characters.Player.Camera
             _currentX = Mathf.Clamp(_currentX, -MaxLookAngleX, MaxLookAngleX);
 
             // オイラー角で直接設定することでZ軸の回転を防ぐ
-            _cameraPivot.transform.rotation = Quaternion.Euler(_currentX, _currentY, 0f);
-            _cameraPivot.transform.position = _player.transform.position;
+            cameraPivot.transform.rotation = Quaternion.Euler(_currentX, _currentY, 0f);
+            cameraPivot.transform.position = player.transform.position;
 
             // ESCキーでカーソルロックを解除
             if (Input.GetKeyDown(KeyCode.Escape) && !_isLockCursor)
