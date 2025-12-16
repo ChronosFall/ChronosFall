@@ -1,6 +1,5 @@
 using ChronosFall.Scripts.Configs;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace ChronosFall.Scripts.Characters.Player.Camera
 {
