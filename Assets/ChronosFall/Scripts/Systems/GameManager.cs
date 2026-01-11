@@ -30,7 +30,7 @@ namespace ChronosFall.Scripts.Systems
             }
             _instance = this;
             DontDestroyOnLoad(gameObject);
-            
+
             // ここで初期化順序を明示的に制御
             InitializeManagers();
         }
@@ -38,15 +38,15 @@ namespace ChronosFall.Scripts.Systems
         private void InitializeManagers()
         {
             Debug.Log("=== Game Initializing ===");
-            
+
             // CharacterManager初期化
             CharacterManager.Instance.Initialize();
             Debug.Log("CharacterManager initialized");
-            
+
             // EnemyManager初期化
             EnemyManager.Instance.Initialize();
             Debug.Log("EnemyManager initialized");
-            
+
             Debug.Log("=== Game Ready ===");
         }
     }

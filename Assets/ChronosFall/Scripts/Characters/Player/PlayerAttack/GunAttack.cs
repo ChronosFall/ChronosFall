@@ -7,8 +7,7 @@ namespace ChronosFall.Scripts.Characters.Player.PlayerAttack
     {
         [Header("Animator")] private Animator _animator;
 
-        [Header("[DEBUG] Gun type")] [SerializeField]
-        private int gunType;
+        [Header("[DEBUG] Gun type")] [SerializeField] private int gunType;
 
         private void Start()
         {
