@@ -13,6 +13,8 @@ namespace ChronosFall.Scripts.Systems
         public KeyCode interact = KeyCode.F;
         public KeyCode nextCharacter = KeyCode.Space;
         public KeyCode previousCharacter = KeyCode.LeftControl;
+        public KeyCode gamePauseMenu = KeyCode.Escape;
+        public bool isInvertTimeControl;
         public bool isReset;
         public bool isChanged;
         
@@ -41,10 +43,13 @@ namespace ChronosFall.Scripts.Systems
             CharacterInputKey.Interact = interact;
             CharacterInputKey.NextCharacter = nextCharacter;
             CharacterInputKey.PreviousCharacter = previousCharacter;
+            CharacterInputKey.IsInvertTimeControl = isInvertTimeControl;
+            
+            SystemKey.GamePauseMenu = gamePauseMenu;
             isChanged = false;
         }
 
-        public void AllResetConfig()
+        private void AllResetConfig()
         {
             walkForward = KeyCode.W;
             walkBack = KeyCode.S;
@@ -54,6 +59,8 @@ namespace ChronosFall.Scripts.Systems
             interact = KeyCode.F;
             nextCharacter = KeyCode.Space;
             previousCharacter = KeyCode.LeftControl;
+            gamePauseMenu = KeyCode.Escape;
+            isInvertTimeControl = false;
             isReset = false;
             isChanged = true;
         }

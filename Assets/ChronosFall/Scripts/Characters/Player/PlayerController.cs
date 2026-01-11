@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using ChronosFall.Scripts.Configs;
 using ChronosFall.Scripts.Interfaces;
 using ChronosFall.Scripts.Systems;
+using ChronosFall.Scripts.Systems.UI;
 using UnityEngine;
 
 namespace ChronosFall.Scripts.Characters.Player
@@ -9,6 +10,8 @@ namespace ChronosFall.Scripts.Characters.Player
     [RequireComponent(typeof(ChangeConfig))]
     [RequireComponent(typeof(Rigidbody))]
     [RequireComponent(typeof(CapsuleCollider))]
+    [RequireComponent(typeof(TimeControl))]
+    [RequireComponent(typeof(GamePauseMenu))]
     public class PlayerController : MonoBehaviour, IDamageablePlayer
     {
         // ベースデータ
