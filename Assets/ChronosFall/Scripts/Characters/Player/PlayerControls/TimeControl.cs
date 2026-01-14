@@ -2,9 +2,9 @@ using ChronosFall.Scripts.Configs;
 using RedGirafeGames.Agamotto.Scripts.Runtime;
 using UnityEngine;
 
-namespace ChronosFall.Scripts.Characters.Player
+namespace ChronosFall.Scripts.Characters.Player.PlayerControls
 {
-    public class TimeControl
+    public class TimeControl : MonoBehaviour
     {
         // 時間操作
         private TimeStone _timeStone;

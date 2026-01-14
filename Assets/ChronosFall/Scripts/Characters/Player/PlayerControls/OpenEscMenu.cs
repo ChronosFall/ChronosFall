@@ -2,12 +2,12 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.HighDefinition;
 
-namespace ChronosFall.Scripts.Characters.Player
+namespace ChronosFall.Scripts.Characters.Player.PlayerControls
 {
     public class OpenEscMenu : MonoBehaviour
     {
         public Volume escMenuVolume;
-        public bool isMenuActive = false;
+        public bool isMenuActive;
 
         private DepthOfField _depthOfField;
 

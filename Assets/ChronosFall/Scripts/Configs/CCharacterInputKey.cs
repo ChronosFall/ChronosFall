@@ -4,7 +4,7 @@ using UnityEngine;
 namespace ChronosFall.Scripts.Configs
 {
     [System.Serializable]
-    // 移動キー
+    // プレイヤー操作キー
     public class CharacterInputKey
     {
         public static KeyCode WalkForward { get; set; }
@@ -15,8 +15,8 @@ namespace ChronosFall.Scripts.Configs
         public static KeyCode Interact { get; set; }
         public static KeyCode NextCharacter { get; set; }
         public static KeyCode PreviousCharacter { get; set; }
+        public static KeyCode PlayerAttack { get; set; }
         public static bool IsInvertTimeControl { get; set; }
-
     }
 
     [System.Serializable]
