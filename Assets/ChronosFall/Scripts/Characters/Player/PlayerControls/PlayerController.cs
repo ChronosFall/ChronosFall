@@ -1,6 +1,7 @@
 using ChronosFall.Scripts.Configs;
 using ChronosFall.Scripts.Systems;
 using ChronosFall.Scripts.Systems.UI;
+using RedGirafeGames.Agamotto.Scripts.Runtime.Agents;
 using UnityEngine;
 
 namespace ChronosFall.Scripts.Characters.Player.PlayerControls
@@ -18,6 +19,7 @@ namespace ChronosFall.Scripts.Characters.Player.PlayerControls
     // 必須コンポーネント
     [RequireComponent(typeof(Rigidbody))]
     [RequireComponent(typeof(CapsuleCollider))]
+    [RequireComponent(typeof(TimeAgent))]
     
     public class PlayerController : MonoBehaviour
     {
@@ -30,6 +32,8 @@ namespace ChronosFall.Scripts.Characters.Player.PlayerControls
             _characterManager = CharacterManager.Instance;
             
             _playerHealth = GetComponent<PlayerHealth>();
+
+            ChangeConfig.isReset = true;
         }
 
         // メイン処理

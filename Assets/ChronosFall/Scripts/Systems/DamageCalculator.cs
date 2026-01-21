@@ -103,7 +103,7 @@ namespace ChronosFall.Scripts.Systems
             
             if (finalDamage <= 0) finalDamage = 0;
             
-            Debug.LogWarning("FINAL DAMAGE : {finalDamage}");
+            Debug.LogWarning($"FINAL DAMAGE : {finalDamage}");
             // 四捨五入
             return (int)Math.Round(finalDamage, 0);
         }

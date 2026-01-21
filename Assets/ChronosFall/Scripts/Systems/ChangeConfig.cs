@@ -15,7 +15,7 @@ namespace ChronosFall.Scripts.Systems
         public KeyCode previousCharacter = KeyCode.LeftControl;
         public KeyCode gamePauseMenu = KeyCode.Escape;
         public bool isInvertTimeControl;
-        public bool isReset;
+        public static bool isReset;
         public bool isChanged;
         
         private void Update()
