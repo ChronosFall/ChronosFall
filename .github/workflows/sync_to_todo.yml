@@ -17,10 +17,10 @@ jobs:
           USER="medakoro0321"
           PROJECT_NUM="9"
           
-          # プロジェクトにアイテムを追加
+          # プロジェクトにアイテムを追加（--owner ではなく --user を使用）
           echo "Adding issue to project..."
           item_id=$(gh project item-add "$PROJECT_NUM" \
-            --owner "$USER" \
+            --user "$USER" \
             --url "$ISSUE_URL" \
             --format json | jq -r '.id')
           
@@ -49,7 +49,7 @@ jobs:
             gh project item-edit \
               --id "$item_id" \
               --project-id "$PROJECT_NUM" \
-              --owner "$USER" \
+              --user "$USER" \
               --field-id "Priority" \
               --text "$PRIORITY"
           fi
