@@ -11,20 +11,45 @@ jobs:
       - name: Add to Project & Sync Priority
         env:
           GH_TOKEN: ${{ secrets.CONNECT_TODO }}
-          ISSUE_URL: ${{ github.event.issue.html_url }}
-          # ラベル情報を一度環境変数に書き出す
-          ISSUE_LABELS: ${{ join(github.event.issue.labels.*.name, ',') }}
-          USER: "medakoro0321"
-          PROJECT_NUM: 6
         run: |
-          # 1. プロジェクトにIssueを追加し、アイテムIDを取得
-          item_id=$(gh project item-add $PROJECT_NUM --owner "$USER" --url "$ISSUE_URL" --format json | jq -r '.id')
-
-          # 2. 環境変数 ISSUE_LABELS に含まれる文字列をシェルで判定
-          if [[ "$ISSUE_LABELS" == *"★★★"* ]]; then
-            gh project item-edit $PROJECT_NUM --owner "$USER" --id "$item_id" --field "Priority" --value "★★★"
-          elif [[ "$ISSUE_LABELS" == *"★★"* ]]; then
-            gh project item-edit $PROJECT_NUM --owner "$USER" --id "$item_id" --field "Priority" --value "★★"
-          elif [[ "$ISSUE_LABELS" == *"★"* ]]; then
-            gh project item-edit $PROJECT_NUM --owner "$USER" --id "$item_id" --field "Priority" --value "★"
+          # 変数設定
+          ISSUE_URL="${{ github.event.issue.html_url }}"
+          USER="medakoro0321"
+          PROJECT_NUM="9"
+          
+          # プロジェクトにアイテムを追加
+          echo "Adding issue to project..."
+          item_id=$(gh project item-add "$PROJECT_NUM" \
+            --owner "$USER" \
+            --url "$ISSUE_URL" \
+            --format json | jq -r '.id')
+          
+          if [ -z "$item_id" ] || [ "$item_id" == "null" ]; then
+            echo "::error::Failed to add item to project"
+            exit 1
+          fi
+          
+          echo "✓ Added with item ID: $item_id"
+          
+          # ラベルからPriorityを判定
+          LABELS='${{ toJSON(github.event.issue.labels.*.name) }}'
+          
+          PRIORITY=""
+          if echo "$LABELS" | jq -e 'index("★★★")' > /dev/null; then
+            PRIORITY="★★★"
+          elif echo "$LABELS" | jq -e 'index("★★")' > /dev/null; then
+            PRIORITY="★★"
+          elif echo "$LABELS" | jq -e 'index("★")' > /dev/null; then
+            PRIORITY="★"
+          fi
+          
+          # Priorityを設定
+          if [ -n "$PRIORITY" ]; then
+            echo "Setting priority to: $PRIORITY"
+            gh project item-edit \
+              --id "$item_id" \
+              --project-id "$PROJECT_NUM" \
+              --owner "$USER" \
+              --field-id "Priority" \
+              --text "$PRIORITY"
           fi
