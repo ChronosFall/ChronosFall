@@ -12,19 +12,19 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.CONNECT_TODO }}
           ISSUE_URL: ${{ github.event.issue.html_url }}
-          # ユーザー名とプロジェクト番号をあなたのものに設定
+          # ラベル情報を一度環境変数に書き出す
+          ISSUE_LABELS: ${{ join(github.event.issue.labels.*.name, ',') }}
           USER: "medakoro0321"
           PROJECT_NUM: 6
         run: |
           # 1. プロジェクトにIssueを追加し、アイテムIDを取得
           item_id=$(gh project item-add $PROJECT_NUM --owner "$USER" --url "$ISSUE_URL" --format json | jq -r '.id')
 
-          # 2. IssueのラベルからPriorityを判定
-          # ラベル名が '★★★' の場合、プロジェクトのPriorityフィールドも '★★★' に更新
-          if [[ "${{ contains(github.event.issue.labels.*.name, '★★★') }}" == "true" ]]; then
+          # 2. 環境変数 ISSUE_LABELS に含まれる文字列をシェルで判定
+          if [[ "$ISSUE_LABELS" == *"★★★"* ]]; then
             gh project item-edit $PROJECT_NUM --owner "$USER" --id "$item_id" --field "Priority" --value "★★★"
-          elif [[ "${{ contains(github.event.issue.labels.*.name, '★★') }}" == "true" ]]; then
+          elif [[ "$ISSUE_LABELS" == *"★★"* ]]; then
             gh project item-edit $PROJECT_NUM --owner "$USER" --id "$item_id" --field "Priority" --value "★★"
-          elif [[ "${{ contains(github.event.issue.labels.*.name, '★') }}" == "true" ]]; then
+          elif [[ "$ISSUE_LABELS" == *"★"* ]]; then
             gh project item-edit $PROJECT_NUM --owner "$USER" --id "$item_id" --field "Priority" --value "★"
           fi
