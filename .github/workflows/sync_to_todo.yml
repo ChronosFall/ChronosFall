@@ -1,0 +1,30 @@
+name: Advanced Sync to ToDo Project
+
+on:
+  issues:
+    types: [opened, labeled, unlabeled, edited]
+
+jobs:
+  sync_fields:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add to Project & Sync Priority
+        env:
+          GH_TOKEN: ${{ secrets.CONNECT_TODO }}
+          ISSUE_URL: ${{ github.event.issue.html_url }}
+          # ユーザー名とプロジェクト番号をあなたのものに設定
+          USER: "medakoro0321"
+          PROJECT_NUM: 6
+        run: |
+          # 1. プロジェクトにIssueを追加し、アイテムIDを取得
+          item_id=$(gh project item-add $PROJECT_NUM --owner "$USER" --url "$ISSUE_URL" --format json | jq -r '.id')
+
+          # 2. IssueのラベルからPriorityを判定
+          # ラベル名が '★★★' の場合、プロジェクトのPriorityフィールドも '★★★' に更新
+          if [[ "${{ contains(github.event.issue.labels.*.name, '★★★') }}" == "true" ]]; then
+            gh project item-edit $PROJECT_NUM --owner "$USER" --id "$item_id" --field "Priority" --value "★★★"
+          elif [[ "${{ contains(github.event.issue.labels.*.name, '★★') }}" == "true" ]]; then
+            gh project item-edit $PROJECT_NUM --owner "$USER" --id "$item_id" --field "Priority" --value "★★"
+          elif [[ "${{ contains(github.event.issue.labels.*.name, '★') }}" == "true" ]]; then
+            gh project item-edit $PROJECT_NUM --owner "$USER" --id "$item_id" --field "Priority" --value "★"
+          fi
