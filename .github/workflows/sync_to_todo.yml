@@ -8,19 +8,18 @@ jobs:
   sync_fields:
     runs-on: ubuntu-latest
     steps:
-      - name: Add to Project & Sync Priority
+      - name: Add to Project
         env:
           GH_TOKEN: ${{ secrets.CONNECT_TODO }}
         run: |
           # 変数設定
           ISSUE_URL="${{ github.event.issue.html_url }}"
-          USER="medakoro0321"
           PROJECT_NUM="9"
           
-          # プロジェクトにアイテムを追加（--owner ではなく --user を使用）
+          # プロジェクトにアイテムを追加
           echo "Adding issue to project..."
           item_id=$(gh project item-add "$PROJECT_NUM" \
-            --user "$USER" \
+            --owner "@me" \
             --url "$ISSUE_URL" \
             --format json | jq -r '.id')
           
@@ -29,27 +28,4 @@ jobs:
             exit 1
           fi
           
-          echo "✓ Added with item ID: $item_id"
-          
-          # ラベルからPriorityを判定
-          LABELS='${{ toJSON(github.event.issue.labels.*.name) }}'
-          
-          PRIORITY=""
-          if echo "$LABELS" | jq -e 'index("★★★")' > /dev/null; then
-            PRIORITY="★★★"
-          elif echo "$LABELS" | jq -e 'index("★★")' > /dev/null; then
-            PRIORITY="★★"
-          elif echo "$LABELS" | jq -e 'index("★")' > /dev/null; then
-            PRIORITY="★"
-          fi
-          
-          # Priorityを設定
-          if [ -n "$PRIORITY" ]; then
-            echo "Setting priority to: $PRIORITY"
-            gh project item-edit \
-              --id "$item_id" \
-              --project-id "$PROJECT_NUM" \
-              --user "$USER" \
-              --field-id "Priority" \
-              --text "$PRIORITY"
-          fi
+          echo "✓ Successfully added with item ID: $item_id"
