@@ -2,19 +2,20 @@ name: Advanced Sync to ToDo Project
 
 on:
   issues:
-    types: [opened, labeled, unlabeled, edited]
+    types: [opened, labeled, unlabeled, edited, closed, reopened]
 
 jobs:
   sync_fields:
     runs-on: ubuntu-latest
     steps:
-      - name: Add to Project
+      - name: Add to Project & Sync Fields
         env:
           GH_TOKEN: ${{ secrets.CONNECT_TODO }}
         run: |
           # 変数設定
           ISSUE_URL="${{ github.event.issue.html_url }}"
           PROJECT_NUM="9"
+          USER="medakoro0321"
           
           # プロジェクトにアイテムを追加
           echo "Adding issue to project..."
@@ -28,4 +29,120 @@ jobs:
             exit 1
           fi
           
-          echo "✓ Successfully added with item ID: $item_id"
+          echo "✓ Added with item ID: $item_id"
+          
+          # プロジェクトIDとフィールドIDを取得
+          project_data=$(gh api graphql -f query='
+            query($login: String!, $number: Int!) {
+              user(login: $login) {
+                projectV2(number: $number) {
+                  id
+                  fields(first: 20) {
+                    nodes {
+                      ... on ProjectV2Field {
+                        id
+                        name
+                      }
+                      ... on ProjectV2SingleSelectField {
+                        id
+                        name
+                        options {
+                          id
+                          name
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }' -f login="$USER" -F number="$PROJECT_NUM")
+          
+          project_id=$(echo "$project_data" | jq -r '.data.user.projectV2.id')
+          
+          # Status フィールドIDとオプションIDを取得
+          status_field_id=$(echo "$project_data" | jq -r '.data.user.projectV2.fields.nodes[] | select(.name == "Status") | .id')
+          
+          # Priority フィールドIDとオプションIDを取得
+          priority_field_id=$(echo "$project_data" | jq -r '.data.user.projectV2.fields.nodes[] | select(.name == "Priority") | .id')
+          
+          echo "Project ID: $project_id"
+          echo "Status Field ID: $status_field_id"
+          echo "Priority Field ID: $priority_field_id"
+          
+          # ========================================
+          # Priority の同期（ラベルベース）
+          # ========================================
+          LABELS='${{ toJSON(github.event.issue.labels.*.name) }}'
+          
+          PRIORITY_VALUE=""
+          if echo "$LABELS" | jq -e 'index("★★★")' > /dev/null; then
+            PRIORITY_VALUE=$(echo "$project_data" | jq -r '.data.user.projectV2.fields.nodes[] | select(.name == "Priority") | .options[] | select(.name == "★★★") | .id')
+          elif echo "$LABELS" | jq -e 'index("★★")' > /dev/null; then
+            PRIORITY_VALUE=$(echo "$project_data" | jq -r '.data.user.projectV2.fields.nodes[] | select(.name == "Priority") | .options[] | select(.name == "★★") | .id')
+          elif echo "$LABELS" | jq -e 'index("★")' > /dev/null; then
+            PRIORITY_VALUE=$(echo "$project_data" | jq -r '.data.user.projectV2.fields.nodes[] | select(.name == "Priority") | .options[] | select(.name == "★") | .id')
+          fi
+          
+          if [ -n "$PRIORITY_VALUE" ]; then
+            echo "Setting Priority..."
+            gh api graphql -f query='
+              mutation($project: ID!, $item: ID!, $field: ID!, $value: String!) {
+                updateProjectV2ItemFieldValue(input: {
+                  projectId: $project
+                  itemId: $item
+                  fieldId: $field
+                  value: { singleSelectOptionId: $value }
+                }) {
+                  projectV2Item {
+                    id
+                  }
+                }
+              }' -f project="$project_id" -f item="$item_id" -f field="$priority_field_id" -f value="$PRIORITY_VALUE"
+            echo "✓ Priority set"
+          fi
+          
+          # ========================================
+          # Status の同期（Issue状態ベース）
+          # ========================================
+          ISSUE_STATE="${{ github.event.issue.state }}"
+          STATUS_VALUE=""
+          
+          # Issueの状態に基づいてStatusを決定
+          if [ "$ISSUE_STATE" == "closed" ]; then
+            # クローズされた場合は Done
+            STATUS_VALUE=$(echo "$project_data" | jq -r '.data.user.projectV2.fields.nodes[] | select(.name == "Status") | .options[] | select(.name == "Done") | .id')
+          else
+            # オープンの場合はラベルで判定
+            if echo "$LABELS" | jq -e 'index("in-progress") or index("progress")' > /dev/null; then
+              STATUS_VALUE=$(echo "$project_data" | jq -r '.data.user.projectV2.fields.nodes[] | select(.name == "Status") | .options[] | select(.name == "In progress") | .id')
+            elif echo "$LABELS" | jq -e 'index("review") or index("in-review")' > /dev/null; then
+              STATUS_VALUE=$(echo "$project_data" | jq -r '.data.user.projectV2.fields.nodes[] | select(.name == "Status") | .options[] | select(.name == "In review") | .id')
+            elif echo "$LABELS" | jq -e 'index("ready")' > /dev/null; then
+              STATUS_VALUE=$(echo "$project_data" | jq -r '.data.user.projectV2.fields.nodes[] | select(.name == "Status") | .options[] | select(.name == "Ready") | .id')
+            elif echo "$LABELS" | jq -e 'index("cancel") or index("cancelled")' > /dev/null; then
+              STATUS_VALUE=$(echo "$project_data" | jq -r '.data.user.projectV2.fields.nodes[] | select(.name == "Status") | .options[] | select(.name == "Cancel") | .id')
+            else
+              # デフォルトは Backlog
+              STATUS_VALUE=$(echo "$project_data" | jq -r '.data.user.projectV2.fields.nodes[] | select(.name == "Status") | .options[] | select(.name == "Backlog") | .id')
+            fi
+          fi
+          
+          if [ -n "$STATUS_VALUE" ]; then
+            echo "Setting Status..."
+            gh api graphql -f query='
+              mutation($project: ID!, $item: ID!, $field: ID!, $value: String!) {
+                updateProjectV2ItemFieldValue(input: {
+                  projectId: $project
+                  itemId: $item
+                  fieldId: $field
+                  value: { singleSelectOptionId: $value }
+                }) {
+                  projectV2Item {
+                    id
+                  }
+                }
+              }' -f project="$project_id" -f item="$item_id" -f field="$status_field_id" -f value="$STATUS_VALUE"
+            echo "✓ Status set"
+          fi
+          
+          echo "✅ Sync completed successfully!"
