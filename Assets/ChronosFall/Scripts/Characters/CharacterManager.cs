@@ -31,7 +31,7 @@ namespace ChronosFall.Scripts.Characters
             }
         }
 
-        public Dictionary<int, CharacterRuntimeData> OwnerCharacter;
+        public Dictionary<int, CharacterRuntimeData> ownerCharacter;
         public List<int> currentPartyIds;
         public List<int> aliveCharacterIds;
         private int _activeCharacterId;
@@ -51,7 +51,7 @@ namespace ChronosFall.Scripts.Characters
         public void Initialize()
         {
             // 初期化
-            OwnerCharacter = new Dictionary<int, CharacterRuntimeData>();
+            ownerCharacter = new Dictionary<int, CharacterRuntimeData>();
             currentPartyIds = new List<int>();
             aliveCharacterIds = new List<int>();
             _activeCharacterId = 0;
@@ -85,19 +85,19 @@ namespace ChronosFall.Scripts.Characters
                     continue;
                 }
     
-                if (OwnerCharacter.ContainsKey(data.CharacterId))
+                if (ownerCharacter.ContainsKey(data.CharacterId))
                 {
                     Debug.LogWarning($"ID重複検知 :  {data.CharacterId} ({characterData.name})");
                     continue;
                 }
     
-                OwnerCharacter.Add(data.CharacterId, data);
+                ownerCharacter.Add(data.CharacterId, data);
                 currentPartyIds.Add(data.CharacterId);
                 aliveCharacterIds.Add(data.CharacterId);
     
                 Debug.Log($"読み込み完了 :  {data.CharacterName} (ID: {data.CharacterId}, Lv.{data.Level})");
             }
-            Debug.Log($"=== 読み込み完了: {OwnerCharacter.Count}体 ===");
+            Debug.Log($"=== 読み込み完了: {ownerCharacter.Count}体 ===");
         }
 
         /// <summary>
@@ -114,9 +114,9 @@ namespace ChronosFall.Scripts.Characters
             }
             
             // IDで直接取得
-            if (OwnerCharacter.ContainsKey(_activeCharacterId))
+            if (ownerCharacter.ContainsKey(_activeCharacterId))
             {
-                return OwnerCharacter[_activeCharacterId];
+                return ownerCharacter[_activeCharacterId];
             }
             
             Debug.LogError($"アクティブキャラID {_activeCharacterId} が見つかりません！");
@@ -130,9 +130,9 @@ namespace ChronosFall.Scripts.Characters
         /// <returns>存在する場合CharacterRuntimeDataが返る</returns>
         public CharacterRuntimeData GetCharacterById(int characterId)
         {
-            if (OwnerCharacter.ContainsKey(characterId))
+            if (ownerCharacter.ContainsKey(characterId))
             {
-                return OwnerCharacter[characterId];
+                return ownerCharacter[characterId];
             }
             Debug.LogError($"CharacterId {characterId} が見つかりません！");
             return null;
@@ -160,9 +160,9 @@ namespace ChronosFall.Scripts.Characters
         /// <param name="health">HP</param>
         public void UpdateCharacterHealth(int characterId, int health)
         {
-            if (OwnerCharacter.ContainsKey(characterId))
+            if (ownerCharacter.ContainsKey(characterId))
             {
-                OwnerCharacter[characterId].CurrentHealth = health;
+                ownerCharacter[characterId].CurrentHealth = health;
                 // TODO: JSONに保存
             }
         }
