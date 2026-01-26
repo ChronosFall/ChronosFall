@@ -1,30 +1,37 @@
 using ChronosFall.Scripts.Core.Configs;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace ChronosFall.Scripts.Core
 {
     public class ChangeConfig : MonoBehaviour
     {
-        public KeyCode walkForward = KeyCode.W;
-        public KeyCode walkBack = KeyCode.S;
-        public KeyCode walkRight = KeyCode.D;
-        public KeyCode walkLeft = KeyCode.A;
-        public KeyCode moveDash = KeyCode.LeftShift;
-        public KeyCode interact = KeyCode.F;
-        public KeyCode nextCharacter = KeyCode.Space;
-        public KeyCode previousCharacter = KeyCode.LeftControl;
-        public KeyCode gamePauseMenu = KeyCode.Escape;
+        public KeyCode walkForward;
+        public KeyCode walkBack;
+        public KeyCode walkRight;
+        public KeyCode walkLeft;
+        public KeyCode moveDash ;
+        public KeyCode interact;
+        public KeyCode nextCharacter;
+        public KeyCode previousCharacter;
+        public KeyCode gamePauseMenu;
+        public int playerAttack;
         public bool isInvertTimeControl;
         public static bool isReset;
         public bool isChanged;
-        
+
+        public ChangeConfig()
+        {
+            Init();
+        }
+
         private void Update()
         {
             // TODO : コンフィグを変えた際のみに実行するようにする
             
             if (isReset)
             {
-                AllResetConfig();
+                Init();
             }
 
             if (isChanged)
@@ -33,23 +40,10 @@ namespace ChronosFall.Scripts.Core
             }
         }
 
-        public void SetConfig()
-        {
-            CharacterInputKey.WalkForward = walkForward;
-            CharacterInputKey.WalkBack = walkBack;
-            CharacterInputKey.WalkRight = walkRight;
-            CharacterInputKey.WalkLeft = walkLeft;
-            CharacterInputKey.MoveDash = moveDash;
-            CharacterInputKey.Interact = interact;
-            CharacterInputKey.NextCharacter = nextCharacter;
-            CharacterInputKey.PreviousCharacter = previousCharacter;
-            CharacterInputKey.IsInvertTimeControl = isInvertTimeControl;
-            
-            SystemKey.GamePauseMenu = gamePauseMenu;
-            isChanged = false;
-        }
-
-        private void AllResetConfig()
+        /// <summary>
+        /// 初期化
+        /// </summary>
+        private void Init()
         {
             walkForward = KeyCode.W;
             walkBack = KeyCode.S;
@@ -60,9 +54,30 @@ namespace ChronosFall.Scripts.Core
             nextCharacter = KeyCode.Space;
             previousCharacter = KeyCode.LeftControl;
             gamePauseMenu = KeyCode.Escape;
+            playerAttack = 0;
             isInvertTimeControl = false;
             isReset = false;
             isChanged = true;
+        }
+        
+        /// <summary>
+        /// コンフィグ変更
+        /// </summary>
+        private void SetConfig()
+        {
+            CharacterInputKey.WalkForward = walkForward;
+            CharacterInputKey.WalkBack = walkBack;
+            CharacterInputKey.WalkRight = walkRight;
+            CharacterInputKey.WalkLeft = walkLeft;
+            CharacterInputKey.MoveDash = moveDash;
+            CharacterInputKey.Interact = interact;
+            CharacterInputKey.NextCharacter = nextCharacter;
+            CharacterInputKey.PreviousCharacter = previousCharacter;
+            //CharacterInputKey.PlayerAttack = playerAttack;
+            CharacterInputKey.IsInvertTimeControl = isInvertTimeControl;
+            
+            SystemKey.GamePauseMenu = gamePauseMenu;
+            isChanged = false;
         }
     }
 }

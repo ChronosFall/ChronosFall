@@ -14,7 +14,7 @@ namespace ChronosFall.Scripts.Core.Configs
         public static KeyCode Interact { get; set; }
         public static KeyCode NextCharacter { get; set; }
         public static KeyCode PreviousCharacter { get; set; }
-        public static KeyCode PlayerAttack { get; set; }
+        public static int PlayerAttack { get; set; }
         public static bool IsInvertTimeControl { get; set; }
     }
 

@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using ChronosFall.Scripts.Core;
 using ChronosFall.Scripts.Core.Configs;
 using ChronosFall.Scripts.Interfaces;
-using ChronosFall.Scripts.Systems;
 using UnityEngine;
 
 namespace ChronosFall.Scripts.Characters.Player.PlayerControls
@@ -23,7 +22,7 @@ namespace ChronosFall.Scripts.Characters.Player.PlayerControls
 
         private void Update()
         {
-            if (Input.GetKeyDown(CharacterInputKey.PlayerAttack))
+            if (Input.GetMouseButtonDown(CharacterInputKey.PlayerAttack))
             {
                 ExecuteAttack();
             }
