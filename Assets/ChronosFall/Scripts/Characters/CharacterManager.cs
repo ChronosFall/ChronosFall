@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using ChronosFall.Scripts.Interfaces;
 using ChronosFall.Scripts.Systems;
 using UnityEngine;
 
@@ -34,7 +33,8 @@ namespace ChronosFall.Scripts.Characters
 
         public Dictionary<int, CharacterRuntimeData> OwnerCharacter;
         public List<int> currentPartyIds;
-        private int _activeCharacterIndex;
+        public List<int> aliveCharacterIds;
+        private int _activeCharacterId;
 
         private void Awake()
         {
@@ -53,12 +53,18 @@ namespace ChronosFall.Scripts.Characters
             // 初期化
             OwnerCharacter = new Dictionary<int, CharacterRuntimeData>();
             currentPartyIds = new List<int>();
-            _activeCharacterIndex = 0;
+            aliveCharacterIds = new List<int>();
+            _activeCharacterId = 0;
             
-            // TODO: JSONから全データ読み込み
             LoadFromJson();
+            
+            if (aliveCharacterIds.Count > 0)
+            {
+                _activeCharacterId = aliveCharacterIds[0];
+            }
         }
 
+        // TODO : Json形式ではなくする
         /// <summary>
         /// Jsonからデータを読み込み
         /// </summary>
@@ -87,6 +93,7 @@ namespace ChronosFall.Scripts.Characters
     
                 OwnerCharacter.Add(data.CharacterId, data);
                 currentPartyIds.Add(data.CharacterId);
+                aliveCharacterIds.Add(data.CharacterId);
     
                 Debug.Log($"読み込み完了 :  {data.CharacterName} (ID: {data.CharacterId}, Lv.{data.Level})");
             }
@@ -106,8 +113,14 @@ namespace ChronosFall.Scripts.Characters
                 return null;
             }
             
-            int activeCharacterId = currentPartyIds[_activeCharacterIndex];
-            return OwnerCharacter[activeCharacterId];
+            // IDで直接取得
+            if (OwnerCharacter.ContainsKey(_activeCharacterId))
+            {
+                return OwnerCharacter[_activeCharacterId];
+            }
+            
+            Debug.LogError($"アクティブキャラID {_activeCharacterId} が見つかりません！");
+            return null;
         }
 
         /// <summary>
@@ -157,55 +170,79 @@ namespace ChronosFall.Scripts.Characters
         /// <summary>
         /// キャラクターが死亡した場合
         /// </summary>
-        public void OnCharacterDeath()
+        public void OnCharacterDeath(int characterId)
         {
-            Debug.LogWarning("キャラクターが死亡しました！");
-            // TODO: ゲームオーバー or 次のキャラに交代
+            Debug.LogWarning($"キャラクター {characterId} が死亡しました！");
             
-            // 次のキャラに自動交代する例
-            if (currentPartyIds.Count > 1)
+            // 生存リストから削除
+            aliveCharacterIds.Remove(characterId);
+            
+            // 死んだキャラが現在操作中だった場合のみ交代
+            if (_activeCharacterId == characterId)
             {
-                SwitchNextPlayerCharacter();
-            }
-            else
-            {
-                // パーティ全滅
-                Debug.LogError("パーティ全滅！");
+                if (aliveCharacterIds.Count > 0)
+                {
+                    // 次の生存キャラに交代
+                    _activeCharacterId = aliveCharacterIds[0];
+                    Debug.Log($"自動交代: {GetActiveCharacter()?.CharacterName ?? "不明"}");
+                }
+                else
+                {
+                    Debug.LogError("パーティ全滅！");
+                }
             }
         }
         
-        public int GetActiveCharacterIndex()
+        public int GetActiveCharacterId()
         {
-            return _activeCharacterIndex;
+            return _activeCharacterId;
         }
 
         /// <summary>
         /// キャラクターチェンジ
         /// </summary>
         /// <param name="index">インデックス番号</param>
-        public void SwitchPlayerCharacter(int index)
+        private void SwitchPlayerCharacter(int index)
         {
-            if (index < 0 || index >= currentPartyIds.Count)
+            if (index < 0 || index >= aliveCharacterIds.Count)
             {
                 Debug.LogError($"交代先のインデックス {index} が無効です！");
                 return;
             }
             
-            _activeCharacterIndex = index;
-            Debug.Log($"キャラ交代: {GetActiveCharacter().CharacterId}");
+            // 生存リストから取得
+            int targetCharacterId = aliveCharacterIds[index];
+            
+            _activeCharacterId = targetCharacterId;
+            Debug.Log($"キャラ交代: {GetActiveCharacter()?.CharacterName ?? "不明"}");
         }
 
         public void SwitchPreviousPlayerCharacter()
         {
-            int newIndex = _activeCharacterIndex - 1;
-            if (newIndex < 0) newIndex = currentPartyIds.Count - 1; // ループ
+            if (aliveCharacterIds.Count == 0) return;
+
+            // 現在のIDの位置を取得
+            int currentIndex = aliveCharacterIds.IndexOf(_activeCharacterId);
+            if (currentIndex == -1) currentIndex = 0;
+
+            int newIndex = currentIndex - 1;
+            if (newIndex < 0) newIndex = aliveCharacterIds.Count - 1; // ループ
+
             SwitchPlayerCharacter(newIndex);
+
         }
 
         public void SwitchNextPlayerCharacter()
         {
-            int newIndex = _activeCharacterIndex + 1;
-            if (newIndex >= currentPartyIds.Count) newIndex = 0; // ループ
+            if (aliveCharacterIds.Count == 0) return;
+        
+            // 現在のIDの位置を取得
+            int currentIndex = aliveCharacterIds.IndexOf(_activeCharacterId);
+            if (currentIndex == -1) currentIndex = 0;
+        
+            int newIndex = currentIndex + 1;
+            if (newIndex >= aliveCharacterIds.Count) newIndex = 0; // ループ
+        
             SwitchPlayerCharacter(newIndex);
         }
     }

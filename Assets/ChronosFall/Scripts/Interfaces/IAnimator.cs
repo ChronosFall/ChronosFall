@@ -7,9 +7,7 @@ namespace ChronosFall.Scripts.Interfaces
     /// </summary>
     public static class PlayerMovementAnimator
     {
-        public static readonly int IsWalking = Animator.StringToHash("IsWalking");
-        public static readonly int SpeedAxisX = Animator.StringToHash("SpeedAxisX");
-        public static readonly int SpeedAxisY = Animator.StringToHash("SpeedAxisY");
+        public static readonly int MoveSpeed = Animator.StringToHash("MoveSpeed");
     }
     /// <summary>
     /// プレイヤーが攻撃する場合のアニメーション

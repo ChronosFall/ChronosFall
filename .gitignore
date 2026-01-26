@@ -40,6 +40,10 @@ Thumbs.db
 VRM10/
 UniGLTF/
 TextMesh Pro/
+# Agamotto
+Assets/RedGirafeGames/
+# QuickSave
+Assets/QuickSave/
 
 #git
 .gitignore

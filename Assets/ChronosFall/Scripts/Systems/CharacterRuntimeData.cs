@@ -17,6 +17,6 @@ namespace ChronosFall.Scripts.Systems
         public float CritMult;
         public int SkillLevel;
         public ElementType Element;
-        
+        public bool isTakeDamage;
     }
 }
