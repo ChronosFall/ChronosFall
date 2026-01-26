@@ -1400,8 +1400,9 @@ MonoBehaviour:
   nextCharacter: 32
   previousCharacter: 306
   gamePauseMenu: 27
+  playerAttack: 0
   isInvertTimeControl: 0
-  isChanged: 0
+  isChanged: 1
 --- !u!114 &1206954207
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1567,8 +1568,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c60bfdbb23a79dd419ac111c1e6be093, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _timeState: 0
-  _timeStone: {fileID: 2013472397}
+  timeControlMode: 0
+  activationKey: 113
+  slowTimeScale: 0.5
+  slowDuration: 5
+  cooldown: 10
+  erosionIncreasePerUse: 20
+  maxErosion: 100
+  erosionDecayRate: 5
+  timeStone: {fileID: 2013472397}
 --- !u!1 &1226191827
 GameObject:
   m_ObjectHideFlags: 0
@@ -4043,6 +4051,7 @@ MonoBehaviour:
   nextCharacter: 32
   previousCharacter: 306
   gamePauseMenu: 27
+  playerAttack: 0
   isInvertTimeControl: 0
   isChanged: 0
 --- !u!4 &941276628400723091
