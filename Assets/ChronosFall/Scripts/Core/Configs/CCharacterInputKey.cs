@@ -1,7 +1,6 @@
-using System.IO;
 using UnityEngine;
 
-namespace ChronosFall.Scripts.Configs
+namespace ChronosFall.Scripts.Core.Configs
 {
     [System.Serializable]
     // プレイヤー操作キー

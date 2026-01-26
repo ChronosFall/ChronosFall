@@ -1,5 +1,5 @@
-using ChronosFall.Scripts.Configs;
-using ChronosFall.Scripts.Systems;
+using ChronosFall.Scripts.Core;
+using ChronosFall.Scripts.Core.Configs;
 using ChronosFall.Scripts.Systems.UI;
 using RedGirafeGames.Agamotto.Scripts.Runtime.Agents;
 using UnityEngine;

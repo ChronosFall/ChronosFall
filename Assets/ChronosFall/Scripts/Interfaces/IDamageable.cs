@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using ChronosFall.Scripts.Core;
 using ChronosFall.Scripts.Enemies;
 using ChronosFall.Scripts.Systems;
 

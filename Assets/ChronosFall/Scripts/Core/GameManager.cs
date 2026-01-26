@@ -3,7 +3,7 @@ using ChronosFall.Scripts.Enemies;
 using RedGirafeGames.Agamotto.Scripts.Runtime;
 using UnityEngine;
 
-namespace ChronosFall.Scripts.Systems
+namespace ChronosFall.Scripts.Core
 {
     [RequireComponent(typeof(TimeStone))]
     public class GameManager : MonoBehaviour

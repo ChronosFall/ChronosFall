@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace ChronosFall.Scripts.Systems.Stages
+namespace ChronosFall.Scripts.Core.Stages
 {
     public class StageSystem : MonoBehaviour
     {

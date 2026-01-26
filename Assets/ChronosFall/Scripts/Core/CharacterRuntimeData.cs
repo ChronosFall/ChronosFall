@@ -1,7 +1,6 @@
-using System.Collections.Generic;
 using ChronosFall.Scripts.Interfaces;
 
-namespace ChronosFall.Scripts.Systems
+namespace ChronosFall.Scripts.Core
 {
     [System.Serializable]
     public class CharacterRuntimeData

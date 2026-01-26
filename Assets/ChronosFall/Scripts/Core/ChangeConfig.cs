@@ -1,7 +1,7 @@
-using ChronosFall.Scripts.Configs;
+using ChronosFall.Scripts.Core.Configs;
 using UnityEngine;
 
-namespace ChronosFall.Scripts.Systems
+namespace ChronosFall.Scripts.Core
 {
     public class ChangeConfig : MonoBehaviour
     {

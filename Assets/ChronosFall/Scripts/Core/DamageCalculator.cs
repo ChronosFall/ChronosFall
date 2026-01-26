@@ -1,9 +1,8 @@
 using System;
 using ChronosFall.Scripts.Enemies;
 using UnityEngine;
-using ChronosFall.Scripts.Interfaces;
 
-namespace ChronosFall.Scripts.Systems
+namespace ChronosFall.Scripts.Core
 {
     public static class DamageCalculator
     {

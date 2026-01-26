@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Threading.Tasks;
+using ChronosFall.Scripts.Core;
 using ChronosFall.Scripts.Interfaces;
 using ChronosFall.Scripts.Systems;
 using UnityEngine;

@@ -1,4 +1,4 @@
-using ChronosFall.Scripts.Configs;
+using ChronosFall.Scripts.Core.Configs;
 using ChronosFall.Scripts.Interfaces;
 using UnityEngine;
 

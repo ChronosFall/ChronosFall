@@ -1,5 +1,6 @@
 using System.Collections.Generic;
-using ChronosFall.Scripts.Configs;
+using ChronosFall.Scripts.Core;
+using ChronosFall.Scripts.Core.Configs;
 using ChronosFall.Scripts.Interfaces;
 using ChronosFall.Scripts.Systems;
 using UnityEngine;
